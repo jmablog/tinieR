@@ -2,7 +2,7 @@
 # tinieR
 
 
-Shrink image filesizes with the TinyPNG API [TinyPNG](https://tinypng.com). Works with .png and .jpg/.jpeg files, and can return the new image filepath to enable embedding in other image workflows/functions.
+Shrink image filesizes with the [TinyPNG](https://tinypng.com) API. Works with .png and .jpg/.jpeg files, and can return the new image filepath to enable embedding in other image workflows/functions.
 
 ## Installation
 
@@ -36,7 +36,7 @@ Providing an API key as an argument to `tinify()` will override any API key set 
 
 Be careful including your API key in any scripts you write, especially if you're going to be publicly or privately sharing those scripts with others! You might consider setting your API key instead in your .Renviron file (~/.Renviron). If you use the variable name `TINY_API` in .Renviron, `tinify()` should find it, and you can skip using `tinify_api()` or providing an API at each call of `tinify()`.
 
-To edit your .Renviron:
+To edit your .Renviron in Rstudio:
 
 ``` r
 usethis::edit_r_environ()
