@@ -16,7 +16,7 @@ devtools::install_github("jmablog/tinieR")
 
 You will need an API key from [TinyPNG](https://tinypng.com). You can [signup to get one here](https://tinypng.com/developers).
 
-Once you have your API key, you can set it with:
+Once you have your API key, you can set it for your current R session with:
 
 ``` r
 library(tinieR)
@@ -33,6 +33,20 @@ tinify("example.png", key = my_key)
 ```
 
 Providing an API key as an argument to `tinify()` will override any API key set with `tinify_api()`. This could be useful if utilising multiple API keys.
+
+Be careful including your API key in any scripts you write, especially if you're going to be publicly or privately sharing those scripts with others! You might consider setting your API key instead in your .Renviron file (~/.Renviron). If you use the variable name `TINY_API` in .Renviron, `tinify()` should find it, and you can skip using `tinify_api()` or providing an API at each call of `tinify()`.
+
+To edit your .Renviron:
+
+``` r
+usethis::edit_r_environ()
+```
+
+Then save into .Renviron:
+
+``` r
+TINY_API = "YOUR-API-KEY-HERE"
+```
 
 ## Usage
 
