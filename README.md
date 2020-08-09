@@ -109,7 +109,7 @@ purrr::map(imgs, ~tinify(.x))
 An example method for shrinking an entire directory:
 
 ``` r
-imgs_dir <- fs::dir_ls("imgs")
+imgs_dir <- fs::dir_ls("imgs", glob = "*.png")
 
 purrr::map(imgs_dir, ~tinify(.x, overwrite = TRUE))
 ```
