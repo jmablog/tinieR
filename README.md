@@ -8,6 +8,11 @@
 
 Shrink image filesizes with the [TinyPNG](https://tinypng.com) API. Works with .png and .jpg/.jpeg files, and can return the new image filepath to enable embedding in other image workflows/functions.
 
+This package was made with two goals:
+
+1. A quicker way to use the TinyPNG service with images in markdown files for my blog.
+2. Learning and experimenting with package development, having never written a package before.
+
 ## Installation
 
 You can install the latest version of tinieR from [Github](https://github.com) with:
