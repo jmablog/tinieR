@@ -6,7 +6,7 @@ Authors@R:
            family = "Adams",
            role = c("aut", "cre"),
            email = "james@jmablog.com")
-Description: Shrink image filesizes with the TinyPNG API (https://tinypng.com). Works with .png and .jpg/.jpeg files, and can return the new image filepath to enable embedding in other image workflows/functions.
+Description: Shrink image filesizes with the TinyPNG API <https://tinypng.com>. Works with .png and .jpg/.jpeg files, and can return the new image filepath to enable embedding in other image workflows/functions.
 License: MIT + file LICENSE
 URL: https://github.com/jmablog/tinieR
 BugReports: https://github.com/jmablog/tinieR/issues
