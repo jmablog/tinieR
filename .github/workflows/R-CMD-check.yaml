@@ -70,8 +70,10 @@ jobs:
       - name: Check
         env:
           _R_CHECK_CRAN_INCOMING_REMOTE_: false
-          TINY_API: ${{ secrets.TINY_API_KEY }}
-        run: rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), error_on = "warning", check_dir = "check")
+          TINY_API_KEY: ${{ secrets.TINY_API_KEY }}
+        run: |
+          Sys.setenv(TINY_API = "$TINY_API_KEY")
+          rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), error_on = "warning", check_dir = "check")
         shell: Rscript {0}
 
       - name: Upload check results
