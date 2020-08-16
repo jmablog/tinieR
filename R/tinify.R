@@ -30,34 +30,42 @@
 #' @seealso [tinify_key()] to set an API key globally so it does not need to be provided with every call of `tinify()`
 #' @examples
 #' \dontrun{
+#' # Shrink a PNG file
 #'
-#' tinify("example.png")
+#' img <- system.file("extdata", "example.png", package = "tinieR")
 #'
-#' # Overwrite original file in place:
+#' tinify(img)
 #'
-#' tinify("example.png", overwrite = TRUE)
+#' Also works with JPEG/JPG files
+#'
+#' img_jpg <- system.file("extdata", "example.jpg", package = "tinier")
+#'
+#' tinify(img_jpg)
 #'
 #' # Return absolute path to newly shrunk file:
 #'
-#' shrunk_img <- tinify("imgs/example.png", return_path = TRUE)
-#'
-#' knitr::include_graphics(shrunk_img)
+#' shrunk_img <- tinify(img, return_path = TRUE)
 #'
 #' # Show details:
 #'
-#' tinify("example.png", details = TRUE)
+#' tinify(img, details = TRUE)
+#'
+#' # Overwrite original file in place:
+#'
+#' tinify(img, overwrite = TRUE)
 #'
 #' # Overwrite a global API key set in tinify_api():
 #'
-#' tinify("example.png", key = "NEW-API-KEY-HERE")
+#' tinify(img, key = "NEW-API-KEY-HERE")
 #'
 #' # You can combine any number of the above:
 #'
-#' tinify("example.png", overwrite = TRUE, details = TRUE, return_path = TRUE)
+#' tinify(img,
+#'        overwrite = TRUE,
+#'        details = TRUE,
+#'        return_path = TRUE)
 #'
 #' # Plays nice with the pipe:
-#'
-#' img <- "example.png"
 #'
 #' img %>% tinify()
 #'
@@ -73,27 +81,33 @@
 #'
 #' purrr::map(imgs_dir, ~tinify(.x, overwrite = TRUE))
 #' }
-tinify <- function(file, overwrite = FALSE, return_path = FALSE, details = FALSE, key = NULL) {
+tinify <- function(file,
+                   overwrite = FALSE,
+                   return_path = FALSE,
+                   details = FALSE,
+                   key = NULL) {
 
-  if(!is.null(key)) {
+  if(!is.null(key) & is.character(key) & length(key) == 1) {
     tiny_api <- key
-  } else if(Sys.getenv("TINY_API") != "") {
+  } else if (!is.null(key) & !is.character(key) | !is.null(key) & length(key) > 1) {
+    stop("Please provide your API key as a string")
+  } else if(is.null(key) & Sys.getenv("TINY_API") != "") {
     tiny_api <- Sys.getenv("TINY_API")
   } else {
-    stop("Please provide an API key")
+    stop("Please provide an API key with the 'key' argument or using 'tinify_key()'")
   }
 
   if(fs::file_exists(file)[[1]] == FALSE){
     stop(glue::glue("File '{file}' does not exist"), call. = F)
   }
 
-  filepath <- fs::path_wd(file)
+  filepath <- fs::path_abs(file)
 
   ext <- fs::path_ext(filepath)
 
-  if(ext == "png") {
+  if(identical(ext, "png")) {
     img_type <- "image/png"
-  } else if(ext == "jpg" | ext == "jpeg") {
+  } else if(identical(ext, "jpg") | identical(ext, "jpeg")) {
     img_type <- "image/jpeg"
   } else {
     stop("TinyPNG can only handle .png or .jpg/.jpeg files", call. = F)
@@ -114,34 +128,40 @@ tinify <- function(file, overwrite = FALSE, return_path = FALSE, details = FALSE
   }
 
   response <- httr::headers(post)$location
-  comp_count <- httr::headers(post)$`compression-count`
 
-  if(overwrite) {
+  if(identical(overwrite, TRUE)) {
     new_file <- filepath
-  } else {
+  } else if(identical(overwrite, FALSE)){
     new_file <- glue::glue("{fs::path_ext_remove(filepath)}_tiny.{ext}")
+  } else {
+    stop("Please only provide 'overwrite' as TRUE or FALSE")
   }
 
   utils::download.file(response,
                        new_file,
                        quiet = TRUE)
 
-  if(details){
+  if(identical(details, TRUE)){
     old_file_name <- fs::path_file(filepath)
     new_file_name <- fs::path_file(new_file)
     init_size <- fs::file_size(filepath)
     new_size <- fs::file_size(new_file)
     pct_reduced <- round(((init_size - new_size)/init_size)*100, 1)
+    comp_count <- httr::headers(post)$`compression-count`
 
     msg <- glue::glue("Filesize reduced by {pct_reduced}%:
                       {old_file_name} ({init_size}) => {new_file_name} ({new_size})
                       {comp_count} Tinify API calls this month")
 
     message(msg)
+  } else if(!identical(details, FALSE)) {
+    stop("Please only provide 'details' as TRUE or FALSE")
   }
 
-  if(return_path == TRUE) {
+  if(identical(return_path, TRUE)) {
     return(as.character(new_file))
+  } else if(!identical(return_path, FALSE)) {
+    stop("Please only provide 'return_path' as TRUE or FALSE")
   }
 
 }

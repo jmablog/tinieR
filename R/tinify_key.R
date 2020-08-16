@@ -14,5 +14,10 @@
 #' tinify_key("YOUR-API-KEY-HERE")
 #' }
 tinify_key <- function(key) {
+
+  if(!is.character(key) | length(key) > 1){
+    stop("API key must be a single string")
+  }
+
   Sys.setenv(TINY_API = key)
 }

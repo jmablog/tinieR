@@ -49,34 +49,42 @@ document.
 }
 \examples{
 \dontrun{
+# Shrink a PNG file
 
-tinify("example.png")
+img <- system.file("extdata", "example.png", package = "tinieR")
 
-# Overwrite original file in place:
+tinify(img)
 
-tinify("example.png", overwrite = TRUE)
+Also works with JPEG/JPG files
+
+img_jpg <- system.file("extdata", "example.jpg", package = "tinier")
+
+tinify(img_jpg)
 
 # Return absolute path to newly shrunk file:
 
-shrunk_img <- tinify("imgs/example.png", return_path = TRUE)
-
-knitr::include_graphics(shrunk_img)
+shrunk_img <- tinify(img, return_path = TRUE)
 
 # Show details:
 
-tinify("example.png", details = TRUE)
+tinify(img, details = TRUE)
+
+# Overwrite original file in place:
+
+tinify(img, overwrite = TRUE)
 
 # Overwrite a global API key set in tinify_api():
 
-tinify("example.png", key = "NEW-API-KEY-HERE")
+tinify(img, key = "NEW-API-KEY-HERE")
 
 # You can combine any number of the above:
 
-tinify("example.png", overwrite = TRUE, details = TRUE, return_path = TRUE)
+tinify(img,
+       overwrite = TRUE,
+       details = TRUE,
+       return_path = TRUE)
 
 # Plays nice with the pipe:
-
-img <- "example.png"
 
 img \%>\% tinify()
 

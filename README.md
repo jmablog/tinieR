@@ -1,6 +1,9 @@
 
 # tinieR
 
+<!-- badges: start -->
+  [![R build status](https://github.com/jmablog/tinieR/workflows/R-CMD-check/badge.svg)](https://github.com/jmablog/tinieR/actions)
+  <!-- badges: end -->
 
 Shrink image filesizes with the [TinyPNG](https://tinypng.com) API. Works with .png and .jpg/.jpeg files, and can return the new image filepath to enable embedding in other image workflows/functions.
 
@@ -9,7 +12,7 @@ Shrink image filesizes with the [TinyPNG](https://tinypng.com) API. Works with .
 You can install the latest version of tinieR from [Github](https://github.com) with:
 
 ``` r
-devtools::install_github("jmablog/tinieR")
+devtools::install_github("jmablog/tinier")
 ```
 
 ## Authentication with TinyPNG.com
@@ -19,7 +22,7 @@ You will need an API key from [TinyPNG](https://tinypng.com). You can [signup to
 Once you have your API key, you can set it for your current R session with:
 
 ``` r
-library(tinieR)
+library(tinier)
 
 tinify_key("YOUR-API-KEY-HERE")
 ```
@@ -113,3 +116,9 @@ imgs_dir <- fs::dir_ls("imgs", glob = "*.png")
 
 purrr::map(imgs_dir, ~tinify(.x, overwrite = TRUE))
 ```
+
+## Future Plans
+
+- Include other [TinyPNG](https://tinypng.com) API image editing functions, like image resizing and retaining metadata.
+- Add ability to provide a desired file path for the newly shrunk file, instead of defaulting to the same location as the input file.
+- Add ability to use URL for a web resource instead of a local file.
