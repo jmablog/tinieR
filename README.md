@@ -3,6 +3,7 @@
 
 <!-- badges: start -->
   [![R build status](https://github.com/jmablog/tinieR/workflows/R-CMD-check/badge.svg)](https://github.com/jmablog/tinieR/actions)
+[![codecov](https://codecov.io/gh/jmablog/tinieR/branch/master/graph/badge.svg)](https://codecov.io/gh/jmablog/tinieR)
   <!-- badges: end -->
 
 Shrink image filesizes with the [TinyPNG](https://tinypng.com) API. Works with .png and .jpg/.jpeg files, and can return the new image filepath to enable embedding in other image workflows/functions.
