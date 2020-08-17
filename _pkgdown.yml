@@ -1,0 +1,4 @@
+url: http://jmablog.github.io/tinieR
+template:
+  params:
+    bootswatch: lumen
