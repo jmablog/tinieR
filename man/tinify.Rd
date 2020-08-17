@@ -55,9 +55,9 @@ img <- system.file("extdata", "example.png", package = "tinieR")
 
 tinify(img)
 
-Also works with JPEG/JPG files
+# Also works with JPEG/JPG files
 
-img_jpg <- system.file("extdata", "example.jpg", package = "tinier")
+img_jpg <- system.file("extdata", "example.jpg", package = "tinieR")
 
 tinify(img_jpg)
 

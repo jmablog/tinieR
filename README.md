@@ -8,22 +8,18 @@
 
 Shrink image filesizes with the [TinyPNG](https://tinypng.com) API. Works with .png and .jpg/.jpeg files, and can return the new image filepath to enable embedding in other image workflows/functions.
 
-This package was made with two goals:
-
-1. A quicker way to use the TinyPNG service with images in markdown files for my blog.
-2. Learning and experimenting with package development, having never written a package before.
-
 ## Installation
 
 You can install the latest version of tinieR from [Github](https://github.com) with:
 
 ``` r
+# install.packages("devtools")
 devtools::install_github("jmablog/tinier")
 ```
 
 ## Authentication with TinyPNG.com
 
-You will need an API key from [TinyPNG](https://tinypng.com). You can [signup to get one here](https://tinypng.com/developers).
+You will need an API key from [TinyPNG](https://tinypng.com). You can signup to get one [here](https://tinypng.com/developers).
 
 Once you have your API key, you can set it for your current R session with:
 
@@ -57,21 +53,21 @@ Then save into .Renviron:
 TINY_API = "YOUR-API-KEY-HERE"
 ```
 
-## Usage
+## Shrinking An Image
 
-To shrink an image, provide a path to the file relative to the current working directory:
+To shrink an image file's size, provide a path to the file relative to the current working directory:
 
 ``` r
 tinify("example.png")
 ```
 
-By default, `tinify` will create a new file with the suffix '_tiny' in the same directory as the original file (e.g. "example_tiny.png" using the above example).
-
-To instead overwrite the original file with the new smaller file, use `overwrite = TRUE`:
+By default, `tinify` will create a new file with the suffix '_tiny' in the same directory as the original file. To instead overwrite the original file with the newly shrunk file, use `overwrite = TRUE`:
 
 ``` r
 tinify("example.png", overwrite = TRUE)
 ```
+
+## Using The Shrunk Image
 
 Tinify can also return the absolute file path to the newly shrunk file, as a string, with `return_path = TRUE`. This can be passed in to another function that takes an image file path to automate shrinking filesizes when, for example, knitting a document:
 
@@ -81,7 +77,9 @@ shrunk_img <- tinify("imgs/example.png", return_path = TRUE)
 knitr::include_graphics(shrunk_img)
 ```
 
-TinyPNG is smart enough to know when you are uploading the same file again, and so will not count repeat calls of `tinify()` on the same image file against your monthly API usage limit. This is handy if you are using `tinify()` in an RMarkdown document as it won't count against your API usage every time you knit your document.
+## TinyPNG API Monthly Allowance and Other Details
+
+TinyPNG is quite generous at 500 free images per month, but if you're using `tinify()` as part a script that may be run multiple times, you should be aware of your API usage. Fortunately TinyPNG is smart enough to know when you are uploading the same file over again, and so will not count repeat calls of `tinify()` on the **exact same** image file against your monthly API usage limit. This is handy if you are using `tinify()` in an RMarkdown document as it won't count against your API usage every time you knit your document. However be careful if saving new images to file from other workflows, such as creating plots, as changes to these will most likely count as new files when uploaded to TinyPNG.
 
 You can check your API usage, as well as see how much the file size has changed, with `details = TRUE`:
 
@@ -93,13 +91,15 @@ tinify("example.png", details = TRUE)
 > 10 Tinify API calls this month
 ```
 
-You can combine any number of the above:
+## Further Examples
+
+You can combine any number of the above arguments:
 
 ``` r
 tinify("example.png", overwrite = TRUE, details = TRUE, return_path = TRUE)
 ```
 
-Tinify also plays nice with the pipe:
+Tinify also works nicely with the pipe:
 
 ``` r
 img <- "example.png"
@@ -115,7 +115,7 @@ imgs <- c("example.png", "example2.png")
 purrr::map(imgs, ~tinify(.x))
 ```
 
-An example method for shrinking an entire directory:
+Below is an example method for shrinking an entire directory:
 
 ``` r
 imgs_dir <- fs::dir_ls("imgs", glob = "*.png")

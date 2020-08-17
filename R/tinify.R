@@ -36,9 +36,9 @@
 #'
 #' tinify(img)
 #'
-#' Also works with JPEG/JPG files
+#' # Also works with JPEG/JPG files
 #'
-#' img_jpg <- system.file("extdata", "example.jpg", package = "tinier")
+#' img_jpg <- system.file("extdata", "example.jpg", package = "tinieR")
 #'
 #' tinify(img_jpg)
 #'
@@ -80,7 +80,7 @@
 #' imgs_dir <- fs::dir_ls("imgs", glob = "*.png")
 #'
 #' purrr::map(imgs_dir, ~tinify(.x, overwrite = TRUE))
-#' }
+#'}
 tinify <- function(file,
                    overwrite = FALSE,
                    return_path = FALSE,

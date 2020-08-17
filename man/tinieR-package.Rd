@@ -6,7 +6,7 @@
 \alias{tinieR-package}
 \title{tinieR: Shrink Image Filesizes with TinyPNG.com}
 \description{
-Shrink image filesizes with the TinyPNG API (https://tinypng.com). Works with .png and .jpg/.jpeg files, and can return the new image filepath to enable embedding in other image workflows/functions.
+Shrink image filesizes with the TinyPNG API <https://tinypng.com>. Works with .png and .jpg/.jpeg files, and can return the new image filepath to enable embedding in other image workflows/functions.
 }
 \details{
 Shrink image filesizes with the TinyPNG.com API.
