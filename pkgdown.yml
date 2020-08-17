@@ -2,7 +2,7 @@ pandoc: 2.7.3
 pkgdown: 1.5.1
 pkgdown_sha: ~
 articles: []
-last_built: 2020-08-17T14:53Z
+last_built: 2020-08-17T15:32Z
 urls:
   reference: http://jmablog.github.io/tinieR/reference
   article: http://jmablog.github.io/tinieR/articles

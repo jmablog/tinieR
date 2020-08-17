@@ -175,7 +175,58 @@ document.</p>
     <div class='dont-index'><p><code><a href='tinify_key.html'>tinify_key()</a></code> to set an API key globally so it does not need to be provided with every call of <code>tinify()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"></pre>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='co'># Shrink a PNG file</span>
+
+<span class='no'>img</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"example.png"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"tinieR"</span>)
+
+<span class='fu'>tinify</span>(<span class='no'>img</span>)
+
+<span class='co'># Also works with JPEG/JPG files</span>
+
+<span class='no'>img_jpg</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"example.jpg"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"tinieR"</span>)
+
+<span class='fu'>tinify</span>(<span class='no'>img_jpg</span>)
+
+<span class='co'># Return absolute path to newly shrunk file:</span>
+
+<span class='no'>shrunk_img</span> <span class='kw'>&lt;-</span> <span class='fu'>tinify</span>(<span class='no'>img</span>, <span class='kw'>return_path</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+
+<span class='co'># Show details:</span>
+
+<span class='fu'>tinify</span>(<span class='no'>img</span>, <span class='kw'>details</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+
+<span class='co'># Overwrite original file in place:</span>
+
+<span class='fu'>tinify</span>(<span class='no'>img</span>, <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+
+<span class='co'># Overwrite a global API key set in tinify_api():</span>
+
+<span class='fu'>tinify</span>(<span class='no'>img</span>, <span class='kw'>key</span> <span class='kw'>=</span> <span class='st'>"NEW-API-KEY-HERE"</span>)
+
+<span class='co'># You can combine any number of the above:</span>
+
+<span class='fu'>tinify</span>(<span class='no'>img</span>,
+       <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+       <span class='kw'>details</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+       <span class='kw'>return_path</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+
+<span class='co'># Plays nice with the pipe:</span>
+
+<span class='no'>img</span> <span class='kw'>%&gt;%</span> <span class='fu'>tinify</span>()
+
+<span class='co'># And with purrr::map for multiple files:</span>
+
+<span class='no'>imgs</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"example.png"</span>, <span class='st'>"example2.png"</span>)
+
+<span class='kw pkg'>purrr</span><span class='kw ns'>::</span><span class='fu'><a href='https://purrr.tidyverse.org/reference/map.html'>map</a></span>(<span class='no'>imgs</span>, ~<span class='fu'>tinify</span>(<span class='no'>.x</span>))
+
+<span class='co'># An example method for shrinking an entire directory:</span>
+
+<span class='no'>imgs_dir</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>fs</span><span class='kw ns'>::</span><span class='fu'><a href='http://fs.r-lib.org/reference/dir_ls.html'>dir_ls</a></span>(<span class='st'>"imgs"</span>, <span class='kw'>glob</span> <span class='kw'>=</span> <span class='st'>"*.png"</span>)
+
+<span class='kw pkg'>purrr</span><span class='kw ns'>::</span><span class='fu'><a href='https://purrr.tidyverse.org/reference/map.html'>map</a></span>(<span class='no'>imgs_dir</span>, ~<span class='fu'>tinify</span>(<span class='no'>.x</span>, <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
