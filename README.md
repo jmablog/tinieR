@@ -17,7 +17,7 @@ You can install the latest version of tinieR from [Github](https://github.com) w
 devtools::install_github("jmablog/tinier")
 ```
 
-## Authentication with TinyPNG.com
+## Authentication with TinyPNG
 
 You will need an API key from [TinyPNG](https://tinypng.com). You can signup to get one [here](https://tinypng.com/developers).
 
@@ -53,7 +53,9 @@ Then save into .Renviron:
 TINY_API = "YOUR-API-KEY-HERE"
 ```
 
-## Shrinking An Image
+Restart your R session, and your TinyPNG API key will be stored as an environment variable that `tinify()` will automatically find.
+
+## Shrinking an image
 
 To shrink an image file's size, provide a path to the file relative to the current working directory:
 
@@ -61,15 +63,15 @@ To shrink an image file's size, provide a path to the file relative to the curre
 tinify("example.png")
 ```
 
-By default, `tinify` will create a new file with the suffix '_tiny' in the same directory as the original file. To instead overwrite the original file with the newly shrunk file, use `overwrite = TRUE`:
+By default, `tinify` will create a new file with the suffix '_tiny' in the same directory as the original file. To instead overwrite the original file with the newly tinified file, use `overwrite = TRUE`:
 
 ``` r
 tinify("example.png", overwrite = TRUE)
 ```
 
-## Using The Shrunk Image
+## Using the tinified image
 
-Tinify can also return the absolute file path to the newly shrunk file, as a string, with `return_path = TRUE`. This can be passed in to another function that takes an image file path to automate shrinking filesizes when, for example, knitting a document:
+Tinify can also return the absolute file path to the tinified file, as a string, with `return_path = TRUE`. This can be passed in to another function that takes an image file path to automate shrinking filesizes when, for example, knitting a document:
 
 ``` r
 shrunk_img <- tinify("imgs/example.png", return_path = TRUE)
@@ -77,11 +79,11 @@ shrunk_img <- tinify("imgs/example.png", return_path = TRUE)
 knitr::include_graphics(shrunk_img)
 ```
 
-## TinyPNG API Monthly Allowance and Other Details
+## TinyPNG API monthly allowance and other details
 
-TinyPNG is quite generous at 500 free images per month, but if you're using `tinify()` as part a script that may be run multiple times, you should be aware of your API usage. Fortunately TinyPNG is smart enough to know when you are uploading the same file over again, and so will not count repeat calls of `tinify()` on the **exact same** image file against your monthly API usage limit. This is handy if you are using `tinify()` in an RMarkdown document as it won't count against your API usage every time you knit your document. However be careful if saving new images to file from other workflows, such as creating plots, as changes to these will most likely count as new files when uploaded to TinyPNG.
+TinyPNG is quite generous at 500 free images per month, but if you're using `tinify()` as part a script that may be run multiple times, you should be aware of your API usage. Fortunately TinyPNG is smart enough to know when you are uploading the same file over again, and so will not count repeat calls of `tinify()` on the **exact same** image file against your monthly limit. This is handy if you are using `tinify()` in an RMarkdown document as it won't count against your API usage every time you knit your document. However be careful if saving new images to file from other workflows, such as creating plots, as changes to these will most likely count as new files when uploaded to TinyPNG.
 
-You can check your API usage, as well as see how much the file size has changed, with `details = TRUE`:
+You can check your API usage, as well as see how much the tinified file size has shrunk, with `details = TRUE`:
 
 ``` r
 tinify("example.png", details = TRUE)
@@ -91,7 +93,7 @@ tinify("example.png", details = TRUE)
 > 10 Tinify API calls this month
 ```
 
-## Further Examples
+## Further examples
 
 You can combine any number of the above arguments:
 
@@ -123,7 +125,7 @@ imgs_dir <- fs::dir_ls("imgs", glob = "*.png")
 purrr::map(imgs_dir, ~tinify(.x, overwrite = TRUE))
 ```
 
-## Future Plans
+## Future plans
 
 - Include other [TinyPNG](https://tinypng.com) API image editing functions, like image resizing and retaining metadata.
 - Add ability to provide a desired file path for the newly shrunk file, instead of defaulting to the same location as the input file.
