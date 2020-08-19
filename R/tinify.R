@@ -139,7 +139,8 @@ tinify <- function(file,
 
   utils::download.file(response,
                        new_file,
-                       quiet = TRUE)
+                       quiet = TRUE,
+                       mode = "wb")
 
   if(identical(details, TRUE)){
     old_file_name <- fs::path_file(filepath)

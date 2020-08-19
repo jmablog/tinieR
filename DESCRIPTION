@@ -1,6 +1,6 @@
 Package: tinieR
 Title: Shrink Image Filesizes with TinyPNG.com
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: 
     person(given = "James",
            family = "Adams",
