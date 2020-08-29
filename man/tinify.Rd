@@ -7,8 +7,9 @@
 tinify(
   file,
   overwrite = FALSE,
-  return_path = FALSE,
   details = FALSE,
+  return_path = NULL,
+  resize = NULL,
   key = NULL
 )
 }
@@ -17,23 +18,32 @@ tinify(
 relative to the current working directory. Can include sub-directories and
 must include the file extension (.png or .jpg/.jpeg only).}
 
-\item{overwrite}{Boolean. By default, tinify will create a new file with the
+\item{overwrite}{Boolean, optional. By default, tinify will create a new file with the
 suffix '_tiny' and preserve the original file. Set \code{TRUE} to instead overwrite
 the original file, with the same filename.}
 
-\item{return_path}{Boolean. If TRUE, tinify returns the full absolute filepath to the
-newly shrunk file as a string.}
-
-\item{details}{Boolean. If TRUE, provides details on the amount of
+\item{details}{Boolean, optional. If \code{TRUE}, provides details on the amount of
 shrinkage (\% and Kb), and the number of TinyPNG API calls made this month.}
 
-\item{key}{Optional. A string containing your TinyPNG API key.
+\item{return_path}{String, optional. One of \code{rel}, \code{abs}, or \code{both}. If \code{rel}, will return the
+file path of the newly tinified image file, relative to the current working directory.
+If \code{abs}, will return the absolute file path of the newly tinified image file. If
+\code{both}, will return a named list with both the absolute and relative file paths.}
+
+\item{resize}{Named list, optional. A named list with the elements \code{method} as a string, and \code{width} and/or \code{height} as numerics.
+Method must be set to one of "scale", "fit", "cover", or "thumb". If using "scale", you
+only need to provide \code{width} OR \code{height}, not both. If using any other method, you must supply
+both a \code{width} AND \code{height}. See \url{https://tinypng.com/developers/reference#resizing-images} and the examples for more.}
+
+\item{key}{String, optional. A string containing your TinyPNG API key.
 Not required if the API key is set using \code{tinify_api()}.
 If an API key is provided with \code{tinify_api()}, any other key
 provided in the function call will override the key set by \code{tinify_api()}.}
 }
 \value{
-If \code{return_path = TRUE}, a string with the full absolute path to the newly shrunk image file.
+If \code{return_path = "rel"} or \code{return_path = "abs"}, a string with the absolute
+or relative path to the newly tinified image file. If \code{return_path = "both"}, a named
+list with both absolute and relative file paths included as \verb{$abs} and \verb{$rel} respectively.
 }
 \description{
 Shrink an image's (PNG or JPG) filesize with the TinyPNG API.
@@ -63,7 +73,7 @@ tinify(img_jpg)
 
 # Return absolute path to newly shrunk file:
 
-shrunk_img <- tinify(img, return_path = TRUE)
+shrunk_img <- tinify(img, return_path = "abs")
 
 # Show details:
 
@@ -73,16 +83,24 @@ tinify(img, details = TRUE)
 
 tinify(img, overwrite = TRUE)
 
+# Resize an image with the method "scale", only providing a width:
+
+tinify(img, resize = list(method = "scale", width = 300))
+
+# Or resize an image with any other method by providing both width and height:
+
+tinify(img, resize = list(method = "cover", width = 300, height = 150))
+
 # Overwrite a global API key set in tinify_api():
 
 tinify(img, key = "NEW-API-KEY-HERE")
 
-# You can combine any number of the above:
+# You can combine any of the above:
 
 tinify(img,
        overwrite = TRUE,
        details = TRUE,
-       return_path = TRUE)
+       return_path = "rel")
 
 # Plays nice with the pipe:
 

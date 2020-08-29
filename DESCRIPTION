@@ -1,6 +1,6 @@
 Package: tinieR
 Title: Shrink Image Filesizes with TinyPNG.com
-Version: 0.1.1
+Version: 0.2.0
 Authors@R: 
     person(given = "James",
            family = "Adams",
@@ -17,6 +17,9 @@ RoxygenNote: 7.1.1
 Imports: 
     fs (>= 1.4.2),
     glue (>= 1.4.1),
-    httr (>= 1.4.1)
+    httr (>= 1.4.1),
+    jsonlite (>= 1.7.0),
+    png,
+    jpeg
 Suggests: 
     testthat
