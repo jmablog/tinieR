@@ -71,26 +71,48 @@ tinify("example.png", overwrite = TRUE)
 
 ## Using the tinified image
 
-Tinify can also return the absolute file path to the tinified file, as a string, with `return_path = TRUE`. This can be passed in to another function that takes an image file path to automate shrinking filesizes when, for example, knitting a document:
+Tinify can also return the file path to the tinified file, as a string, with `return_path`. Set to `return_path = "abs"` to return the absolute file path to the tinified file, which can be passed in to another function that takes an image file path to automate shrinking filesizes when, for example, knitting a document:
 
 ``` r
-shrunk_img <- tinify("imgs/example.png", return_path = TRUE)
+shrunk_img <- tinify("imgs/example.png", return_path = "abs")
 
 knitr::include_graphics(shrunk_img)
 ```
 
+Set to `return_path = "rel"` to return the file path relative to the working directory at the time the file was shrunk. This may be useful if sharing a script with others across platforms, if you can be sure your project setups will be the same and you are being strict with working directories. Finally, set to `return_path = "all"` to return both types of file path as a named list:
+
+```r
+shrunk_img_list <- tinify("imgs/example.png", return_path = "all")
+
+knitr::include_graphics(shrunk_img_list$absolute)
+```
+
+## Resizing Image Dimensions
+
+You can also use the `resize` argument to change the image dimensions along with it's filesize. I recommend reading the [TinyPNG API documentation on resizing methods](https://tinypng.com/developers/reference#resizing-images) first, to familiarise yourself with the various options you can use to change image dimensions.
+
+`resize` takes a named list, containing a `method` string and at least one of `width` or `height`, or both `width` AND `height` depending on your chosen resize method, to specify the dimensions in pixels you would like the image resized:
+
+```r
+tinify("imgs/example.png", resize = list(method = "fit", width = 300, height = 150))
+```
+
+Be aware that resizing and shrinking the filesize of an image counts as 2 API calls - see below.
+
 ## TinyPNG API monthly allowance and other details
 
-TinyPNG is quite generous at 500 free images per month, but if you're using `tinify()` as part a script that may be run multiple times, you should be aware of your API usage. Fortunately TinyPNG is smart enough to know when you are uploading the same file over again, and so will not count repeat calls of `tinify()` on the **exact same** image file against your monthly limit. This is handy if you are using `tinify()` in an RMarkdown document as it won't count against your API usage every time you knit your document. However be careful if saving new images to file from other workflows, such as creating plots, as changes to these will most likely count as new files when uploaded to TinyPNG.
+TinyPNG is quite generous at 500 free API calls per month (I only hit around 50 calls in total during the entire development and testing of this package!), but if you're using `tinify()` as part a script that may be run multiple times, you should be aware of your API usage. Fortunately TinyPNG is smart enough to know when you are uploading the same file over again, and so will not count repeat calls of `tinify()` on the **exact same** image file against your monthly limit. This is handy if you are using `tinify()` in an RMarkdown document as it won't count against your API usage every time you knit your document. However be careful if saving new images to file from other workflows, such as creating plots, as changes to these will most likely count as new files when uploaded to TinyPNG.
+
+Resizing an image also counts as **an extra API call**, as the image is first uploaded to TinyPNG and the filesize reduced, then this new image is resized with a second call to the API.
 
 You can check your API usage, as well as see how much the tinified file size has shrunk, with `details = TRUE`:
 
 ``` r
 tinify("example.png", details = TRUE)
 
-> Filesize reduced by 50%:
-> example.png (20Kb) => example_tiny.png (10Kb)
-> 10 Tinify API calls this month
+#> Filesize reduced by 50%:
+#> example.png (20Kb) => example_tiny.png (10Kb)
+#> 10 Tinify API calls this month
 ```
 
 ## Further examples
@@ -98,7 +120,7 @@ tinify("example.png", details = TRUE)
 You can combine any number of the above arguments:
 
 ``` r
-tinify("example.png", overwrite = TRUE, details = TRUE, return_path = TRUE)
+tinify("example.png", overwrite = TRUE, details = TRUE, return_path = "abs")
 ```
 
 Tinify also works nicely with the pipe:
@@ -127,6 +149,6 @@ purrr::map(imgs_dir, ~tinify(.x, overwrite = TRUE))
 
 ## Future plans
 
-- Include other [TinyPNG](https://tinypng.com) API image editing functions, like image resizing and retaining metadata.
+- Include other [TinyPNG](https://tinypng.com) API image editing functions, like retaining metadata.
 - Add ability to provide a desired file path for the newly shrunk file, instead of defaulting to the same location as the input file.
 - Add ability to use URL for a web resource instead of a local file.

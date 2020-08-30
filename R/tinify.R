@@ -1,6 +1,8 @@
 #' @title Shrink Image Files with TinyPNG
 #'
-#' @description Shrink an image's (PNG or JPG) filesize with the TinyPNG API.
+#' @description Shrink an image's (PNG or JPG) filesize with the TinyPNG API. Designed
+#' to be quick and easy for basic use, but to provide all the extra options of the TinyPNG
+#' API if required.
 #'
 #' @details You can get a TinyPNG API key from <https://tinypng.com/developers>.
 #'
@@ -8,20 +10,22 @@
 #'   and so will not count repeat calls of `tinify()` on the same image file against
 #'   your monthly API usage limit. This can be useful if, for example, you are using `tinify()`
 #'   in an RMarkdown document as it won't count against your API usage every time you knit your
-#'   document.
+#'   document. But, be aware that use of `resize` also counts as an additional API call,
+#'   as the image is first reduced in filesize, then a second API call is made to resize
+#'   the newly tinified file.
 #'
-#' @param file A string detailing the path to the file you wish to shrink,
-#'   relative to the current working directory. Can include sub-directories and
+#' @param file String, required. A string detailing the path to the file you wish to shrink,
+#'   relative to the current working directory or as an absolute file path. Can include sub-directories and
 #'   must include the file extension (.png or .jpg/.jpeg only).
 #' @param overwrite Boolean, optional. By default, tinify will create a new file with the
 #'   suffix '_tiny' and preserve the original file. Set `TRUE` to instead overwrite
 #'   the original file, with the same filename.
 #' @param details Boolean, optional. If `TRUE`, provides details on the amount of
 #'   shrinkage (% and Kb), and the number of TinyPNG API calls made this month.
-#' @param return_path String, optional. One of `rel`, `abs`, or `both`. If `rel`, will return the
+#' @param return_path String, optional. One of `rel`, `abs`, or `all`. If `rel`, will return the
 #'   file path of the newly tinified image file, relative to the current working directory.
 #'   If `abs`, will return the absolute file path of the newly tinified image file. If
-#'   `both`, will return a named list with both the absolute and relative file paths.
+#'   `all`, will return a named list with both the absolute and relative file paths.
 #' @param resize Named list, optional. A named list with the elements `method` as a string, and `width` and/or `height` as numerics.
 #'   Method must be set to one of "scale", "fit", "cover", or "thumb". If using "scale", you
 #'   only need to provide `width` OR `height`, not both. If using any other method, you must supply
@@ -32,8 +36,8 @@
 #'   provided in the function call will override the key set by `tinify_api()`.
 #'
 #' @return If `return_path = "rel"` or `return_path = "abs"`, a string with the absolute
-#'   or relative path to the newly tinified image file. If `return_path = "both"`, a named
-#'   list with both absolute and relative file paths included as `$abs` and `$rel` respectively.
+#'   or relative path to the newly tinified image file. If `return_path = "all"`, a named
+#'   list with both absolute and relative file paths included as `$absolute` and `$relative` respectively.
 #'
 #' @export
 #' @seealso [tinify_key()] to set an API key globally so it does not need to be provided with every call of `tinify()`
@@ -105,6 +109,9 @@ tinify <- function(file,
                    resize = NULL,
                    key = NULL) {
 
+  # Error checking =============================================================
+
+  # API key
   if(!is.null(key) & is.character(key) & length(key) == 1) {
     tiny_api <- key
   } else if (!is.null(key) & !is.character(key) | !is.null(key) & length(key) > 1) {
@@ -115,16 +122,29 @@ tinify <- function(file,
     stop("Please provide an API key with the 'key' argument or using 'tinify_key()'")
   }
 
+  # Check file exists
   if(fs::file_exists(file)[[1]] == FALSE){
     stop(glue::glue("File '{file}' does not exist"), call. = F)
   }
 
+  # Set absolute path to original file
   filepath <- fs::path_abs(file)
 
+  # Extract extension of original file
   ext <- fs::path_ext(filepath)
 
-  init_size <- fs::file_size(filepath)
+  # Check overwrite argument and set new file path as requested
+  # Either overwriting original file completely or appending '_tiny' to
+  # new filename
+  if(identical(overwrite, TRUE)) {
+    new_file <- filepath
+  } else if(identical(overwrite, FALSE)){
+    new_file <- glue::glue("{fs::path_ext_remove(filepath)}_tiny.{ext}")
+  } else {
+    stop("Please only provide 'overwrite' as TRUE or FALSE")
+  }
 
+  # Check file type and reject anything not png or jpg
   if(identical(ext, "png")) {
     img_type <- "image/png"
   } else if(identical(ext, "jpg") | identical(ext, "jpeg")) {
@@ -133,11 +153,65 @@ tinify <- function(file,
     stop("TinyPNG can only handle .png or .jpg/.jpeg files", call. = F)
   }
 
+  # Check resize list is provided with appropriate arguments
+  if(!is.null(resize)) {
+
+    # Check resize is a list of min length 2 and max length 3
+    if(!is.list(resize) | length(resize) < 2 | length(resize) > 3){
+      stop("Resize must be a list that includes a 'method' and one or both of 'width' or 'height'")
+    }
+
+    # Check 'method' and at least one of 'width' or 'height' are named in resize
+    if(!("method" %in% names(resize) & ("width" %in% names(resize) | "height" %in% names(resize)))) {
+      stop("Resize must be a list that includes a 'method' and one or both of 'width' or 'height'")
+    }
+
+    # Check resize method is a string specifying one of the available options
+    if(!(resize$method %in% c("fit", "scale", "cover", "thumb"))) {
+      stop('Method must be one of "fit", "scale", "cover" or "thumb"')
+    }
+
+    # Check width and/or height are numbers
+    if("width" %in% names(resize) & !is.numeric(resize$width) | "height" %in% names(resize) & !is.numeric(resize$height)) {
+      stop("Width and/or height must be a number")
+    }
+
+    # Check only one of width or height provided for method 'scale'
+    if(identical(resize$method, "scale") & "width" %in% names(resize) & "height" %in% names(resize)) {
+      stop("You must provide a width OR height for method 'scale', not both")
+    }
+
+    # Check both width and height provided for other methods besides 'scale'
+    if(!identical(resize$method, "scale") & (!("width" %in% names(resize)) | !("height" %in% names(resize)))) {
+      stop(paste0("You must provide a width AND height for method '", resize$method, "'"))
+    }
+
+  }
+
+  # Check details argument correctly provided
+  if(!identical(details, TRUE) & !identical(details, FALSE)) {
+    stop("Please only provide 'details' as TRUE or FALSE")
+  }
+
+  # Check return_path argument correctly provided
+  if(!is.null(return_path)) {
+    if(!(return_path %in% c("rel", "abs", "all"))){
+      stop('Please only provide return_path as "rel", "abs", or "all"')
+    }
+  }
+
+  # End error checking =========================================================
+
+  # Store initial filesize before tinifying
+  init_size <- fs::file_size(filepath)
+
+  # Send POST request to TinyPNG API, uploading original file
   post <- httr::POST("https://api.tinify.com/shrink",
                      httr::authenticate("api", tiny_api, type = "basic"),
                      body = httr::upload_file(filepath, type = img_type),
                      encode = "multipart")
 
+  # Display http error code if error returned by TinyPNG API
   if(httr::http_error(post)) {
     if(post$status_code == 401) {
       stop(glue::glue("{httr::http_status(post)$message} - Please make sure your API key is correct"),
@@ -147,79 +221,55 @@ tinify <- function(file,
     }
   }
 
+  # Set URL of tinified file on TinyPNG servers
   response <- httr::headers(post)$location
 
+  # Download tinified file as-is if not resizing
   if(is.null(resize)){
-    if(identical(overwrite, TRUE)) {
-      new_file <- filepath
-    } else if(identical(overwrite, FALSE)){
-      new_file <- glue::glue("{fs::path_ext_remove(filepath)}_tiny.{ext}")
-    } else {
-      stop("Please only provide 'overwrite' as TRUE or FALSE")
-    }
 
     utils::download.file(response,
                          new_file,
                          quiet = TRUE,
                          mode = "wb")
+
   }
 
-  if(!is.null(resize) & length(resize) > 1 & length(resize) <= 3) {
+  # Resizing
+  if(!is.null(resize)) {
 
-    if(!("method" %in% names(new) & ("width" %in% names(new) | "height" %in% names(new)))) {
-      stop("Resize must be a list that includes a 'method' and one or both of 'width' or 'height'")
-    }
-
-    if(!(resize$method %in% c("fit", "scale", "cover", "thumb"))) {
-      stop('Method must be one of "fit", "scale", "cover" or "thumb"')
-    }
-
-    if("width" %in% names(resize) & !is.numeric(resize$width) | "height" %in% names(resize) & !is.numeric(resize$height)) {
-      stop("Width and/or height must be a number")
-    }
-
-    if(identical(resize$method, "scale") & "width" %in% names(resize) & "height" %in% names(resize)) {
-      stop("You must provide a width OR height for method 'scale', not both")
-    }
-
-    if(!identical(resize$method, "scale") & (!("width" %in% names(resize)) | !("height" %in% names(resize)))) {
-      stop(paste0("You must provide a width AND height for method '", resize$method, "'"))
-    }
-
+    # Extract filename from full path of tinified file on TinyPNG servers to insert
+    # into POST URL when sending to TinyPNG
     img <- fs::path_file(response)
 
+    # Convert resize options list into JSON
     resize_json <- jsonlite::toJSON(list(resize = resize), auto_unbox = TRUE)
 
+    # Resend tinified file from new URL to also be resized with TinyPNG API
+    # With resize options sent as JSON
     resize_post <- httr::POST(glue::glue("https://api.tinify.com/output/{img}"),
                               httr::authenticate("api", tiny_api, type = "basic"),
                               httr::content_type_json(),
                               body = resize_json,
                               encode = "raw")
 
+    # Return http error code if error received from TinyPNG API
     if(httr::http_error(resize_post)) {
         stop(httr::http_status(resize_post)$message, call. = F)
       }
 
+    # Extract matrix of image binary returned by http request
     resized_img <- httr::content(resize_post)
 
-    if(identical(overwrite, TRUE)) {
-        new_file <- filepath
-    } else if(identical(overwrite, FALSE)){
-        new_file <- glue::glue("{fs::path_ext_remove(filepath)}_resize.{ext}")
-    } else {
-        stop("Please only provide 'overwrite' as TRUE or FALSE")
-    }
-
+    # Write to file
     if(identical(ext, "png")) {
       png::writePNG(resized_img, new_file)
     } else if(identical(ext, "jpg") | identical(ext, "jpeg")){
       jpeg::writeJPEG(resized_img, new_file, quality = 1)
     }
 
-  } else if(!is.null(resize)) {
-    stop("Resize must be a list that includes a 'method' and one or both of 'width' or 'height'")
   }
 
+  # Calculate and display details of file size changes and API calls if requested
   if(identical(details, TRUE)) {
     old_file_name <- fs::path_file(filepath)
     new_file_name <- fs::path_file(new_file)
@@ -232,10 +282,10 @@ tinify <- function(file,
                       {comp_count} Tinify API calls this month")
 
     message(msg)
-  } else if(!identical(details, FALSE)) {
-    stop("Please only provide 'details' as TRUE or FALSE")
   }
 
+  # Return the file path of the new tinified file, either relative to current
+  # working dir or as absolute file path, or both as a named list
   if(identical(return_path, "abs")) {
 
     return(as.character(new_file))
@@ -247,7 +297,7 @@ tinify <- function(file,
 
     return(as.character(glue::glue("{loc_path}/{loc_file}")))
 
-  } else if(identical(return_path, "both")) {
+  } else if(identical(return_path, "all")) {
 
     abs_file <- as.character(new_file)
 
@@ -255,10 +305,8 @@ tinify <- function(file,
     loc_file <- fs::path_file(new_file)
     rel_file <- as.character(glue::glue("{loc_path}/{loc_file}"))
 
-    return(list(abs = abs_file, rel = rel_file))
+    return(list(absolute = abs_file, relative = rel_file))
 
-  } else if(!is.null(return_path)) {
-    stop('Please only provide return_path as "rel", "abs", or "both"')
   }
 
 }

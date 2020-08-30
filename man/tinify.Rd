@@ -14,8 +14,8 @@ tinify(
 )
 }
 \arguments{
-\item{file}{A string detailing the path to the file you wish to shrink,
-relative to the current working directory. Can include sub-directories and
+\item{file}{String, required. A string detailing the path to the file you wish to shrink,
+relative to the current working directory or as an absolute file path. Can include sub-directories and
 must include the file extension (.png or .jpg/.jpeg only).}
 
 \item{overwrite}{Boolean, optional. By default, tinify will create a new file with the
@@ -25,10 +25,10 @@ the original file, with the same filename.}
 \item{details}{Boolean, optional. If \code{TRUE}, provides details on the amount of
 shrinkage (\% and Kb), and the number of TinyPNG API calls made this month.}
 
-\item{return_path}{String, optional. One of \code{rel}, \code{abs}, or \code{both}. If \code{rel}, will return the
+\item{return_path}{String, optional. One of \code{rel}, \code{abs}, or \code{all}. If \code{rel}, will return the
 file path of the newly tinified image file, relative to the current working directory.
 If \code{abs}, will return the absolute file path of the newly tinified image file. If
-\code{both}, will return a named list with both the absolute and relative file paths.}
+\code{all}, will return a named list with both the absolute and relative file paths.}
 
 \item{resize}{Named list, optional. A named list with the elements \code{method} as a string, and \code{width} and/or \code{height} as numerics.
 Method must be set to one of "scale", "fit", "cover", or "thumb". If using "scale", you
@@ -42,11 +42,13 @@ provided in the function call will override the key set by \code{tinify_api()}.}
 }
 \value{
 If \code{return_path = "rel"} or \code{return_path = "abs"}, a string with the absolute
-or relative path to the newly tinified image file. If \code{return_path = "both"}, a named
-list with both absolute and relative file paths included as \verb{$abs} and \verb{$rel} respectively.
+or relative path to the newly tinified image file. If \code{return_path = "all"}, a named
+list with both absolute and relative file paths included as \verb{$absolute} and \verb{$relative} respectively.
 }
 \description{
-Shrink an image's (PNG or JPG) filesize with the TinyPNG API.
+Shrink an image's (PNG or JPG) filesize with the TinyPNG API. Designed
+to be quick and easy for basic use, but to provide all the extra options of the TinyPNG
+API if required.
 }
 \details{
 You can get a TinyPNG API key from \url{https://tinypng.com/developers}.
@@ -55,7 +57,9 @@ TinyPNG is smart enough to know when you are uploading the same file again,
 and so will not count repeat calls of \code{tinify()} on the same image file against
 your monthly API usage limit. This can be useful if, for example, you are using \code{tinify()}
 in an RMarkdown document as it won't count against your API usage every time you knit your
-document.
+document. But, be aware that use of \code{resize} also counts as an additional API call,
+as the image is first reduced in filesize, then a second API call is made to resize
+the newly tinified file.
 }
 \examples{
 \dontrun{
