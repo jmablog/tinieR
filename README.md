@@ -79,7 +79,7 @@ shrunk_img <- tinify("imgs/example.png", return_path = "abs")
 knitr::include_graphics(shrunk_img)
 ```
 
-Set to `return_path = "rel"` to return the file path relative to the working directory at the time the file was shrunk. This may be useful if sharing a script with others across platforms, if you can be sure your project setups will be the same and you are being strict with working directories. Finally, set to `return_path = "all"` to return both types of file path as a named list:
+Set to `return_path = "rel"` to return the file path relative to the working directory at the time the file was tinified. This may be useful if sharing a script with others across platforms, if you can be sure your project setups will be the same and you are being strict with working directories. Finally, set to `return_path = "all"` to return both types of file path as a named list:
 
 ```r
 shrunk_img_list <- tinify("imgs/example.png", return_path = "all")
@@ -87,7 +87,7 @@ shrunk_img_list <- tinify("imgs/example.png", return_path = "all")
 knitr::include_graphics(shrunk_img_list$absolute)
 ```
 
-## Resizing Image Dimensions
+## Resizing image dimensions
 
 You can also use the `resize` argument to change the image dimensions along with it's filesize. I recommend reading the [TinyPNG API documentation on resizing methods](https://tinypng.com/developers/reference#resizing-images) first, to familiarise yourself with the various options you can use to change image dimensions.
 
