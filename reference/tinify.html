@@ -40,7 +40,9 @@
 
 
 <meta property="og:title" content="Shrink Image Files with TinyPNG — tinify" />
-<meta property="og:description" content="Shrink an image's (PNG or JPG) filesize with the TinyPNG API." />
+<meta property="og:description" content="Shrink an image's (PNG or JPG) filesize with the TinyPNG API. Designed
+to be quick and easy for basic use, but to provide all the extra options of the TinyPNG
+API if required." />
 
 
 
@@ -72,7 +74,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tinieR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -114,14 +116,17 @@
     </div>
 
     <div class="ref-description">
-    <p>Shrink an image's (PNG or JPG) filesize with the TinyPNG API.</p>
+    <p>Shrink an image's (PNG or JPG) filesize with the TinyPNG API. Designed
+to be quick and easy for basic use, but to provide all the extra options of the TinyPNG
+API if required.</p>
     </div>
 
     <pre class="usage"><span class='fu'>tinify</span>(
   <span class='no'>file</span>,
   <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>return_path</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>details</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>return_path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>resize</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>key</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
 )</pre>
 
@@ -130,29 +135,38 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>file</th>
-      <td><p>A string detailing the path to the file you wish to shrink,
-relative to the current working directory. Can include sub-directories and
+      <td><p>String, required. A string detailing the path to the file you wish to shrink,
+relative to the current working directory or as an absolute file path. Can include sub-directories and
 must include the file extension (.png or .jpg/.jpeg only).</p></td>
     </tr>
     <tr>
       <th>overwrite</th>
-      <td><p>Boolean. By default, tinify will create a new file with the
+      <td><p>Boolean, optional. By default, tinify will create a new file with the
 suffix '_tiny' and preserve the original file. Set <code>TRUE</code> to instead overwrite
 the original file, with the same filename.</p></td>
     </tr>
     <tr>
-      <th>return_path</th>
-      <td><p>Boolean. If TRUE, tinify returns the full absolute filepath to the
-newly shrunk file as a string.</p></td>
-    </tr>
-    <tr>
       <th>details</th>
-      <td><p>Boolean. If TRUE, provides details on the amount of
+      <td><p>Boolean, optional. If <code>TRUE</code>, provides details on the amount of
 shrinkage (% and Kb), and the number of TinyPNG API calls made this month.</p></td>
     </tr>
     <tr>
+      <th>return_path</th>
+      <td><p>String, optional. One of <code>rel</code>, <code>abs</code>, or <code>all</code>. If <code>rel</code>, will return the
+file path of the newly tinified image file, relative to the current working directory.
+If <code>abs</code>, will return the absolute file path of the newly tinified image file. If
+<code>all</code>, will return a named list with both the absolute and relative file paths.</p></td>
+    </tr>
+    <tr>
+      <th>resize</th>
+      <td><p>Named list, optional. A named list with the elements <code>method</code> as a string, and <code>width</code> and/or <code>height</code> as numerics.
+Method must be set to one of "scale", "fit", "cover", or "thumb". If using "scale", you
+only need to provide <code>width</code> OR <code>height</code>, not both. If using any other method, you must supply
+both a <code>width</code> AND <code>height</code>. See <a href='https://tinypng.com/developers/reference#resizing-images'>https://tinypng.com/developers/reference#resizing-images</a> and the examples for more.</p></td>
+    </tr>
+    <tr>
       <th>key</th>
-      <td><p>Optional. A string containing your TinyPNG API key.
+      <td><p>String, optional. A string containing your TinyPNG API key.
 Not required if the API key is set using <code>tinify_api()</code>.
 If an API key is provided with <code>tinify_api()</code>, any other key
 provided in the function call will override the key set by <code>tinify_api()</code>.</p></td>
@@ -161,7 +175,9 @@ provided in the function call will override the key set by <code>tinify_api()</c
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>If <code>return_path = TRUE</code>, a string with the full absolute path to the newly shrunk image file.</p>
+    <p>If <code>return_path = "rel"</code> or <code>return_path = "abs"</code>, a string with the absolute
+or relative path to the newly tinified image file. If <code>return_path = "all"</code>, a named
+list with both absolute and relative file paths included as <code>$absolute</code> and <code>$relative</code> respectively.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>You can get a TinyPNG API key from <a href='https://tinypng.com/developers'>https://tinypng.com/developers</a>.</p>
@@ -169,7 +185,9 @@ provided in the function call will override the key set by <code>tinify_api()</c
 and so will not count repeat calls of <code>tinify()</code> on the same image file against
 your monthly API usage limit. This can be useful if, for example, you are using <code>tinify()</code>
 in an RMarkdown document as it won't count against your API usage every time you knit your
-document.</p>
+document. But, be aware that use of <code>resize</code> also counts as an additional API call,
+as the image is first reduced in filesize, then a second API call is made to resize
+the newly tinified file.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='tinify_key.html'>tinify_key()</a></code> to set an API key globally so it does not need to be provided with every call of <code>tinify()</code></p></div>
@@ -190,7 +208,7 @@ document.</p>
 
 <span class='co'># Return absolute path to newly shrunk file:</span>
 
-<span class='no'>shrunk_img</span> <span class='kw'>&lt;-</span> <span class='fu'>tinify</span>(<span class='no'>img</span>, <span class='kw'>return_path</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='no'>shrunk_img</span> <span class='kw'>&lt;-</span> <span class='fu'>tinify</span>(<span class='no'>img</span>, <span class='kw'>return_path</span> <span class='kw'>=</span> <span class='st'>"abs"</span>)
 
 <span class='co'># Show details:</span>
 
@@ -200,16 +218,24 @@ document.</p>
 
 <span class='fu'>tinify</span>(<span class='no'>img</span>, <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
+<span class='co'># Resize an image with the method "scale", only providing a width:</span>
+
+<span class='fu'>tinify</span>(<span class='no'>img</span>, <span class='kw'>resize</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"scale"</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>300</span>))
+
+<span class='co'># Or resize an image with any other method by providing both width and height:</span>
+
+<span class='fu'>tinify</span>(<span class='no'>img</span>, <span class='kw'>resize</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"cover"</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>300</span>, <span class='kw'>height</span> <span class='kw'>=</span> <span class='fl'>150</span>))
+
 <span class='co'># Overwrite a global API key set in tinify_api():</span>
 
 <span class='fu'>tinify</span>(<span class='no'>img</span>, <span class='kw'>key</span> <span class='kw'>=</span> <span class='st'>"NEW-API-KEY-HERE"</span>)
 
-<span class='co'># You can combine any number of the above:</span>
+<span class='co'># You can combine any of the above:</span>
 
 <span class='fu'>tinify</span>(<span class='no'>img</span>,
        <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
        <span class='kw'>details</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-       <span class='kw'>return_path</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+       <span class='kw'>return_path</span> <span class='kw'>=</span> <span class='st'>"rel"</span>)
 
 <span class='co'># Plays nice with the pipe:</span>
 
