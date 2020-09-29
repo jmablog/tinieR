@@ -30,7 +30,7 @@ file path of the newly tinified image file, relative to the current working dire
 If \code{abs}, will return the absolute file path of the newly tinified image file. If
 \code{all}, will return a named list with both the absolute and relative file paths.}
 
-\item{resize}{Named list, optional. A named list with the elements \code{method} as a string, and \code{width} and/or \code{height} as numerics.
+\item{resize}{Named list, optional. A named list with the elements \code{method} as a string, and \code{width} and/or \code{height} as numerics. Please note you can only reduce an image's dimensions and make an image smaller with TinyPNG API, not make an image larger.
 Method must be set to one of "scale", "fit", "cover", or "thumb". If using "scale", you
 only need to provide \code{width} OR \code{height}, not both. If using any other method, you must supply
 both a \code{width} AND \code{height}. See \url{https://tinypng.com/developers/reference#resizing-images} and the examples for more.}

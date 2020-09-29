@@ -26,7 +26,7 @@
 #'   file path of the newly tinified image file, relative to the current working directory.
 #'   If `abs`, will return the absolute file path of the newly tinified image file. If
 #'   `all`, will return a named list with both the absolute and relative file paths.
-#' @param resize Named list, optional. A named list with the elements `method` as a string, and `width` and/or `height` as numerics.
+#' @param resize Named list, optional. A named list with the elements `method` as a string, and `width` and/or `height` as numerics. Please note you can only reduce an image's dimensions and make an image smaller with TinyPNG API, not make an image larger.
 #'   Method must be set to one of "scale", "fit", "cover", or "thumb". If using "scale", you
 #'   only need to provide `width` OR `height`, not both. If using any other method, you must supply
 #'   both a `width` AND `height`. See <https://tinypng.com/developers/reference#resizing-images> and the examples for more.
