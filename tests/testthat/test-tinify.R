@@ -67,13 +67,14 @@ test_that("Other arguments only accept correct input", {
 
 })
 
-test_that("Details returns information", {
+test_that("Messages returns information correctly and can be suppressed with quiet", {
 
   img <- system.file("extdata", "example.png", package = "tinieR")
   tmp <- tempfile(fileext = ".png")
   fs::file_copy(img, tmp)
 
-  expect_message(tinify(tmp, details = TRUE), "Filesize reduced by")
+  expect_message(tinify(tmp), "Filesize reduced by")
+  expect_message(tinify(tmp, quiet = TRUE), NA)
 
   unlink(tmp)
 
