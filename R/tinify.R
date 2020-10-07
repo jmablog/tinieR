@@ -17,11 +17,12 @@
 #' @param file String, required. A string detailing the path to the file you wish to shrink,
 #'   relative to the current working directory or as an absolute file path. Can include sub-directories and
 #'   must include the file extension (.png or .jpg/.jpeg only).
-#' @param overwrite Boolean, optional. By default, tinify will create a new file with the
+#' @param overwrite Boolean, defaults to `FALSE`. By default, tinify will create a new file with the
 #'   suffix '_tiny' and preserve the original file. Set `TRUE` to instead overwrite
-#'   the original file, with the same filename.
-#' @param details Boolean, optional. If `TRUE`, provides details on the amount of
-#'   shrinkage (% and Kb), and the number of TinyPNG API calls made this month.
+#'   the original file, with the same file name.
+#' @param quiet Boolean, defaults to `FALSE`. By default, tinify provides details on file names, amount of
+#'   file size reduction (% and Kb), and the number of TinyPNG API calls made this month. If set to `TRUE`,
+#'   tinify displays no messages as it shrinks files.
 #' @param return_path String, optional. One of `rel`, `abs`, or `all`. If `rel`, will return the
 #'   file path of the newly tinified image file, relative to the current working directory.
 #'   If `abs`, will return the absolute file path of the newly tinified image file. If
@@ -38,6 +39,7 @@
 #' @return If `return_path = "rel"` or `return_path = "abs"`, a string with the absolute
 #'   or relative path to the newly tinified image file. If `return_path = "all"`, a named
 #'   list with both absolute and relative file paths included as `$absolute` and `$relative` respectively.
+#'   If `return_path = NULL`, no return value.
 #'
 #' @export
 #' @seealso [tinify_key()] to set an API key globally so it does not need to be provided with every call of `tinify()`
@@ -59,9 +61,9 @@
 #'
 #' shrunk_img <- tinify(img, return_path = "abs")
 #'
-#' # Show details:
+#' # Suppress messages detailing file reduction amount:
 #'
-#' tinify(img, details = TRUE)
+#' tinify(img, quiet = TRUE)
 #'
 #' # Overwrite original file in place:
 #'
@@ -83,7 +85,7 @@
 #'
 #' tinify(img,
 #'        overwrite = TRUE,
-#'        details = TRUE,
+#'        quiet = TRUE,
 #'        return_path = "rel")
 #'
 #' # Plays nice with the pipe:
@@ -100,11 +102,11 @@
 #'
 #' imgs_dir <- fs::dir_ls("imgs", glob = "*.png")
 #'
-#' purrr::map(imgs_dir, ~tinify(.x, overwrite = TRUE))
+#' purrr::map(imgs_dir, ~tinify(.x, overwrite = TRUE, quiet = TRUE))
 #'}
 tinify <- function(file,
                    overwrite = FALSE,
-                   details = FALSE,
+                   quiet = FALSE,
                    return_path = NULL,
                    resize = NULL,
                    key = NULL) {
@@ -189,7 +191,7 @@ tinify <- function(file,
   }
 
   # Check details argument correctly provided
-  if(!identical(details, TRUE) & !identical(details, FALSE)) {
+  if(!identical(quiet, TRUE) & !identical(quiet, FALSE)) {
     stop("Please only provide 'details' as TRUE or FALSE")
   }
 
@@ -270,7 +272,7 @@ tinify <- function(file,
   }
 
   # Calculate and display details of file size changes and API calls if requested
-  if(identical(details, TRUE)) {
+  if(identical(quiet, FALSE)) {
     old_file_name <- fs::path_file(filepath)
     new_file_name <- fs::path_file(new_file)
     new_size <- fs::file_size(new_file)

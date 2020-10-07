@@ -7,7 +7,7 @@
 tinify(
   file,
   overwrite = FALSE,
-  details = FALSE,
+  quiet = FALSE,
   return_path = NULL,
   resize = NULL,
   key = NULL
@@ -18,12 +18,13 @@ tinify(
 relative to the current working directory or as an absolute file path. Can include sub-directories and
 must include the file extension (.png or .jpg/.jpeg only).}
 
-\item{overwrite}{Boolean, optional. By default, tinify will create a new file with the
+\item{overwrite}{Boolean, defaults to \code{FALSE}. By default, tinify will create a new file with the
 suffix '_tiny' and preserve the original file. Set \code{TRUE} to instead overwrite
-the original file, with the same filename.}
+the original file, with the same file name.}
 
-\item{details}{Boolean, optional. If \code{TRUE}, provides details on the amount of
-shrinkage (\% and Kb), and the number of TinyPNG API calls made this month.}
+\item{quiet}{Boolean, defaults to \code{FALSE}. By default, tinify provides details on file names, amount of
+file size reduction (\% and Kb), and the number of TinyPNG API calls made this month. If set to \code{TRUE},
+tinify displays no messages as it shrinks files.}
 
 \item{return_path}{String, optional. One of \code{rel}, \code{abs}, or \code{all}. If \code{rel}, will return the
 file path of the newly tinified image file, relative to the current working directory.
@@ -44,6 +45,7 @@ provided in the function call will override the key set by \code{tinify_api()}.}
 If \code{return_path = "rel"} or \code{return_path = "abs"}, a string with the absolute
 or relative path to the newly tinified image file. If \code{return_path = "all"}, a named
 list with both absolute and relative file paths included as \verb{$absolute} and \verb{$relative} respectively.
+If \code{return_path = NULL}, no return value.
 }
 \description{
 Shrink an image's (PNG or JPG) filesize with the TinyPNG API. Designed
@@ -79,9 +81,9 @@ tinify(img_jpg)
 
 shrunk_img <- tinify(img, return_path = "abs")
 
-# Show details:
+# Suppress messages detailing file reduction amount:
 
-tinify(img, details = TRUE)
+tinify(img, quiet = TRUE)
 
 # Overwrite original file in place:
 
@@ -103,7 +105,7 @@ tinify(img, key = "NEW-API-KEY-HERE")
 
 tinify(img,
        overwrite = TRUE,
-       details = TRUE,
+       quiet = TRUE,
        return_path = "rel")
 
 # Plays nice with the pipe:
@@ -120,7 +122,7 @@ purrr::map(imgs, ~tinify(.x))
 
 imgs_dir <- fs::dir_ls("imgs", glob = "*.png")
 
-purrr::map(imgs_dir, ~tinify(.x, overwrite = TRUE))
+purrr::map(imgs_dir, ~tinify(.x, overwrite = TRUE, quiet = TRUE))
 }
 }
 \seealso{
