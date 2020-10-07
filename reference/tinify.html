@@ -74,7 +74,7 @@ API if required." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tinieR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -88,6 +88,9 @@ API if required." />
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -121,14 +124,14 @@ to be quick and easy for basic use, but to provide all the extra options of the 
 API if required.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>tinify</span>(
-  <span class='no'>file</span>,
-  <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>details</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>return_path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>resize</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>key</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
-)</pre>
+    <pre class="usage"><span class='fu'>tinify</span><span class='op'>(</span>
+  <span class='va'>file</span>,
+  overwrite <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  quiet <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  return_path <span class='op'>=</span> <span class='cn'>NULL</span>,
+  resize <span class='op'>=</span> <span class='cn'>NULL</span>,
+  key <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -141,14 +144,15 @@ must include the file extension (.png or .jpg/.jpeg only).</p></td>
     </tr>
     <tr>
       <th>overwrite</th>
-      <td><p>Boolean, optional. By default, tinify will create a new file with the
+      <td><p>Boolean, defaults to <code>FALSE</code>. By default, tinify will create a new file with the
 suffix '_tiny' and preserve the original file. Set <code>TRUE</code> to instead overwrite
-the original file, with the same filename.</p></td>
+the original file, with the same file name.</p></td>
     </tr>
     <tr>
-      <th>details</th>
-      <td><p>Boolean, optional. If <code>TRUE</code>, provides details on the amount of
-shrinkage (% and Kb), and the number of TinyPNG API calls made this month.</p></td>
+      <th>quiet</th>
+      <td><p>Boolean, defaults to <code>FALSE</code>. By default, tinify provides details on file names, amount of
+file size reduction (% and Kb), and the number of TinyPNG API calls made this month. If set to <code>TRUE</code>,
+tinify displays no messages as it shrinks files.</p></td>
     </tr>
     <tr>
       <th>return_path</th>
@@ -159,7 +163,7 @@ If <code>abs</code>, will return the absolute file path of the newly tinified im
     </tr>
     <tr>
       <th>resize</th>
-      <td><p>Named list, optional. A named list with the elements <code>method</code> as a string, and <code>width</code> and/or <code>height</code> as numerics.
+      <td><p>Named list, optional. A named list with the elements <code>method</code> as a string, and <code>width</code> and/or <code>height</code> as numerics. Please note you can only reduce an image's dimensions and make an image smaller with TinyPNG API, not make an image larger.
 Method must be set to one of "scale", "fit", "cover", or "thumb". If using "scale", you
 only need to provide <code>width</code> OR <code>height</code>, not both. If using any other method, you must supply
 both a <code>width</code> AND <code>height</code>. See <a href='https://tinypng.com/developers/reference#resizing-images'>https://tinypng.com/developers/reference#resizing-images</a> and the examples for more.</p></td>
@@ -177,7 +181,8 @@ provided in the function call will override the key set by <code>tinify_api()</c
 
     <p>If <code>return_path = "rel"</code> or <code>return_path = "abs"</code>, a string with the absolute
 or relative path to the newly tinified image file. If <code>return_path = "all"</code>, a named
-list with both absolute and relative file paths included as <code>$absolute</code> and <code>$relative</code> respectively.</p>
+list with both absolute and relative file paths included as <code>$absolute</code> and <code>$relative</code> respectively.
+If <code>return_path = NULL</code>, no return value.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>You can get a TinyPNG API key from <a href='https://tinypng.com/developers'>https://tinypng.com/developers</a>.</p>
@@ -193,66 +198,67 @@ the newly tinified file.</p>
     <div class='dont-index'><p><code><a href='tinify_key.html'>tinify_key()</a></code> to set an API key globally so it does not need to be provided with every call of <code>tinify()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='co'># Shrink a PNG file</span>
 
-<span class='no'>img</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"example.png"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"tinieR"</span>)
+<span class='va'>img</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata"</span>, <span class='st'>"example.png"</span>, package <span class='op'>=</span> <span class='st'>"tinieR"</span><span class='op'>)</span>
 
-<span class='fu'>tinify</span>(<span class='no'>img</span>)
+<span class='fu'>tinify</span><span class='op'>(</span><span class='va'>img</span><span class='op'>)</span>
 
 <span class='co'># Also works with JPEG/JPG files</span>
 
-<span class='no'>img_jpg</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"example.jpg"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"tinieR"</span>)
+<span class='va'>img_jpg</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata"</span>, <span class='st'>"example.jpg"</span>, package <span class='op'>=</span> <span class='st'>"tinieR"</span><span class='op'>)</span>
 
-<span class='fu'>tinify</span>(<span class='no'>img_jpg</span>)
+<span class='fu'>tinify</span><span class='op'>(</span><span class='va'>img_jpg</span><span class='op'>)</span>
 
 <span class='co'># Return absolute path to newly shrunk file:</span>
 
-<span class='no'>shrunk_img</span> <span class='kw'>&lt;-</span> <span class='fu'>tinify</span>(<span class='no'>img</span>, <span class='kw'>return_path</span> <span class='kw'>=</span> <span class='st'>"abs"</span>)
+<span class='va'>shrunk_img</span> <span class='op'>&lt;-</span> <span class='fu'>tinify</span><span class='op'>(</span><span class='va'>img</span>, return_path <span class='op'>=</span> <span class='st'>"abs"</span><span class='op'>)</span>
 
-<span class='co'># Show details:</span>
+<span class='co'># Suppress messages detailing file reduction amount:</span>
 
-<span class='fu'>tinify</span>(<span class='no'>img</span>, <span class='kw'>details</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'>tinify</span><span class='op'>(</span><span class='va'>img</span>, quiet <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
 <span class='co'># Overwrite original file in place:</span>
 
-<span class='fu'>tinify</span>(<span class='no'>img</span>, <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'>tinify</span><span class='op'>(</span><span class='va'>img</span>, overwrite <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
 <span class='co'># Resize an image with the method "scale", only providing a width:</span>
 
-<span class='fu'>tinify</span>(<span class='no'>img</span>, <span class='kw'>resize</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"scale"</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>300</span>))
+<span class='fu'>tinify</span><span class='op'>(</span><span class='va'>img</span>, resize <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>method <span class='op'>=</span> <span class='st'>"scale"</span>, width <span class='op'>=</span> <span class='fl'>300</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='co'># Or resize an image with any other method by providing both width and height:</span>
 
-<span class='fu'>tinify</span>(<span class='no'>img</span>, <span class='kw'>resize</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"cover"</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>300</span>, <span class='kw'>height</span> <span class='kw'>=</span> <span class='fl'>150</span>))
+<span class='fu'>tinify</span><span class='op'>(</span><span class='va'>img</span>, resize <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>method <span class='op'>=</span> <span class='st'>"cover"</span>, width <span class='op'>=</span> <span class='fl'>300</span>, height <span class='op'>=</span> <span class='fl'>150</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='co'># Overwrite a global API key set in tinify_api():</span>
 
-<span class='fu'>tinify</span>(<span class='no'>img</span>, <span class='kw'>key</span> <span class='kw'>=</span> <span class='st'>"NEW-API-KEY-HERE"</span>)
+<span class='fu'>tinify</span><span class='op'>(</span><span class='va'>img</span>, key <span class='op'>=</span> <span class='st'>"NEW-API-KEY-HERE"</span><span class='op'>)</span>
 
 <span class='co'># You can combine any of the above:</span>
 
-<span class='fu'>tinify</span>(<span class='no'>img</span>,
-       <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-       <span class='kw'>details</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-       <span class='kw'>return_path</span> <span class='kw'>=</span> <span class='st'>"rel"</span>)
+<span class='fu'>tinify</span><span class='op'>(</span><span class='va'>img</span>,
+       overwrite <span class='op'>=</span> <span class='cn'>TRUE</span>,
+       quiet <span class='op'>=</span> <span class='cn'>TRUE</span>,
+       return_path <span class='op'>=</span> <span class='st'>"rel"</span><span class='op'>)</span>
 
 <span class='co'># Plays nice with the pipe:</span>
 
-<span class='no'>img</span> <span class='kw'>%&gt;%</span> <span class='fu'>tinify</span>()
+<span class='va'>img</span> <span class='op'>%&gt;%</span> <span class='fu'>tinify</span><span class='op'>(</span><span class='op'>)</span>
 
 <span class='co'># And with purrr::map for multiple files:</span>
 
-<span class='no'>imgs</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"example.png"</span>, <span class='st'>"example2.png"</span>)
+<span class='va'>imgs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"example.png"</span>, <span class='st'>"example2.png"</span><span class='op'>)</span>
 
-<span class='kw pkg'>purrr</span><span class='kw ns'>::</span><span class='fu'><a href='https://purrr.tidyverse.org/reference/map.html'>map</a></span>(<span class='no'>imgs</span>, ~<span class='fu'>tinify</span>(<span class='no'>.x</span>))
+<span class='fu'>purrr</span><span class='fu'>::</span><span class='fu'><a href='https://purrr.tidyverse.org/reference/map.html'>map</a></span><span class='op'>(</span><span class='va'>imgs</span>, <span class='op'>~</span><span class='fu'>tinify</span><span class='op'>(</span><span class='va'>.x</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='co'># An example method for shrinking an entire directory:</span>
 
-<span class='no'>imgs_dir</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>fs</span><span class='kw ns'>::</span><span class='fu'><a href='http://fs.r-lib.org/reference/dir_ls.html'>dir_ls</a></span>(<span class='st'>"imgs"</span>, <span class='kw'>glob</span> <span class='kw'>=</span> <span class='st'>"*.png"</span>)
+<span class='va'>imgs_dir</span> <span class='op'>&lt;-</span> <span class='fu'>fs</span><span class='fu'>::</span><span class='fu'><a href='http://fs.r-lib.org/reference/dir_ls.html'>dir_ls</a></span><span class='op'>(</span><span class='st'>"imgs"</span>, glob <span class='op'>=</span> <span class='st'>"*.png"</span><span class='op'>)</span>
 
-<span class='kw pkg'>purrr</span><span class='kw ns'>::</span><span class='fu'><a href='https://purrr.tidyverse.org/reference/map.html'>map</a></span>(<span class='no'>imgs_dir</span>, ~<span class='fu'>tinify</span>(<span class='no'>.x</span>, <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))
-}</div></pre>
+<span class='fu'>purrr</span><span class='fu'>::</span><span class='fu'><a href='https://purrr.tidyverse.org/reference/map.html'>map</a></span><span class='op'>(</span><span class='va'>imgs_dir</span>, <span class='op'>~</span><span class='fu'>tinify</span><span class='op'>(</span><span class='va'>.x</span>, overwrite <span class='op'>=</span> <span class='cn'>TRUE</span>, quiet <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -268,7 +274,7 @@ the newly tinified file.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

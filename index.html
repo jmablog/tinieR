@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">tinieR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -45,6 +45,9 @@
 </li>
 <li>
   <a href="reference/index.html">Reference</a>
+</li>
+<li>
+  <a href="news/index.html">Changelog</a>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
@@ -76,55 +79,76 @@
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>You can install the latest version of tinieR from <a href="https://github.com">Github</a> with:</p>
-<div class="sourceCode" id="cb1"><pre class="r"><span class="co"># install.packages("devtools")</span>
-<span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu">install_github</span>(<span class="st">"jmablog/tinier"</span>)</pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit">
+<span class="co"># install.packages("devtools")</span>
+<span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"jmablog/tinieR"</span><span class="op">)</span></pre></div>
 </div>
 <div id="authentication-with-tinypng" class="section level2">
 <h2 class="hasAnchor">
 <a href="#authentication-with-tinypng" class="anchor"></a>Authentication with TinyPNG</h2>
 <p>You will need an API key from <a href="https://tinypng.com">TinyPNG</a>. You can signup to get one <a href="https://tinypng.com/developers">here</a>.</p>
 <p>Once you have your API key, you can set it for your current R session with:</p>
-<div class="sourceCode" id="cb2"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">tinier</span>)
+<div class="sourceCode" id="cb2"><pre class="downlit">
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">tinier</span><span class="op">)</span>
 
-<span class="fu"><a href="reference/tinify_key.html">tinify_key</a></span>(<span class="st">"YOUR-API-KEY-HERE"</span>)</pre></div>
+<span class="fu"><a href="reference/tinify_key.html">tinify_key</a></span><span class="op">(</span><span class="st">"YOUR-API-KEY-HERE"</span><span class="op">)</span></pre></div>
 <p>Or you can provide your API key as an argument to <code><a href="reference/tinify.html">tinify()</a></code> at every call:</p>
-<div class="sourceCode" id="cb3"><pre class="r"><span class="no">my_key</span> <span class="kw">&lt;-</span> <span class="st">"YOUR-API-KEY-HERE"</span>
+<div class="sourceCode" id="cb3"><pre class="downlit">
+<span class="va">my_key</span> <span class="op">&lt;-</span> <span class="st">"YOUR-API-KEY-HERE"</span>
 
-<span class="fu"><a href="reference/tinify.html">tinify</a></span>(<span class="st">"example.png"</span>, <span class="kw">key</span> <span class="kw">=</span> <span class="no">my_key</span>)</pre></div>
+<span class="fu"><a href="reference/tinify.html">tinify</a></span><span class="op">(</span><span class="st">"example.png"</span>, key <span class="op">=</span> <span class="va">my_key</span><span class="op">)</span></pre></div>
 <p>Providing an API key as an argument to <code><a href="reference/tinify.html">tinify()</a></code> will override any API key set with <code>tinify_api()</code>. This could be useful if utilising multiple API keys.</p>
 <p>Be careful including your API key in any scripts you write, especially if you’re going to be publicly or privately sharing those scripts with others! You might consider setting your API key instead in your .Renviron file (~/.Renviron). If you use the variable name <code>TINY_API</code> in .Renviron, <code><a href="reference/tinify.html">tinify()</a></code> should find it, and you can skip using <code>tinify_api()</code> or providing an API at each call of <code><a href="reference/tinify.html">tinify()</a></code>.</p>
 <p>To edit your .Renviron in Rstudio:</p>
-<div class="sourceCode" id="cb4"><pre class="r"><span class="kw pkg">usethis</span><span class="kw ns">::</span><span class="fu">edit_r_environ</span>()</pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit">
+<span class="fu">usethis</span><span class="fu">::</span><span class="fu">edit_r_environ</span><span class="op">(</span><span class="op">)</span></pre></div>
 <p>Then save into .Renviron:</p>
-<div class="sourceCode" id="cb5"><pre class="r"><span class="no">TINY_API</span> <span class="kw">=</span> <span class="st">"YOUR-API-KEY-HERE"</span></pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit">
+<span class="va">TINY_API</span> <span class="op">=</span> <span class="st">"YOUR-API-KEY-HERE"</span></pre></div>
 <p>Restart your R session, and your TinyPNG API key will be stored as an environment variable that <code><a href="reference/tinify.html">tinify()</a></code> will automatically find.</p>
 </div>
 <div id="shrinking-an-image" class="section level2">
 <h2 class="hasAnchor">
 <a href="#shrinking-an-image" class="anchor"></a>Shrinking an image</h2>
-<p>To shrink an image file’s size, provide a path to the file relative to the current working directory:</p>
-<div class="sourceCode" id="cb6"><pre class="r"><span class="fu"><a href="reference/tinify.html">tinify</a></span>(<span class="st">"example.png"</span>)</pre></div>
+<p>To shrink an image file’s size, provide a path to the file relative to the current working directory.:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit">
+<span class="fu"><a href="reference/tinify.html">tinify</a></span><span class="op">(</span><span class="st">"example.png"</span><span class="op">)</span>
+
+<span class="co">#&gt; Filesize reduced by 50%:</span>
+<span class="co">#&gt; example.png (20K) =&gt; example_tiny.png (10K)</span>
+<span class="co">#&gt; 10 Tinify API calls this month</span></pre></div>
 <p>By default, <code>tinify</code> will create a new file with the suffix ’_tiny’ in the same directory as the original file. To instead overwrite the original file with the newly tinified file, use <code>overwrite = TRUE</code>:</p>
-<div class="sourceCode" id="cb7"><pre class="r"><span class="fu"><a href="reference/tinify.html">tinify</a></span>(<span class="st">"example.png"</span>, <span class="kw">overwrite</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit">
+<span class="fu"><a href="reference/tinify.html">tinify</a></span><span class="op">(</span><span class="st">"example.png"</span>, overwrite <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+
+<span class="co">#&gt; Filesize reduced by 50%:</span>
+<span class="co">#&gt; example.png (20K) =&gt; example.png (10K)</span>
+<span class="co">#&gt; 10 Tinify API calls this month</span></pre></div>
+<p>Tinify will provide messages detailing the file size reduction (in % and as <a href="https://fs.r-lib.org/reference/fs_bytes.html">FS bytes</a>) along with the number of API calls made each month when called. You can suppress these messages with <code>quiet = TRUE</code>:</p>
+<div class="sourceCode" id="cb8"><pre class="downlit">
+<span class="fu"><a href="reference/tinify.html">tinify</a></span><span class="op">(</span><span class="st">"example.png"</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></pre></div>
 </div>
 <div id="using-the-tinified-image" class="section level2">
 <h2 class="hasAnchor">
 <a href="#using-the-tinified-image" class="anchor"></a>Using the tinified image</h2>
 <p>Tinify can also return the file path to the tinified file, as a string, with <code>return_path</code>. Set to <code>return_path = "abs"</code> to return the absolute file path to the tinified file, which can be passed in to another function that takes an image file path to automate shrinking filesizes when, for example, knitting a document:</p>
-<div class="sourceCode" id="cb8"><pre class="r"><span class="no">shrunk_img</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/tinify.html">tinify</a></span>(<span class="st">"imgs/example.png"</span>, <span class="kw">return_path</span> <span class="kw">=</span> <span class="st">"abs"</span>)
+<div class="sourceCode" id="cb9"><pre class="downlit">
+<span class="va">shrunk_img</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/tinify.html">tinify</a></span><span class="op">(</span><span class="st">"imgs/example.png"</span>, return_path <span class="op">=</span> <span class="st">"abs"</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 
-<span class="kw pkg">knitr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/include_graphics.html">include_graphics</a></span>(<span class="no">shrunk_img</span>)</pre></div>
+<span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/include_graphics.html">include_graphics</a></span><span class="op">(</span><span class="va">shrunk_img</span><span class="op">)</span></pre></div>
 <p>Set to <code>return_path = "rel"</code> to return the file path relative to the working directory at the time the file was tinified. This may be useful if sharing a script with others across platforms, if you can be sure your project setups will be the same and you are being strict with working directories. Finally, set to <code>return_path = "all"</code> to return both types of file path as a named list:</p>
-<div class="sourceCode" id="cb9"><pre class="r"><span class="no">shrunk_img_list</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/tinify.html">tinify</a></span>(<span class="st">"imgs/example.png"</span>, <span class="kw">return_path</span> <span class="kw">=</span> <span class="st">"all"</span>)
+<div class="sourceCode" id="cb10"><pre class="downlit">
+<span class="va">shrunk_img_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/tinify.html">tinify</a></span><span class="op">(</span><span class="st">"imgs/example.png"</span>, return_path <span class="op">=</span> <span class="st">"all"</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 
-<span class="kw pkg">knitr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/include_graphics.html">include_graphics</a></span>(<span class="no">shrunk_img_list</span>$<span class="no">absolute</span>)</pre></div>
+<span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/include_graphics.html">include_graphics</a></span><span class="op">(</span><span class="va">shrunk_img_list</span><span class="op">$</span><span class="va">absolute</span><span class="op">)</span></pre></div>
 </div>
 <div id="resizing-image-dimensions" class="section level2">
 <h2 class="hasAnchor">
 <a href="#resizing-image-dimensions" class="anchor"></a>Resizing image dimensions</h2>
 <p>You can also use the <code>resize</code> argument to change the image dimensions along with it’s filesize (<strong>note:</strong> you can only <em>decrease</em> image dimensions and make it smaller with TinyPNG, not make an image bigger). I recommend reading the <a href="https://tinypng.com/developers/reference#resizing-images">TinyPNG API documentation on resizing methods</a> first, to familiarise yourself with the various options you can use to change image dimensions.</p>
 <p><code>resize</code> takes a named list, containing a <code>method</code> string and at least one of <code>width</code> or <code>height</code>, or both <code>width</code> AND <code>height</code> depending on your chosen resize method, to specify the dimensions in pixels you would like the image resized:</p>
-<div class="sourceCode" id="cb10"><pre class="r"><span class="fu"><a href="reference/tinify.html">tinify</a></span>(<span class="st">"imgs/example.png"</span>, <span class="kw">resize</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">method</span> <span class="kw">=</span> <span class="st">"fit"</span>, <span class="kw">width</span> <span class="kw">=</span> <span class="fl">300</span>, <span class="kw">height</span> <span class="kw">=</span> <span class="fl">150</span>))</pre></div>
+<div class="sourceCode" id="cb11"><pre class="downlit">
+<span class="fu"><a href="reference/tinify.html">tinify</a></span><span class="op">(</span><span class="st">"imgs/example.png"</span>, resize <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"fit"</span>, width <span class="op">=</span> <span class="fl">300</span>, height <span class="op">=</span> <span class="fl">150</span><span class="op">)</span><span class="op">)</span></pre></div>
 <p>Be aware that resizing and shrinking the filesize of an image counts as 2 API calls - see below.</p>
 </div>
 <div id="tinypng-api-monthly-allowance-and-other-details" class="section level2">
@@ -132,35 +156,41 @@
 <a href="#tinypng-api-monthly-allowance-and-other-details" class="anchor"></a>TinyPNG API monthly allowance and other details</h2>
 <p>TinyPNG is quite generous at 500 free API calls per month (I only hit around 50 calls in total during the entire development and testing of this package!), but if you’re using <code><a href="reference/tinify.html">tinify()</a></code> as part a script that may be run multiple times, you should be aware of your API usage. Fortunately TinyPNG is smart enough to know when you are uploading the same file over again, and so will not count repeat calls of <code><a href="reference/tinify.html">tinify()</a></code> on the <strong>exact same</strong> image file against your monthly limit. This is handy if you are using <code><a href="reference/tinify.html">tinify()</a></code> in an RMarkdown document as it won’t count against your API usage every time you knit your document. However be careful if saving new images to file from other workflows, such as creating plots, as changes to these will most likely count as new files when uploaded to TinyPNG.</p>
 <p>Resizing an image also counts as <strong>an extra API call</strong>, as the image is first uploaded to TinyPNG and the filesize reduced, then this new image is resized with a second call to the API.</p>
-<p>You can check your API usage, as well as see how much the tinified file size has shrunk, with <code>details = TRUE</code>:</p>
-<div class="sourceCode" id="cb11"><pre class="r"><span class="fu"><a href="reference/tinify.html">tinify</a></span>(<span class="st">"example.png"</span>, <span class="kw">details</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
-
-<span class="co">#&gt; Filesize reduced by 50%:</span>
-<span class="co">#&gt; example.png (20Kb) =&gt; example_tiny.png (10Kb)</span>
-<span class="co">#&gt; 10 Tinify API calls this month</span></pre></div>
 </div>
 <div id="further-examples" class="section level2">
 <h2 class="hasAnchor">
 <a href="#further-examples" class="anchor"></a>Further examples</h2>
 <p>You can combine any number of the above arguments:</p>
-<div class="sourceCode" id="cb12"><pre class="r"><span class="fu"><a href="reference/tinify.html">tinify</a></span>(<span class="st">"example.png"</span>, <span class="kw">overwrite</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">details</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">return_path</span> <span class="kw">=</span> <span class="st">"abs"</span>)</pre></div>
+<div class="sourceCode" id="cb12"><pre class="downlit">
+<span class="fu"><a href="reference/tinify.html">tinify</a></span><span class="op">(</span><span class="st">"example.png"</span>, overwrite <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span>, return_path <span class="op">=</span> <span class="st">"abs"</span><span class="op">)</span></pre></div>
 <p>Tinify also works nicely with the pipe:</p>
-<div class="sourceCode" id="cb13"><pre class="r"><span class="no">img</span> <span class="kw">&lt;-</span> <span class="st">"example.png"</span>
+<div class="sourceCode" id="cb13"><pre class="downlit">
+<span class="va">img</span> <span class="op">&lt;-</span> <span class="st">"example.png"</span>
 
-<span class="no">img</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="reference/tinify.html">tinify</a></span>()</pre></div>
+<span class="va">img</span> <span class="op">%&gt;%</span> <span class="fu"><a href="reference/tinify.html">tinify</a></span><span class="op">(</span><span class="op">)</span></pre></div>
 <p>And with purrr::map for multiple files:</p>
-<div class="sourceCode" id="cb14"><pre class="r"><span class="no">imgs</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"example.png"</span>, <span class="st">"example2.png"</span>)
+<div class="sourceCode" id="cb14"><pre class="downlit">
+<span class="va">imgs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"example.png"</span>, <span class="st">"example2.png"</span><span class="op">)</span>
 
-<span class="kw pkg">purrr</span><span class="kw ns">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span>(<span class="no">imgs</span>, ~<span class="fu"><a href="reference/tinify.html">tinify</a></span>(<span class="no">.x</span>))</pre></div>
+<span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span><span class="va">imgs</span>, <span class="op">~</span><span class="fu"><a href="reference/tinify.html">tinify</a></span><span class="op">(</span><span class="va">.x</span><span class="op">)</span><span class="op">)</span></pre></div>
 <p>Below is an example method for shrinking an entire directory:</p>
-<div class="sourceCode" id="cb15"><pre class="r"><span class="no">imgs_dir</span> <span class="kw">&lt;-</span> <span class="kw pkg">fs</span><span class="kw ns">::</span><span class="fu"><a href="http://fs.r-lib.org/reference/dir_ls.html">dir_ls</a></span>(<span class="st">"imgs"</span>, <span class="kw">glob</span> <span class="kw">=</span> <span class="st">"*.png"</span>)
+<div class="sourceCode" id="cb15"><pre class="downlit">
+<span class="va">imgs_dir</span> <span class="op">&lt;-</span> <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="http://fs.r-lib.org/reference/dir_ls.html">dir_ls</a></span><span class="op">(</span><span class="st">"imgs"</span>, glob <span class="op">=</span> <span class="st">"*.png"</span><span class="op">)</span>
 
-<span class="kw pkg">purrr</span><span class="kw ns">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span>(<span class="no">imgs_dir</span>, ~<span class="fu"><a href="reference/tinify.html">tinify</a></span>(<span class="no">.x</span>, <span class="kw">overwrite</span> <span class="kw">=</span> <span class="fl">TRUE</span>))</pre></div>
+<span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span><span class="va">imgs_dir</span>, <span class="op">~</span><span class="fu"><a href="reference/tinify.html">tinify</a></span><span class="op">(</span><span class="va">.x</span>, overwrite <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></pre></div>
+</div>
+<div id="command-line-usage" class="section level2">
+<h2 class="hasAnchor">
+<a href="#command-line-usage" class="anchor"></a>Command Line Usage</h2>
+<p>If you just want to quickly shrink an image in a directory, you can always just call <code><a href="reference/tinify.html">tinify()</a></code> from the command line. Just make sure <strong>tinieR</strong> is installed as a global package to your R install, then at the command line run:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>R <span class="op">-</span>e <span class="st">"tinieR::tinify('example.png')"</span></span></code></pre></div>
+<p>For this to work, you will need to ensure your TinyPNG.com API key is in your global .Renviron file, as detailed above, or else provide it explicitly at runtime with <code><a href="reference/tinify.html">tinieR::tinify('example.png', key = 'YOUR_API_KEY')</a></code>.</p>
 </div>
 <div id="future-plans" class="section level2">
 <h2 class="hasAnchor">
 <a href="#future-plans" class="anchor"></a>Future plans</h2>
 <ul>
+<li>Report image dimension reductions in messages alongside file size reductions.</li>
 <li>Include other <a href="https://tinypng.com">TinyPNG</a> API image editing functions, like retaining metadata.</li>
 <li>Add ability to provide a desired file path for the newly shrunk file, instead of defaulting to the same location as the input file.</li>
 <li>Add ability to use URL for a web resource instead of a local file.</li>
@@ -209,7 +239,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
