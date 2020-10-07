@@ -77,7 +77,7 @@ tinify("example.png", overwrite = TRUE)
 #> 10 Tinify API calls this month
 ```
 
-Tinify will provide details on the file size reduction (in % and as [FS bytes](https://fs.r-lib.org/reference/fs_bytes.html)) along with the number of API calls made each month as part of the message displayed when called. You can suppress these messages with `quiet = TRUE`:
+Tinify will provide messages detailing the file size reduction (in % and as [FS bytes](https://fs.r-lib.org/reference/fs_bytes.html)) along with the number of API calls made each month when called. You can suppress these messages with `quiet = TRUE`:
 
 ``` r
 tinify("example.png", quiet = TRUE)
