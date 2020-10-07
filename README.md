@@ -147,6 +147,16 @@ imgs_dir <- fs::dir_ls("imgs", glob = "*.png")
 purrr::map(imgs_dir, ~tinify(.x, overwrite = TRUE))
 ```
 
+## Command Line Usage
+
+If you just want to quickly shrink an image in a directory, you can always just call `tinify()` from the command line. Just make sure **tinieR** is installed as a global package to your R install, then at the command line run:
+
+```r
+R -e "tinieR::tinify('example.png')"
+```
+
+For this to work, you will need to ensure your TinyPNG.com API key is in your global .Renviron file, as detailed above, or else provide it explicitly at runtime with `tinieR::tinify('example.png', key = 'YOUR_API_KEY')`.
+
 ## Future plans
 
 - Include other [TinyPNG](https://tinypng.com) API image editing functions, like retaining metadata.
