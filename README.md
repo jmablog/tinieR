@@ -14,7 +14,7 @@ You can install the latest version of tinieR from [Github](https://github.com) w
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("jmablog/tinier")
+devtools::install_github("jmablog/tinieR")
 ```
 
 ## Authentication with TinyPNG
@@ -57,16 +57,30 @@ Restart your R session, and your TinyPNG API key will be stored as an environmen
 
 ## Shrinking an image
 
-To shrink an image file's size, provide a path to the file relative to the current working directory:
+To shrink an image file's size, provide a path to the file relative to the current working directory.:
 
 ``` r
 tinify("example.png")
+
+#> Filesize reduced by 50%:
+#> example.png (20K) => example_tiny.png (10K)
+#> 10 Tinify API calls this month
 ```
 
 By default, `tinify` will create a new file with the suffix '_tiny' in the same directory as the original file. To instead overwrite the original file with the newly tinified file, use `overwrite = TRUE`:
 
 ``` r
 tinify("example.png", overwrite = TRUE)
+
+#> Filesize reduced by 50%:
+#> example.png (20K) => example.png (10K)
+#> 10 Tinify API calls this month
+```
+
+Tinify will provide details on the file size reduction (in % and as [FS bytes](https://fs.r-lib.org/reference/fs_bytes.html)) along with the number of API calls made each month as part of the message displayed when called. You can suppress these messages with `quiet = TRUE`:
+
+``` r
+tinify("example.png", quiet = TRUE)
 ```
 
 ## Using the tinified image
@@ -74,7 +88,7 @@ tinify("example.png", overwrite = TRUE)
 Tinify can also return the file path to the tinified file, as a string, with `return_path`. Set to `return_path = "abs"` to return the absolute file path to the tinified file, which can be passed in to another function that takes an image file path to automate shrinking filesizes when, for example, knitting a document:
 
 ``` r
-shrunk_img <- tinify("imgs/example.png", return_path = "abs")
+shrunk_img <- tinify("imgs/example.png", return_path = "abs", quiet = TRUE)
 
 knitr::include_graphics(shrunk_img)
 ```
@@ -82,7 +96,7 @@ knitr::include_graphics(shrunk_img)
 Set to `return_path = "rel"` to return the file path relative to the working directory at the time the file was tinified. This may be useful if sharing a script with others across platforms, if you can be sure your project setups will be the same and you are being strict with working directories. Finally, set to `return_path = "all"` to return both types of file path as a named list:
 
 ```r
-shrunk_img_list <- tinify("imgs/example.png", return_path = "all")
+shrunk_img_list <- tinify("imgs/example.png", return_path = "all", quiet = TRUE)
 
 knitr::include_graphics(shrunk_img_list$absolute)
 ```
@@ -105,22 +119,12 @@ TinyPNG is quite generous at 500 free API calls per month (I only hit around 50 
 
 Resizing an image also counts as **an extra API call**, as the image is first uploaded to TinyPNG and the filesize reduced, then this new image is resized with a second call to the API.
 
-You can check your API usage, as well as see how much the tinified file size has shrunk, with `details = TRUE`:
-
-``` r
-tinify("example.png", details = TRUE)
-
-#> Filesize reduced by 50%:
-#> example.png (20Kb) => example_tiny.png (10Kb)
-#> 10 Tinify API calls this month
-```
-
 ## Further examples
 
 You can combine any number of the above arguments:
 
 ``` r
-tinify("example.png", overwrite = TRUE, details = TRUE, return_path = "abs")
+tinify("example.png", overwrite = TRUE, quiet = TRUE, return_path = "abs")
 ```
 
 Tinify also works nicely with the pipe:
@@ -144,7 +148,7 @@ Below is an example method for shrinking an entire directory:
 ``` r
 imgs_dir <- fs::dir_ls("imgs", glob = "*.png")
 
-purrr::map(imgs_dir, ~tinify(.x, overwrite = TRUE))
+purrr::map(imgs_dir, ~tinify(.x, overwrite = TRUE, quiet = TRUE))
 ```
 
 ## Command Line Usage
@@ -159,6 +163,7 @@ For this to work, you will need to ensure your TinyPNG.com API key is in your gl
 
 ## Future plans
 
+- Report image dimension reductions in messages alongside file size reductions.
 - Include other [TinyPNG](https://tinypng.com) API image editing functions, like retaining metadata.
 - Add ability to provide a desired file path for the newly shrunk file, instead of defaulting to the same location as the input file.
 - Add ability to use URL for a web resource instead of a local file.
