@@ -5,9 +5,26 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shrink Image Filesizes with TinyPNG.com • tinieR</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/lumen/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
+<!-- Inform modern browsers that this page supports both dark and light color schemes,
+  and the page author prefers light. --><meta name="color-scheme" content="dark light">
+<script>
+  // If `prefers-color-scheme` is not supported, fall back to light mode.
+  // i.e. In this case, inject the `light` CSS before the others, with
+  // no media filter so that it will be downloaded with highest priority.
+  if (window.matchMedia("(prefers-color-scheme: dark)").media === "not all") {
+    document.documentElement.style.display = "none";
+    document.head.insertAdjacentHTML(
+      "beforeend",
+      "<link id=\"css\" rel=\"stylesheet\" href=\"https://bootswatch.com/3/flatly/bootstrap.css\" onload=\"document.documentElement.style.display = ''\">"
+    );
+  }
+</script><title>Shrink Image Filesizes with TinyPNG.com • tinieR</title>
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- Flatly Theme - Light  --><link id="css-light" rel="stylesheet" href="https://bootswatch.com/3/flatly/bootstrap.css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+<!-- Darkly Theme - Dark --><link id="css-dark" rel="stylesheet" href="https://bootswatch.com/3/darkly/bootstrap.css" media="(prefers-color-scheme: dark)">
+<!-- preferably CSS --><link rel="stylesheet" href="preferably.css">
+<link id="css-code-light" rel="stylesheet" href="code-color-scheme-light.css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+<link id="css-code-dark" rel="stylesheet" href="code-color-scheme-dark.css" media="(prefers-color-scheme: dark)">
+<!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
 <script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
@@ -39,7 +56,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -53,10 +70,14 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/jmablog/tinieR/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
+        
+        
+
+
       </ul>
 </div>
 <!--/.nav-collapse -->
@@ -79,76 +100,76 @@
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>You can install the latest version of tinieR from <a href="https://github.com">Github</a> with:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="co"># install.packages("devtools")</span>
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"jmablog/tinieR"</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># install.packages("devtools")</span>
+<span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"jmablog/tinieR"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="authentication-with-tinypng" class="section level2">
 <h2 class="hasAnchor">
 <a href="#authentication-with-tinypng" class="anchor"></a>Authentication with TinyPNG</h2>
 <p>You will need an API key from <a href="https://tinypng.com">TinyPNG</a>. You can signup to get one <a href="https://tinypng.com/developers">here</a>.</p>
 <p>Once you have your API key, you can set it for your current R session with:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">tinier</span><span class="op">)</span>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">tinier</span><span class="op">)</span>
 
-<span class="fu"><a href="reference/tinify_key.html">tinify_key</a></span><span class="op">(</span><span class="st">"YOUR-API-KEY-HERE"</span><span class="op">)</span></pre></div>
+<span class="fu"><a href="reference/tinify_key.html">tinify_key</a></span><span class="op">(</span><span class="st">"YOUR-API-KEY-HERE"</span><span class="op">)</span></code></pre></div>
 <p>Or you can provide your API key as an argument to <code><a href="reference/tinify.html">tinify()</a></code> at every call:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="va">my_key</span> <span class="op">&lt;-</span> <span class="st">"YOUR-API-KEY-HERE"</span>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">my_key</span> <span class="op">&lt;-</span> <span class="st">"YOUR-API-KEY-HERE"</span>
 
-<span class="fu"><a href="reference/tinify.html">tinify</a></span><span class="op">(</span><span class="st">"example.png"</span>, key <span class="op">=</span> <span class="va">my_key</span><span class="op">)</span></pre></div>
+<span class="fu"><a href="reference/tinify.html">tinify</a></span><span class="op">(</span><span class="st">"example.png"</span>, key <span class="op">=</span> <span class="va">my_key</span><span class="op">)</span></code></pre></div>
 <p>Providing an API key as an argument to <code><a href="reference/tinify.html">tinify()</a></code> will override any API key set with <code>tinify_api()</code>. This could be useful if utilising multiple API keys.</p>
 <p>Be careful including your API key in any scripts you write, especially if you’re going to be publicly or privately sharing those scripts with others! You might consider setting your API key instead in your .Renviron file (~/.Renviron). If you use the variable name <code>TINY_API</code> in .Renviron, <code><a href="reference/tinify.html">tinify()</a></code> should find it, and you can skip using <code>tinify_api()</code> or providing an API at each call of <code><a href="reference/tinify.html">tinify()</a></code>.</p>
 <p>To edit your .Renviron in Rstudio:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="fu">usethis</span><span class="fu">::</span><span class="fu">edit_r_environ</span><span class="op">(</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">usethis</span><span class="fu">::</span><span class="fu">edit_r_environ</span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>Then save into .Renviron:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="va">TINY_API</span> <span class="op">=</span> <span class="st">"YOUR-API-KEY-HERE"</span></pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">TINY_API</span> <span class="op">=</span> <span class="st">"YOUR-API-KEY-HERE"</span></code></pre></div>
 <p>Restart your R session, and your TinyPNG API key will be stored as an environment variable that <code><a href="reference/tinify.html">tinify()</a></code> will automatically find.</p>
 </div>
 <div id="shrinking-an-image" class="section level2">
 <h2 class="hasAnchor">
 <a href="#shrinking-an-image" class="anchor"></a>Shrinking an image</h2>
 <p>To shrink an image file’s size, provide a path to the file relative to the current working directory.:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit">
-<span class="fu"><a href="reference/tinify.html">tinify</a></span><span class="op">(</span><span class="st">"example.png"</span><span class="op">)</span>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="reference/tinify.html">tinify</a></span><span class="op">(</span><span class="st">"example.png"</span><span class="op">)</span>
 
 <span class="co">#&gt; Filesize reduced by 50%:</span>
 <span class="co">#&gt; example.png (20K) =&gt; example_tiny.png (10K)</span>
-<span class="co">#&gt; 10 Tinify API calls this month</span></pre></div>
+<span class="co">#&gt; 10 Tinify API calls this month</span></code></pre></div>
 <p>By default, <code>tinify</code> will create a new file with the suffix ’_tiny’ in the same directory as the original file. To instead overwrite the original file with the newly tinified file, use <code>overwrite = TRUE</code>:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit">
-<span class="fu"><a href="reference/tinify.html">tinify</a></span><span class="op">(</span><span class="st">"example.png"</span>, overwrite <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="reference/tinify.html">tinify</a></span><span class="op">(</span><span class="st">"example.png"</span>, overwrite <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 
 <span class="co">#&gt; Filesize reduced by 50%:</span>
 <span class="co">#&gt; example.png (20K) =&gt; example.png (10K)</span>
-<span class="co">#&gt; 10 Tinify API calls this month</span></pre></div>
+<span class="co">#&gt; 10 Tinify API calls this month</span></code></pre></div>
 <p>Tinify will provide messages detailing the file size reduction (in % and as <a href="https://fs.r-lib.org/reference/fs_bytes.html">FS bytes</a>) along with the number of API calls made each month when called. You can suppress these messages with <code>quiet = TRUE</code>:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit">
-<span class="fu"><a href="reference/tinify.html">tinify</a></span><span class="op">(</span><span class="st">"example.png"</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="reference/tinify.html">tinify</a></span><span class="op">(</span><span class="st">"example.png"</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="using-the-tinified-image" class="section level2">
 <h2 class="hasAnchor">
 <a href="#using-the-tinified-image" class="anchor"></a>Using the tinified image</h2>
 <p>Tinify can also return the file path to the tinified file, as a string, with <code>return_path</code>. Set to <code>return_path = "abs"</code> to return the absolute file path to the tinified file, which can be passed in to another function that takes an image file path to automate shrinking filesizes when, for example, knitting a document:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit">
-<span class="va">shrunk_img</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/tinify.html">tinify</a></span><span class="op">(</span><span class="st">"imgs/example.png"</span>, return_path <span class="op">=</span> <span class="st">"abs"</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">shrunk_img</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/tinify.html">tinify</a></span><span class="op">(</span><span class="st">"imgs/example.png"</span>, return_path <span class="op">=</span> <span class="st">"abs"</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 
-<span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/include_graphics.html">include_graphics</a></span><span class="op">(</span><span class="va">shrunk_img</span><span class="op">)</span></pre></div>
+<span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/include_graphics.html">include_graphics</a></span><span class="op">(</span><span class="va">shrunk_img</span><span class="op">)</span></code></pre></div>
 <p>Set to <code>return_path = "rel"</code> to return the file path relative to the working directory at the time the file was tinified. This may be useful if sharing a script with others across platforms, if you can be sure your project setups will be the same and you are being strict with working directories. Finally, set to <code>return_path = "all"</code> to return both types of file path as a named list:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit">
-<span class="va">shrunk_img_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/tinify.html">tinify</a></span><span class="op">(</span><span class="st">"imgs/example.png"</span>, return_path <span class="op">=</span> <span class="st">"all"</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">shrunk_img_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/tinify.html">tinify</a></span><span class="op">(</span><span class="st">"imgs/example.png"</span>, return_path <span class="op">=</span> <span class="st">"all"</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 
-<span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/include_graphics.html">include_graphics</a></span><span class="op">(</span><span class="va">shrunk_img_list</span><span class="op">$</span><span class="va">absolute</span><span class="op">)</span></pre></div>
+<span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/include_graphics.html">include_graphics</a></span><span class="op">(</span><span class="va">shrunk_img_list</span><span class="op">$</span><span class="va">absolute</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="resizing-image-dimensions" class="section level2">
 <h2 class="hasAnchor">
 <a href="#resizing-image-dimensions" class="anchor"></a>Resizing image dimensions</h2>
 <p>You can also use the <code>resize</code> argument to change the image dimensions along with it’s filesize (<strong>note:</strong> you can only <em>decrease</em> image dimensions and make it smaller with TinyPNG, not make an image bigger). I recommend reading the <a href="https://tinypng.com/developers/reference#resizing-images">TinyPNG API documentation on resizing methods</a> first, to familiarise yourself with the various options you can use to change image dimensions.</p>
 <p><code>resize</code> takes a named list, containing a <code>method</code> string and at least one of <code>width</code> or <code>height</code>, or both <code>width</code> AND <code>height</code> depending on your chosen resize method, to specify the dimensions in pixels you would like the image resized:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit">
-<span class="fu"><a href="reference/tinify.html">tinify</a></span><span class="op">(</span><span class="st">"imgs/example.png"</span>, resize <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"fit"</span>, width <span class="op">=</span> <span class="fl">300</span>, height <span class="op">=</span> <span class="fl">150</span><span class="op">)</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="reference/tinify.html">tinify</a></span><span class="op">(</span><span class="st">"imgs/example.png"</span>, resize <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"fit"</span>, width <span class="op">=</span> <span class="fl">300</span>, height <span class="op">=</span> <span class="fl">150</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>Be aware that resizing and shrinking the filesize of an image counts as 2 API calls - see below.</p>
 </div>
 <div id="tinypng-api-monthly-allowance-and-other-details" class="section level2">
@@ -161,23 +182,23 @@
 <h2 class="hasAnchor">
 <a href="#further-examples" class="anchor"></a>Further examples</h2>
 <p>You can combine any number of the above arguments:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit">
-<span class="fu"><a href="reference/tinify.html">tinify</a></span><span class="op">(</span><span class="st">"example.png"</span>, overwrite <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span>, return_path <span class="op">=</span> <span class="st">"abs"</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="reference/tinify.html">tinify</a></span><span class="op">(</span><span class="st">"example.png"</span>, overwrite <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span>, return_path <span class="op">=</span> <span class="st">"abs"</span><span class="op">)</span></code></pre></div>
 <p>Tinify also works nicely with the pipe:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit">
-<span class="va">img</span> <span class="op">&lt;-</span> <span class="st">"example.png"</span>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">img</span> <span class="op">&lt;-</span> <span class="st">"example.png"</span>
 
-<span class="va">img</span> <span class="op">%&gt;%</span> <span class="fu"><a href="reference/tinify.html">tinify</a></span><span class="op">(</span><span class="op">)</span></pre></div>
+<span class="va">img</span> <span class="op">%&gt;%</span> <span class="fu"><a href="reference/tinify.html">tinify</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>And with purrr::map for multiple files:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit">
-<span class="va">imgs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"example.png"</span>, <span class="st">"example2.png"</span><span class="op">)</span>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">imgs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"example.png"</span>, <span class="st">"example2.png"</span><span class="op">)</span>
 
-<span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span><span class="va">imgs</span>, <span class="op">~</span><span class="fu"><a href="reference/tinify.html">tinify</a></span><span class="op">(</span><span class="va">.x</span><span class="op">)</span><span class="op">)</span></pre></div>
+<span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span><span class="va">imgs</span>, <span class="op">~</span><span class="fu"><a href="reference/tinify.html">tinify</a></span><span class="op">(</span><span class="va">.x</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>Below is an example method for shrinking an entire directory:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit">
-<span class="va">imgs_dir</span> <span class="op">&lt;-</span> <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="http://fs.r-lib.org/reference/dir_ls.html">dir_ls</a></span><span class="op">(</span><span class="st">"imgs"</span>, glob <span class="op">=</span> <span class="st">"*.png"</span><span class="op">)</span>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">imgs_dir</span> <span class="op">&lt;-</span> <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="http://fs.r-lib.org/reference/dir_ls.html">dir_ls</a></span><span class="op">(</span><span class="st">"imgs"</span>, glob <span class="op">=</span> <span class="st">"*.png"</span><span class="op">)</span>
 
-<span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span><span class="va">imgs_dir</span>, <span class="op">~</span><span class="fu"><a href="reference/tinify.html">tinify</a></span><span class="op">(</span><span class="va">.x</span>, overwrite <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></pre></div>
+<span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span><span class="va">imgs_dir</span>, <span class="op">~</span><span class="fu"><a href="reference/tinify.html">tinify</a></span><span class="op">(</span><span class="va">.x</span>, overwrite <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="command-line-usage" class="section level2">
 <h2 class="hasAnchor">
@@ -239,7 +260,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p>Made with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1, using <a href="https://preferably.amirmasoudabdol.name/?source=footer">preferably</a> template.</p>
 </div>
 
       </footer>
