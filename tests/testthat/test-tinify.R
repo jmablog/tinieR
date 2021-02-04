@@ -139,6 +139,8 @@ test_that("Shrinking PNG and JPG files and creating as new file works", {
 
   unlink(tmp_png)
   unlink(tmp_jpg)
+  unlink(tmp_png2)
+  unlink(tmp_jpg2)
 
 })
 

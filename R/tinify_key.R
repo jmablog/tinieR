@@ -8,6 +8,8 @@
 #'
 #' @param key A string containing your TinyPNG.com API key.
 #' @seealso [tinify()] to shrink image filesizes
+#' @seealso [tinify_defaults()] to set default arguments so they do not need to be
+#'  provided with every call of `tinify()`
 #' @export
 #' @examples
 #' \dontrun{

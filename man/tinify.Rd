@@ -4,71 +4,74 @@
 \alias{tinify}
 \title{Shrink Image Files with TinyPNG}
 \usage{
-tinify(
-  file,
-  overwrite = FALSE,
-  suffix = "_tiny",
-  quiet = FALSE,
-  return_path = NULL,
-  resize = NULL,
-  key = NULL
-)
+tinify(file, overwrite = NULL, suffix, quiet, return_path, resize, key = NULL)
 }
 \arguments{
-\item{file}{String, required. A string detailing the path to the file you wish to shrink,
-relative to the current working directory or as an absolute file path. Can include sub-directories and
-must include the file extension (.png or .jpg/.jpeg only).}
+\item{file}{String, required. A string detailing the path to the file you wish
+to shrink, relative to the current working directory or as an absolute file
+path. Can include sub-directories and must include the file extension (.png
+or .jpg/.jpeg only).}
 
-\item{overwrite}{Boolean, defaults to \code{FALSE}. By default, tinify will create a new file with the
-suffix '_tiny' and preserve the original file. Set \code{TRUE} to instead overwrite
-the original file, with the same file name.}
+\item{overwrite}{Boolean, defaults to \code{FALSE}. By default, tinify will create
+a new file with the suffix '_tiny' and preserve the original file. Set
+\code{TRUE} to instead overwrite the original file, with the same file name.}
 
-\item{suffix}{String, defaults to \code{"_tiny"}. By default, tinify will create a new file with the
-suffix '_tiny' and preserve the original file. Provide a new character string here to change the suffix
-from '_tiny' to your own choice. Empty strings (\code{""}) are not accepted. \code{suffix} is ignored when \code{overwrite}
-is set to \code{TRUE}.}
+\item{suffix}{String, defaults to \code{"_tiny"}. By default, tinify will create a
+new file with the suffix '_tiny' and preserve the original file. Provide a
+new character string here to change the suffix from '_tiny' to your own
+choice. Empty strings (\code{""}) are not accepted. \code{suffix} is ignored when
+\code{overwrite} is set to \code{TRUE}.}
 
-\item{quiet}{Boolean, defaults to \code{FALSE}. By default, tinify provides details on file names, amount of
-file size reduction (\% and Kb), and the number of TinyPNG API calls made this month. If set to \code{TRUE},
-tinify displays no messages as it shrinks files.}
+\item{quiet}{Boolean, defaults to \code{FALSE}. By default, tinify provides details
+on file names, amount of file size reduction (\% and Kb), and the number of
+TinyPNG API calls made this month. If set to \code{TRUE}, tinify displays no
+messages as it shrinks files.}
 
-\item{return_path}{String, optional. One of "\code{proj}", "\code{rel}", "\code{abs}", or "\code{all}".
-If "\code{proj}", will return the file path of the newly tinified image file relative to the Rstudio project directory (looking for an .Rproj file). If no project can be identified, returns \code{NA}.
-If "\code{rel}", will return the file path of the newly tinified image file, relative to the \strong{current} working directory at the time \code{tinify()} is called.
-If "\code{abs}", will return the absolute file path of the newly tinified image file.
-If "\code{all}", will return a named list with all file paths.}
+\item{return_path}{String, optional. One of "\code{proj}", "\code{rel}", "\code{abs}", or
+"\code{all}". If "\code{proj}", will return the file path of the newly tinified image
+file relative to the Rstudio project directory (looking for an .Rproj file).
+If no project can be identified, returns \code{NA}. If "\code{rel}", will return the
+file path of the newly tinified image file, relative to the \strong{current}
+working directory at the time \code{tinify()} is called. If "\code{abs}", will return
+the absolute file path of the newly tinified image file. If "\code{all}", will
+return a named list with all file paths.}
 
-\item{resize}{Named list, optional. A named list with the elements \code{method} as a string, and \code{width} and/or \code{height} as numerics. Please note you can only reduce an image's dimensions and make an image smaller with TinyPNG API, not make an image larger.
-Method must be set to one of "scale", "fit", "cover", or "thumb". If using "scale", you
-only need to provide \code{width} OR \code{height}, not both. If using any other method, you must supply
-both a \code{width} AND \code{height}. See \url{https://tinypng.com/developers/reference#resizing-images} and the examples for more.}
+\item{resize}{Named list, optional. A named list with the elements \code{method} as
+a string, and \code{width} and/or \code{height} as numerics. Please note you can only
+reduce an image's dimensions and make an image smaller with TinyPNG API, not
+make an image larger. Method must be set to one of "scale", "fit", "cover",
+or "thumb". If using "scale", you only need to provide \code{width} OR \code{height},
+not both. If using any other method, you must supply both a \code{width} AND
+\code{height}. See \url{https://tinypng.com/developers/reference#resizing-images} and
+the examples for more.}
 
-\item{key}{String, optional. A string containing your TinyPNG API key.
-Not required if the API key is set using \code{tinify_api()}.
-If an API key is provided with \code{tinify_api()}, any other key
-provided in the function call will override the key set by \code{tinify_api()}.}
+\item{key}{String, optional. A string containing your TinyPNG API key. Not
+required if the API key is set using \code{tinify_api()}. If an API key is
+provided with \code{tinify_api()}, any other key provided in the function call
+will override the key set by \code{tinify_api()}.}
 }
 \value{
-If \code{return_path = "proj"}, \code{return_path = "rel"}, or \code{return_path = "abs"}, a string with the project, relative,
-or absolute path to the newly tinified image file. If no project can be identified for \code{return_path = "proj"}, returns \code{NA}. If \code{return_path = "all"}, a named
-list with all file paths included as \verb{$project}, \verb{$relative}, and \verb{$absolute} respectively.
-If \code{return_path = NULL}, no return value.
+If \code{return_path = "proj"}, \code{return_path = "rel"}, or \code{return_path = "abs"}, a string with the project, relative, or absolute path to the newly
+tinified image file. If no project can be identified for \code{return_path = "proj"}, returns \code{NA}. If \code{return_path = "all"}, a named list with all file
+paths included as \verb{$project}, \verb{$relative}, and \verb{$absolute} respectively. If
+\code{return_path = NULL}, no return value.
 }
 \description{
-Shrink an image's (PNG or JPG) filesize with the TinyPNG API. Designed
-to be quick and easy for basic use, but to provide all the extra options of the TinyPNG
-API if required.
+Shrink an image's (PNG or JPG) filesize with the TinyPNG API.
+Designed to be quick and easy for basic use, but to provide all the extra
+options of the TinyPNG API if required.
 }
 \details{
 You can get a TinyPNG API key from \url{https://tinypng.com/developers}.
 
 TinyPNG is smart enough to know when you are uploading the same file again,
-and so will not count repeat calls of \code{tinify()} on the same image file against
-your monthly API usage limit. This can be useful if, for example, you are using \code{tinify()}
-in an RMarkdown document as it won't count against your API usage every time you knit your
-document. But, be aware that use of \code{resize} also counts as an additional API call,
-as the image is first reduced in filesize, then a second API call is made to resize
-the newly tinified file.
+and so will not count repeat calls of \code{tinify()} on the same image file
+against your monthly API usage limit. This can be useful if, for example,
+you are using \code{tinify()} in an RMarkdown document as it won't count against
+your API usage every time you knit your document. But, be aware that use of
+\code{resize} also counts as an additional API call, as the image is first
+reduced in filesize, then a second API call is made to resize the newly
+tinified file.
 }
 \examples{
 \dontrun{
@@ -137,5 +140,9 @@ purrr::map(imgs_dir, ~tinify(.x, overwrite = TRUE, quiet = TRUE))
 }
 }
 \seealso{
-\code{\link[=tinify_key]{tinify_key()}} to set an API key globally so it does not need to be provided with every call of \code{tinify()}
+\code{\link[=tinify_key]{tinify_key()}} to set an API key globally so it does not need to be
+provided with every call of \code{tinify()}
+
+\code{\link[=tinify_defaults]{tinify_defaults()}} to set default arguments so they do not need to be
+provided with every call of \code{tinify()}
 }

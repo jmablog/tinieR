@@ -24,4 +24,7 @@ tinify_key("YOUR-API-KEY-HERE")
 }
 \seealso{
 \code{\link[=tinify]{tinify()}} to shrink image filesizes
+
+\code{\link[=tinify_defaults]{tinify_defaults()}} to set default arguments so they do not need to be
+provided with every call of \code{tinify()}
 }

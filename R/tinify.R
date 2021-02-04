@@ -62,6 +62,8 @@
 #'@export
 #'@seealso [tinify_key()] to set an API key globally so it does not need to be
 #'  provided with every call of `tinify()`
+#' @seealso [tinify_defaults()] to set default arguments so they do not need to be
+#'  provided with every call of `tinify()`
 #' @examples
 #' \dontrun{
 #' # Shrink a PNG file
@@ -128,12 +130,37 @@
 #' purrr::map(imgs_dir, ~tinify(.x, overwrite = TRUE, quiet = TRUE))
 #'}
 tinify <- function(file,
-                   overwrite = FALSE,
-                   suffix = "_tiny",
-                   quiet = FALSE,
-                   return_path = NULL,
-                   resize = NULL,
+                   overwrite = NULL,
+                   suffix,
+                   quiet,
+                   return_path,
+                   resize,
                    key = NULL) {
+
+  # Check arguments against defaults from tinify_defaults ======================
+
+  if(missing(overwrite)) {
+    overwrite <- getOption("tinify_overwrite", default = FALSE)
+  }
+
+  if(missing(suffix)) {
+    suffix <- getOption("tinify_suffix", default = "_tiny")
+  }
+
+  if(missing(quiet)) {
+    quiet <- getOption("tinify_quiet", default = FALSE)
+  }
+
+  if(missing(return_path)) {
+    return_path <- getOption("tinify_return_path", default = NULL)
+  }
+
+  if(missing(resize)) {
+    resize <- getOption("tinify_resize", default = NULL)
+  }
+
+
+
 
   # Error checking =============================================================
 
@@ -223,7 +250,7 @@ tinify <- function(file,
 
   # Check details argument correctly provided
   if(!identical(quiet, TRUE) & !identical(quiet, FALSE)) {
-    stop("Please only provide 'details' as TRUE or FALSE")
+    stop("Please only provide 'quiet' as TRUE or FALSE")
   }
 
   # Check return_path argument correctly provided
