@@ -100,7 +100,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tinieR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
       </span>
     </div>
 
@@ -148,9 +148,18 @@
       <small>Source: <a href='https://github.com/jmablog/tinieR/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="tinier-030" class="section level1">
-<h1 class="page-header" data-toc-text="0.3.0">
-<a href="#tinier-030" class="anchor"></a>tinieR 0.3.0</h1>
+    <div id="tinier-040" class="section level2">
+<h2 class="hasAnchor">
+<a href="#tinier-040" class="anchor"></a>tinieR 0.4.0</h2>
+<ul>
+<li>Added ability to set global defaults for <code><a href="../reference/tinify.html">tinify()</a></code> arguments with <code><a href="../reference/tinify_defaults.html">tinify_defaults()</a></code>.</li>
+<li>Added new <code>suffix</code> argument in <code><a href="../reference/tinify.html">tinify()</a></code> to change the "_tiny" suffix applied to tinified file names.</li>
+<li>Added new <code>return_path = "proj"</code> option to <code>return_path</code> argument in <code><a href="../reference/tinify.html">tinify()</a></code> to return the path to the newly tinified file relative to the project directory, no matter the current working directory.</li>
+</ul>
+</div>
+    <div id="tinier-030" class="section level2">
+<h2 class="hasAnchor">
+<a href="#tinier-030" class="anchor"></a>tinieR 0.3.0</h2>
 <ul>
 <li>Deprecated argument <code>details</code> in <code><a href="../reference/tinify.html">tinify()</a></code> function. Tinify now displays the details message by default. This behaviour can be suppressed with the new argument <code>quiet = TRUE</code>.</li>
 <li>Added a <code>NEWS.md</code> file to track changes to the package.</li>

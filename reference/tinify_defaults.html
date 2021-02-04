@@ -22,7 +22,7 @@
   }
 </script>
 
-<title>Function reference • tinieR</title>
+<title>Set defaults for tinify() function — tinify_defaults • tinieR</title>
 
 
 <!-- jquery -->
@@ -65,7 +65,10 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Set defaults for tinify() function — tinify_defaults" />
+<meta property="og:description" content="Set some default options for tinify() in the global environment, so it is
+no longer necessary to explicitly provide each argument with every
+call of tinify()." />
 
 
 
@@ -87,7 +90,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -142,54 +145,86 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Set defaults for <code>tinify()</code> function</h1>
+    <small class="dont-index">Source: <a href='https://github.com/jmablog/tinieR/blob/master/R/tinify_defaults.R'><code>R/tinify_defaults.R</code></a></small>
+    <div class="hidden name"><code>tinify_defaults.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>Set some default options for <code><a href='tinify.html'>tinify()</a></code> in the global environment, so it is
+no longer necessary to explicitly provide each argument with every
+call of <code><a href='tinify.html'>tinify()</a></code>.</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='fu'>tinify_defaults</span><span class='op'>(</span><span class='va'>overwrite</span>, <span class='va'>suffix</span>, <span class='va'>quiet</span>, <span class='va'>return_path</span>, <span class='va'>resize</span><span class='op'>)</span></pre>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="tinify.html">tinify()</a></code> </p>
-        </td>
-        <td><p>Shrink Image Files with TinyPNG</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="tinify_defaults.html">tinify_defaults()</a></code> </p>
-        </td>
-        <td><p>Set defaults for <code>tinify()</code> function</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="tinify_key.html">tinify_key()</a></code> </p>
-        </td>
-        <td><p>Set TinyPNG.com API Key</p></td>
-      </tr>
-    </tbody>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>overwrite</th>
+      <td><p>Boolean, defaults to <code>FALSE</code>. By default, tinify will create
+a new file with the suffix '_tiny' and preserve the original file. Set
+<code>TRUE</code> to instead overwrite the original file, with the same file name.</p></td>
+    </tr>
+    <tr>
+      <th>suffix</th>
+      <td><p>String, defaults to <code>"_tiny"</code>. By default, tinify will create a
+new file with the suffix '_tiny' and preserve the original file. Provide a
+new character string here to change the suffix from '_tiny' to your own
+choice. Empty strings (<code>""</code>) are not accepted. <code>suffix</code> is ignored when
+<code>overwrite</code> is set to <code>TRUE</code>.</p></td>
+    </tr>
+    <tr>
+      <th>quiet</th>
+      <td><p>Boolean, defaults to <code>FALSE</code>. By default, tinify provides details
+on file names, amount of file size reduction (% and Kb), and the number of
+TinyPNG API calls made this month. If set to <code>TRUE</code>, tinify displays no
+messages as it shrinks files.</p></td>
+    </tr>
+    <tr>
+      <th>return_path</th>
+      <td><p>String, optional. One of "<code>proj</code>", "<code>rel</code>", "<code>abs</code>", or
+"<code>all</code>". If "<code>proj</code>", will return the file path of the newly tinified image
+file relative to the Rstudio project directory (looking for an .Rproj file).
+If no project can be identified, returns <code>NA</code>. If "<code>rel</code>", will return the
+file path of the newly tinified image file, relative to the <strong>current</strong>
+working directory at the time <code><a href='tinify.html'>tinify()</a></code> is called. If "<code>abs</code>", will return
+the absolute file path of the newly tinified image file. If "<code>all</code>", will
+return a named list with all file paths.</p></td>
+    </tr>
+    <tr>
+      <th>resize</th>
+      <td><p>Named list, optional. A named list with the elements <code>method</code> as
+a string, and <code>width</code> and/or <code>height</code> as numerics. Please note you can only
+reduce an image's dimensions and make an image smaller with TinyPNG API, not
+make an image larger. Method must be set to one of "scale", "fit", "cover",
+or "thumb". If using "scale", you only need to provide <code>width</code> OR <code>height</code>,
+not both. If using any other method, you must supply both a <code>width</code> AND
+<code>height</code>. See <a href='https://tinypng.com/developers/reference#resizing-images'>https://tinypng.com/developers/reference#resizing-images</a> and
+the examples for more.</p></td>
+    </tr>
     </table>
-  </div>
 
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>To set any option back to the package default, set it to <code>NULL</code>.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='tinify.html'>tinify()</a></code> to shrink image filesizes</p>
+<p><code><a href='tinify_key.html'>tinify_key()</a></code> to set a default TinyPNG.com API key</p></div>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'>tinify_defaults</span><span class='op'>(</span>quiet <span class='op'>=</span> <span class='cn'>TRUE</span>, suffix <span class='op'>=</span> <span class='st'>"_small"</span><span class='op'>)</span>
+
+<span class='co'># set an option back to the package default</span>
+<span class='fu'>tinify_defaults</span><span class='op'>(</span>quiet <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div></pre>
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
