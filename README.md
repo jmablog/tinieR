@@ -108,7 +108,9 @@ You can also use the `resize` argument to change the image dimensions along with
 `resize` takes a named list, containing a `method` string and at least one of `width` or `height`, or both `width` AND `height` depending on your chosen resize method, to specify the dimensions in pixels you would like the image resized:
 
 ```r
-tinify("imgs/example.png", resize = list(method = "fit", width = 300, height = 150))
+resize_opts <- list(method = "fit", width = 300, height = 150)
+
+tinify("imgs/example.png", resize = resize_opts)
 ```
 
 Be aware that resizing and shrinking the filesize of an image counts as 2 API calls - see below.
@@ -160,10 +162,3 @@ R -e "tinieR::tinify('example.png')"
 ```
 
 For this to work, you will need to ensure your TinyPNG.com API key is in your global .Renviron file, as detailed above, or else provide it explicitly at runtime with `tinieR::tinify('example.png', key = 'YOUR_API_KEY')`.
-
-## Future plans
-
-- Report image dimension reductions in messages alongside file size reductions.
-- Include other [TinyPNG](https://tinypng.com) API image editing functions, like retaining metadata.
-- Add ability to provide a desired file path for the newly shrunk file, instead of defaulting to the same location as the input file.
-- Add ability to use URL for a web resource instead of a local file.
