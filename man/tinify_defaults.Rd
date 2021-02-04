@@ -4,13 +4,7 @@
 \alias{tinify_defaults}
 \title{Set defaults for \code{tinify()} function}
 \usage{
-tinify_defaults(
-  overwrite = NULL,
-  suffix = NULL,
-  quiet = NULL,
-  return_path = NULL,
-  resize = NULL
-)
+tinify_defaults(overwrite, suffix, quiet, return_path, resize)
 }
 \arguments{
 \item{overwrite}{Boolean, defaults to \code{FALSE}. By default, tinify will create
@@ -47,13 +41,19 @@ not both. If using any other method, you must supply both a \code{width} AND
 the examples for more.}
 }
 \description{
-Set some default options for \code{tinify()} in the system environment, so it is
+Set some default options for \code{tinify()} in the global environment, so it is
 no longer necessary to explicitly provide each argument with every
 call of \code{tinify()}.
 }
+\details{
+To set any option back to the package default, set it to \code{NULL}.
+}
 \examples{
 \dontrun{
+tinify_defaults(quiet = TRUE, suffix = "_small")
 
+# set an option back to the package default
+tinify_defaults(quiet = NULL)
 }
 }
 \seealso{

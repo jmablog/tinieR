@@ -130,7 +130,7 @@
 #' purrr::map(imgs_dir, ~tinify(.x, overwrite = TRUE, quiet = TRUE))
 #'}
 tinify <- function(file,
-                   overwrite = NULL,
+                   overwrite,
                    suffix,
                    quiet,
                    return_path,
@@ -158,9 +158,6 @@ tinify <- function(file,
   if(missing(resize)) {
     resize <- getOption("tinify_resize", default = NULL)
   }
-
-
-
 
   # Error checking =============================================================
 
@@ -260,7 +257,7 @@ tinify <- function(file,
     }
   }
 
-  # End error checking =========================================================
+  # Main function body =========================================================
 
   # Store initial filesize before tinifying
   init_size <- fs::file_size(filepath)

@@ -4,7 +4,7 @@
 \alias{tinify}
 \title{Shrink Image Files with TinyPNG}
 \usage{
-tinify(file, overwrite = NULL, suffix, quiet, return_path, resize, key = NULL)
+tinify(file, overwrite, suffix, quiet, return_path, resize, key = NULL)
 }
 \arguments{
 \item{file}{String, required. A string detailing the path to the file you wish

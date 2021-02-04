@@ -4,6 +4,8 @@
 #' no longer necessary to explicitly provide each argument with every
 #' call of `tinify()`.
 #'
+#' To set any option back to the package default, set it to `NULL`.
+#'
 #'@param overwrite Boolean, defaults to `FALSE`. By default, tinify will create
 #'  a new file with the suffix '_tiny' and preserve the original file. Set
 #'  `TRUE` to instead overwrite the original file, with the same file name.
@@ -38,6 +40,9 @@
 #' @examples
 #' \dontrun{
 #' tinify_defaults(quiet = TRUE, suffix = "_small")
+#'
+#' # set an option back to the package default
+#' tinify_defaults(quiet = NULL)
 #' }
 tinify_defaults <- function(overwrite,
                        suffix,
@@ -45,10 +50,8 @@ tinify_defaults <- function(overwrite,
                        return_path,
                        resize) {
 
-  #TODO: Fix ability to provide argument as NULL to reset to default
-
   if(!missing(overwrite)){
-    if(!identical(overwrite, TRUE) & !identical(overwrite, FALSE)) {
+    if(!identical(overwrite, TRUE) & !identical(overwrite, FALSE) & !identical(overwrite, NULL)) {
       stop("Please provide 'overwrite' as TRUE or FALSE, or NULL")
     } else {
       options(tinify_overwrite = overwrite)
@@ -56,7 +59,9 @@ tinify_defaults <- function(overwrite,
   }
 
   if(!missing(suffix)){
-    if(!is.character(suffix) | length(suffix) > 1 | suffix == "") {
+    if (is.null(suffix)) {
+      options(tinify_suffix = suffix)
+    } else if(!is.character(suffix) | length(suffix) > 1 | suffix == "") {
       stop("Please provide 'suffix' as a non-empty character string, or NULL")
     } else {
       options(tinify_suffix = suffix)
@@ -64,7 +69,7 @@ tinify_defaults <- function(overwrite,
   }
 
   if(!missing(quiet)){
-    if(!identical(quiet, TRUE) & !identical(quiet, FALSE)) {
+    if(!identical(quiet, TRUE) & !identical(quiet, FALSE) & !identical(quiet, NULL)) {
       stop("Please provide 'quiet' as TRUE or FALSE, or NULL")
     } else {
       options(tinify_quiet = quiet)
@@ -72,7 +77,9 @@ tinify_defaults <- function(overwrite,
   }
 
   if(!missing(return_path)){
-    if(!(return_path %in% c("proj", "rel", "abs", "all"))) {
+    if (is.null(return_path)) {
+      options(tinify_return_path = return_path)
+    } else if(!(return_path %in% c("proj", "rel", "abs", "all"))) {
       stop("Please provide 'return_path' as one of  'proj', 'rel', 'abs', or 'all', or NULL")
     } else {
       options(tinify_return_path = return_path)
@@ -81,7 +88,9 @@ tinify_defaults <- function(overwrite,
 
   if(!missing(resize)){
 
-    if(!is.list(resize) | length(resize) < 2 | length(resize) > 3){
+    if (is.null(resize)) {
+      options(tinify_resize = resize)
+    } else if(!is.list(resize) | length(resize) < 2 | length(resize) > 3){
       # Check resize is a list of min length 2 and max length 3
       stop("Resize must be a list that includes a 'method' and one or both of 'width' or 'height'")
     } else if(!("method" %in% names(resize) & ("width" %in% names(resize) | "height" %in% names(resize)))) {
