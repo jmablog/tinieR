@@ -1,10 +1,12 @@
-#' Set defaults for `tinify()` function
+#'Set defaults for `tinify()` function
 #'
-#' Set some default options for `tinify()` in the global environment, so it is
-#' no longer necessary to explicitly provide each argument with every
-#' call of `tinify()`.
+#'Set some default options for `tinify()` in the global environment, so it is no
+#'longer necessary to explicitly provide each argument with every call of
+#'`tinify()`.
 #'
-#' To set any option back to the package default, set it to `NULL`.
+#'If any argument is provided to `tinify()` when called, it will overwrite any
+#'defaults set by `tinify_defaults()` for that particular call. To set any
+#'option back to the package default, set it to `NULL`.
 #'
 #'@param overwrite Boolean, defaults to `FALSE`. By default, tinify will create
 #'  a new file with the suffix '_tiny' and preserve the original file. Set
@@ -34,9 +36,9 @@
 #'  not both. If using any other method, you must supply both a `width` AND
 #'  `height`. See <https://tinypng.com/developers/reference#resizing-images> and
 #'  the examples for more.
-#' @seealso [tinify()] to shrink image filesizes
-#' @seealso [tinify_key()] to set a default TinyPNG.com API key
-#' @export
+#'@seealso [tinify()] to shrink image filesizes
+#'@seealso [tinify_key()] to set a default TinyPNG.com API key
+#'@export
 #' @examples
 #' \dontrun{
 #' tinify_defaults(quiet = TRUE, suffix = "_small")

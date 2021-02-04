@@ -155,7 +155,9 @@ Resizing an image also counts as **an extra API call**, as the image is first up
 
 ## Changing default options for tinify
 
-You can change the defaults for `tinify()` using `tinify_defaults()`. `tinify_defaults()` takes all the same arguments as `tinify()` except `file` and `key`. Any arguments set in `tinify_defaults()` will apply to all subsequent calls of `tinify()`:
+You can change the defaults for `tinify()` using `tinify_defaults()`. `tinify_defaults()` takes all the same arguments as `tinify()` except `file` and `key`.
+
+Any arguments set in `tinify_defaults()` will apply to all subsequent calls of `tinify()`:
 
 ``` r
 tinify("example.png")
@@ -173,6 +175,25 @@ tinify("example2.png")
 #> 14 Tinify API calls this month
 ```
 
+Any set defaults can be overruled on a case-by-case basis by supplying the argument again when calling `tinify()`:
+
+``` r
+
+tinify_defaults(suffix = "_small")
+
+tinify("example2.png", suffix = "_shrunk")
+
+#> Filesize reduced by 50%:
+#> example2.png (20K) => example2_shrunk.png (10K)
+#> 15 Tinify API calls this month
+
+tinify("example3.png")
+
+#> Filesize reduced by 50%:
+#> example2.png (20K) => example2_small.png (10K)
+#> 16 Tinify API calls this month
+```
+
 To reset any argument back to the package default, use `tinify_defaults()` with the argument set to `NULL`:
 
 ``` r
@@ -180,7 +201,7 @@ tinify("example.png")
 
 #> Filesize reduced by 50%:
 #> example.png (20K) => example_tiny.png (10K)
-#> 15 Tinify API calls this month
+#> 17 Tinify API calls this month
 
 tinify_defaults(quiet = TRUE)
 
@@ -192,7 +213,7 @@ tinify("example3.png")
 
 #> Filesize reduced by 50%:
 #> example3.png (20K) => example3_tiny.png (10K)
-#> 17 Tinify API calls this month
+#> 19 Tinify API calls this month
 ```
 
 ## Further examples
