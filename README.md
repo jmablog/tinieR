@@ -74,7 +74,7 @@ tinify("example.png", suffix = "_small")
 
 #> Filesize reduced by 50%:
 #> example.png (20K) => example_small.png (10K)
-#> 10 Tinify API calls this month
+#> 11 Tinify API calls this month
 ```
 
 `suffix` must not be an empty string. To instead overwrite the original file with the newly tinified file, use `overwrite = TRUE`:
@@ -84,7 +84,7 @@ tinify("example.png", overwrite = TRUE)
 
 #> Filesize reduced by 50%:
 #> example.png (20K) => example.png (10K)
-#> 10 Tinify API calls this month
+#> 12 Tinify API calls this month
 ```
 
 If you use `overwrite`, then `suffix` is ignored.
@@ -152,6 +152,48 @@ Be aware that resizing and shrinking the filesize of an image counts as 2 API ca
 TinyPNG is quite generous at 500 free API calls per month (I only hit around 50 calls in total during the entire development and testing of this package!), but if you're using `tinify()` as part a script that may be run multiple times, you should be aware of your API usage. Fortunately TinyPNG is smart enough to know when you are uploading the same file over again, and so will not count repeat calls of `tinify()` on the **exact same** image file against your monthly limit. This is handy if you are using `tinify()` in an RMarkdown document as it won't count against your API usage every time you knit your document. However be careful if saving new images to file from other workflows, such as creating plots, as changes to these will most likely count as new files when uploaded to TinyPNG.
 
 Resizing an image also counts as **an extra API call**, as the image is first uploaded to TinyPNG and the filesize reduced, then this new image is resized with a second call to the API.
+
+## Changing default options for tinify
+
+You can change the defaults for `tinify()` using `tinify_defaults()`. `tinify_defaults()` takes all the same arguments as `tinify()` except `file` and `key`. Any arguments set in `tinify_defaults()` will apply to all subsequent calls of `tinify()`:
+
+``` r
+tinify("example.png")
+
+#> Filesize reduced by 50%:
+#> example.png (20K) => example_tiny.png (10K)
+#> 13 Tinify API calls this month
+
+tinify_defaults(suffix = "_small")
+
+tinify("example2.png")
+
+#> Filesize reduced by 50%:
+#> example2.png (20K) => example2_small.png (10K)
+#> 14 Tinify API calls this month
+```
+
+To reset any argument back to the package default, use `tinify_defaults()` with the argument set to `NULL`:
+
+``` r
+tinify("example.png")
+
+#> Filesize reduced by 50%:
+#> example.png (20K) => example_tiny.png (10K)
+#> 15 Tinify API calls this month
+
+tinify_defaults(quiet = TRUE)
+
+tinify("example2.png")
+
+tinify_defaults(quiet = NULL)
+
+tinify("example3.png")
+
+#> Filesize reduced by 50%:
+#> example3.png (20K) => example3_tiny.png (10K)
+#> 17 Tinify API calls this month
+```
 
 ## Further examples
 
