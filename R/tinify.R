@@ -20,6 +20,10 @@
 #' @param overwrite Boolean, defaults to `FALSE`. By default, tinify will create a new file with the
 #'   suffix '_tiny' and preserve the original file. Set `TRUE` to instead overwrite
 #'   the original file, with the same file name.
+#' @param suffix String, defaults to `"_tiny"`. By default, tinify will create a new file with the
+#'   suffix '_tiny' and preserve the original file. Provide a new character string here to change the suffix
+#'   from '_tiny' to your own choice. Empty strings (`""`) are not accepted. `suffix` is ignored when `overwrite`
+#'   is set to `TRUE`.
 #' @param quiet Boolean, defaults to `FALSE`. By default, tinify provides details on file names, amount of
 #'   file size reduction (% and Kb), and the number of TinyPNG API calls made this month. If set to `TRUE`,
 #'   tinify displays no messages as it shrinks files.
@@ -69,6 +73,10 @@
 #'
 #' tinify(img, overwrite = TRUE)
 #'
+#' # Change suffix on new file:
+#'
+#' tinify(img, suffix = "_small")
+#'
 #' # Resize an image with the method "scale", only providing a width:
 #'
 #' tinify(img, resize = list(method = "scale", width = 300))
@@ -106,6 +114,7 @@
 #'}
 tinify <- function(file,
                    overwrite = FALSE,
+                   suffix = "_tiny",
                    quiet = FALSE,
                    return_path = NULL,
                    resize = NULL,
@@ -136,12 +145,19 @@ tinify <- function(file,
   ext <- fs::path_ext(filepath)
 
   # Check overwrite argument and set new file path as requested
-  # Either overwriting original file completely or appending '_tiny' to
+  # Either overwriting original file completely or appending suffix to
   # new filename
   if(identical(overwrite, TRUE)) {
     new_file <- filepath
+    if(suffix != "_tiny") {
+      warning("'suffix' is ignored when 'overwrite' is TRUE")
+    }
   } else if(identical(overwrite, FALSE)){
-    new_file <- glue::glue("{fs::path_ext_remove(filepath)}_tiny.{ext}")
+    if(is.character(suffix) & suffix != "") {
+      new_file <- glue::glue("{fs::path_ext_remove(filepath)}{suffix}.{ext}")
+    } else {
+    stop("Please provide 'suffix' as a non-empty character string when 'overwrite' is FALSE")
+    }
   } else {
     stop("Please only provide 'overwrite' as TRUE or FALSE")
   }

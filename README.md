@@ -67,7 +67,17 @@ tinify("example.png")
 #> 10 Tinify API calls this month
 ```
 
-By default, `tinify` will create a new file with the suffix '_tiny' in the same directory as the original file. To instead overwrite the original file with the newly tinified file, use `overwrite = TRUE`:
+By default, `tinify` will create a new file with the suffix '_tiny' in the same directory as the original file. You can change this suffix to your own using `suffix = "yoursuffix"`:
+
+``` r
+tinify("example.png", suffix = "_small")
+
+#> Filesize reduced by 50%:
+#> example.png (20K) => example_small.png (10K)
+#> 10 Tinify API calls this month
+```
+
+`suffix` must not be an empty string. To instead overwrite the original file with the newly tinified file, use `overwrite = TRUE`:
 
 ``` r
 tinify("example.png", overwrite = TRUE)
@@ -76,6 +86,8 @@ tinify("example.png", overwrite = TRUE)
 #> example.png (20K) => example.png (10K)
 #> 10 Tinify API calls this month
 ```
+
+If you use `overwrite`, then `suffix` is ignored.
 
 Tinify will provide messages detailing the file size reduction (in % and as [FS bytes](https://fs.r-lib.org/reference/fs_bytes.html)) along with the number of API calls made each month when called. You can suppress these messages with `quiet = TRUE`:
 

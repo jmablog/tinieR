@@ -113,17 +113,29 @@ test_that("Shrinking PNG and JPG files and creating as new file works", {
 
   img_png <- system.file("extdata", "example.png", package = "tinieR")
   tmp_png <- fs::path_abs(tempfile(fileext = ".png"))
+  tmp_png2 <- fs::path_abs(tempfile(fileext = ".png"))
   fs::file_copy(img_png, tmp_png)
+  fs::file_copy(img_png, tmp_png2)
 
   img_jpg <- system.file("extdata", "example.jpg", package = "tinieR")
   tmp_jpg <- fs::path_abs(tempfile(fileext = ".jpg"))
+  tmp_jpg2 <- fs::path_abs(tempfile(fileext = ".jpg"))
   fs::file_copy(img_jpg, tmp_jpg)
+  fs::file_copy(img_jpg, tmp_jpg2)
 
   tinify(tmp_png)
   tinify(tmp_jpg)
 
   expect_true(fs::file_exists(glue::glue("{fs::path_ext_remove(tmp_png)}_tiny.png")))
   expect_true(fs::file_exists(glue::glue("{fs::path_ext_remove(tmp_jpg)}_tiny.jpg")))
+
+  suffix <- "_small"
+
+  tinify(tmp_png2, suffix = suffix)
+  tinify(tmp_jpg2, suffix = suffix)
+
+  expect_true(fs::file_exists(glue::glue("{fs::path_ext_remove(tmp_png2)}_small.png")))
+  expect_true(fs::file_exists(glue::glue("{fs::path_ext_remove(tmp_jpg2)}_small.jpg")))
 
   unlink(tmp_png)
   unlink(tmp_jpg)

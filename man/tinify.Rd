@@ -7,6 +7,7 @@
 tinify(
   file,
   overwrite = FALSE,
+  suffix = "_tiny",
   quiet = FALSE,
   return_path = NULL,
   resize = NULL,
@@ -21,6 +22,11 @@ must include the file extension (.png or .jpg/.jpeg only).}
 \item{overwrite}{Boolean, defaults to \code{FALSE}. By default, tinify will create a new file with the
 suffix '_tiny' and preserve the original file. Set \code{TRUE} to instead overwrite
 the original file, with the same file name.}
+
+\item{suffix}{String, defaults to \verb{_tiny}. By default, tinify will create a new file with the
+suffix '_tiny' and preserve the original file. Provide a new character string here to change the suffix
+from '_tiny' to your own choice. Empty strings (\code{""}) are not accepted. \code{suffix} is ignored when \code{overwrite}
+is set to \code{TRUE}.}
 
 \item{quiet}{Boolean, defaults to \code{FALSE}. By default, tinify provides details on file names, amount of
 file size reduction (\% and Kb), and the number of TinyPNG API calls made this month. If set to \code{TRUE},
