@@ -49,6 +49,13 @@ test_that("Other arguments only accept correct input", {
   expect_error(tinify(tmp, overwrite = NA))
   expect_error(tinify(tmp, overwrite = "TRUE"))
 
+  expect_error(tinify(tmp, quiet = 123))
+  expect_error(tinify(tmp, quiet = factor("TRUE")))
+  expect_error(tinify(tmp, quiet = c("TRUE", "FALSE")))
+  expect_error(tinify(tmp, quiet = NULL))
+  expect_error(tinify(tmp, quiet = NA))
+  expect_error(tinify(tmp, quiet = "TRUE"))
+
   expect_error(tinify(tmp, return_path = 123))
   expect_error(tinify(tmp, return_path = TRUE))
   expect_error(tinify(tmp, return_path = factor("TRUE")))
@@ -56,12 +63,12 @@ test_that("Other arguments only accept correct input", {
   expect_error(tinify(tmp, return_path = NA))
   expect_error(tinify(tmp, return_path = "TRUE"))
 
-  expect_error(tinify(tmp, details = 123))
-  expect_error(tinify(tmp, details = factor("TRUE")))
-  expect_error(tinify(tmp, details = c("TRUE", "FALSE")))
-  expect_error(tinify(tmp, details = NULL))
-  expect_error(tinify(tmp, details = NA))
-  expect_error(tinify(tmp, details = "TRUE"))
+  expect_error(tinify(tmp, suffix = 123))
+  expect_error(tinify(tmp, suffix = TRUE))
+  expect_error(tinify(tmp, suffix = factor("TRUE")))
+  expect_error(tinify(tmp, suffix = c("TRUE", "FALSE")))
+  expect_error(tinify(tmp, suffix = NA))
+  expect_error(tinify(tmp, suffix = list(one = "one", two = "two")))
 
   unlink(tmp)
 
@@ -103,6 +110,8 @@ test_that("Shrinking PNG and JPG files in place works", {
 
   expect_lt(as.numeric(fs::file_size(tmp_png)), as.numeric(fs::file_size(img_png)))
   expect_lt(as.numeric(fs::file_size(tmp_jpg)), as.numeric(fs::file_size(img_jpg)))
+
+  expect_warning(tinify(tmp_jpg, overwrite = TRUE, suffix = "_small"))
 
   unlink(tmp_png)
   unlink(tmp_jpg)
@@ -150,19 +159,22 @@ test_that("Return_path argument returns correct paths", {
   tmp_png_1 <- as.character(fs::path_abs(tempfile(fileext = ".png")))
   tmp_png_2 <- as.character(fs::path_abs(tempfile(fileext = ".png")))
   tmp_png_3 <- as.character(fs::path_abs(tempfile(fileext = ".png")))
+  tmp_png_4 <- as.character(fs::path_abs(tempfile(fileext = ".png")))
   fs::file_copy(img_png, tmp_png_1)
   fs::file_copy(img_png, tmp_png_2)
   fs::file_copy(img_png, tmp_png_3)
+  fs::file_copy(img_png, tmp_png_4)
 
 
   path_1 <- tinify(tmp_png_1, overwrite = TRUE, return_path = "abs")
   path_2 <- tinify(tmp_png_2, overwrite = TRUE, return_path = "rel")
-  path_list <- tinify(tmp_png_3, overwrite = TRUE, return_path = "all")
+  path_3 <- tinify(tmp_png_3, overwrite = TRUE, return_path = "proj")
+  path_list <- tinify(tmp_png_4, overwrite = TRUE, return_path = "all")
 
   expect_identical(tmp_png_1, path_1)
   expect_identical(tmp_png_2, path_2)
-  expect_identical(tmp_png_3, path_list$absolute)
-  expect_identical(tmp_png_3, path_list$relative)
+  expect_identical(NA, path_3)
+  expect_identical(tmp_png_4, path_list$relative)
   expect_identical(NA, path_list$project)
 
   unlink(tmp_png_1)

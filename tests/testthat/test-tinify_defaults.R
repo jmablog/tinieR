@@ -29,6 +29,27 @@ test_that("Overwrite is a boolean", {
 
 })
 
+test_that("Suffix is a string of length 1", {
+
+  expect_error(tinify_defaults(suffix = 123))
+  expect_error(tinify_defaults(suffix = TRUE))
+  expect_error(tinify_defaults(suffix = factor("one")))
+  expect_error(tinify_defaults(suffix = c("one", "two")))
+  expect_error(tinify_defaults(suffix = NA))
+  expect_error(tinify_defaults(suffix = list(one = "one", two = "two")))
+  expect_error(tinify_defaults(suffix = data.frame(one = "one", two = "two")))
+
+  prev <- getOption("tinify_suffix")
+
+  tinify_defaults(suffix = "_small")
+  expect_equal("_small", getOption("tinify_suffix"))
+  tinify_defaults(suffix = NULL)
+  expect_equal(NULL, getOption("tinify_suffix"))
+
+  on.exit(options(tinify_suffix = prev), add = TRUE, after = FALSE)
+
+})
+
 test_that("Quiet is a boolean", {
 
   expect_error(tinify_defaults(quiet = 123))
@@ -75,7 +96,7 @@ test_that("Return path is a string of length 1", {
   tinify_defaults(return_path = NULL)
   expect_equal(NULL, getOption("tinify_return_path"))
 
-  on.exit(options(tinify_return_path= prev), add = TRUE, after = FALSE)
+  on.exit(options(tinify_return_path = prev), add = TRUE, after = FALSE)
 
 })
 
