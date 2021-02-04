@@ -105,7 +105,7 @@ shrunk_img <- tinify("imgs/example.png", return_path = "abs", quiet = TRUE)
 knitr::include_graphics(shrunk_img)
 ```
 
-Set to `return_path = "proj"` to return the path to the newly tinified file relative to the **project** directory, no matter the current working directory. This looks for an [Rstudio project](https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects) file (.Rproj) in the current directory or above, and return the path from there. 
+Set to `return_path = "proj"` to return the path to the newly tinified file relative to the **project** directory, no matter the current working directory. This looks for an [Rstudio project](https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects) file (.Rproj) in the current directory or above, and returns the path from there. 
 
 ``` r
 setwd("imgs")
@@ -123,7 +123,7 @@ tinify("example.png", return_path = "rel", quiet = TRUE)
 #> "./examples.png"
 ```
 
-Either of these options may be useful if sharing a script with others across platforms, if you can be sure your project setups will be the same and you are being strict with working directories. Finally, set to `return_path = "all"` to return both types of file path as a named list:
+Either of these options may be useful if sharing a script with others across platforms, if you can be sure your project setups will be the same and you are being strict with working directories. Finally, set to `return_path = "all"` to return all 3 types of file path as a named list:
 
 ```r
 shrunk_img_list <- tinify("imgs/example.png", return_path = "all", quiet = TRUE)
@@ -175,7 +175,7 @@ tinify("example2.png")
 #> 14 Tinify API calls this month
 ```
 
-Any set defaults can be overruled on a case-by-case basis by supplying the argument again when calling `tinify()`:
+Any arguments supplied directly to `tinify()` will **always** overrule any default options:
 
 ``` r
 
