@@ -20,6 +20,8 @@ Imports:
     httr (>= 1.4.1),
     jsonlite (>= 1.7.0),
     png,
-    jpeg
+    jpeg,
+    rprojroot,
+    stringr
 Suggests: 
     testthat

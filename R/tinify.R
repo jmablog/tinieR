@@ -1,52 +1,67 @@
-#' @title Shrink Image Files with TinyPNG
+#'@title Shrink Image Files with TinyPNG
 #'
-#' @description Shrink an image's (PNG or JPG) filesize with the TinyPNG API. Designed
-#' to be quick and easy for basic use, but to provide all the extra options of the TinyPNG
-#' API if required.
+#'@description Shrink an image's (PNG or JPG) filesize with the TinyPNG API.
+#'  Designed to be quick and easy for basic use, but to provide all the extra
+#'  options of the TinyPNG API if required.
 #'
-#' @details You can get a TinyPNG API key from <https://tinypng.com/developers>.
+#'@details You can get a TinyPNG API key from <https://tinypng.com/developers>.
 #'
-#'   TinyPNG is smart enough to know when you are uploading the same file again,
-#'   and so will not count repeat calls of `tinify()` on the same image file against
-#'   your monthly API usage limit. This can be useful if, for example, you are using `tinify()`
-#'   in an RMarkdown document as it won't count against your API usage every time you knit your
-#'   document. But, be aware that use of `resize` also counts as an additional API call,
-#'   as the image is first reduced in filesize, then a second API call is made to resize
-#'   the newly tinified file.
+#'  TinyPNG is smart enough to know when you are uploading the same file again,
+#'  and so will not count repeat calls of `tinify()` on the same image file
+#'  against your monthly API usage limit. This can be useful if, for example,
+#'  you are using `tinify()` in an RMarkdown document as it won't count against
+#'  your API usage every time you knit your document. But, be aware that use of
+#'  `resize` also counts as an additional API call, as the image is first
+#'  reduced in filesize, then a second API call is made to resize the newly
+#'  tinified file.
 #'
-#' @param file String, required. A string detailing the path to the file you wish to shrink,
-#'   relative to the current working directory or as an absolute file path. Can include sub-directories and
-#'   must include the file extension (.png or .jpg/.jpeg only).
-#' @param overwrite Boolean, defaults to `FALSE`. By default, tinify will create a new file with the
-#'   suffix '_tiny' and preserve the original file. Set `TRUE` to instead overwrite
-#'   the original file, with the same file name.
-#' @param suffix String, defaults to `"_tiny"`. By default, tinify will create a new file with the
-#'   suffix '_tiny' and preserve the original file. Provide a new character string here to change the suffix
-#'   from '_tiny' to your own choice. Empty strings (`""`) are not accepted. `suffix` is ignored when `overwrite`
-#'   is set to `TRUE`.
-#' @param quiet Boolean, defaults to `FALSE`. By default, tinify provides details on file names, amount of
-#'   file size reduction (% and Kb), and the number of TinyPNG API calls made this month. If set to `TRUE`,
-#'   tinify displays no messages as it shrinks files.
-#' @param return_path String, optional. One of `rel`, `abs`, or `all`. If `rel`, will return the
-#'   file path of the newly tinified image file, relative to the current working directory.
-#'   If `abs`, will return the absolute file path of the newly tinified image file. If
-#'   `all`, will return a named list with both the absolute and relative file paths.
-#' @param resize Named list, optional. A named list with the elements `method` as a string, and `width` and/or `height` as numerics. Please note you can only reduce an image's dimensions and make an image smaller with TinyPNG API, not make an image larger.
-#'   Method must be set to one of "scale", "fit", "cover", or "thumb". If using "scale", you
-#'   only need to provide `width` OR `height`, not both. If using any other method, you must supply
-#'   both a `width` AND `height`. See <https://tinypng.com/developers/reference#resizing-images> and the examples for more.
-#' @param key String, optional. A string containing your TinyPNG API key.
-#'   Not required if the API key is set using `tinify_api()`.
-#'   If an API key is provided with `tinify_api()`, any other key
-#'   provided in the function call will override the key set by `tinify_api()`.
+#'@param file String, required. A string detailing the path to the file you wish
+#'  to shrink, relative to the current working directory or as an absolute file
+#'  path. Can include sub-directories and must include the file extension (.png
+#'  or .jpg/.jpeg only).
+#'@param overwrite Boolean, defaults to `FALSE`. By default, tinify will create
+#'  a new file with the suffix '_tiny' and preserve the original file. Set
+#'  `TRUE` to instead overwrite the original file, with the same file name.
+#'@param suffix String, defaults to `"_tiny"`. By default, tinify will create a
+#'  new file with the suffix '_tiny' and preserve the original file. Provide a
+#'  new character string here to change the suffix from '_tiny' to your own
+#'  choice. Empty strings (`""`) are not accepted. `suffix` is ignored when
+#'  `overwrite` is set to `TRUE`.
+#'@param quiet Boolean, defaults to `FALSE`. By default, tinify provides details
+#'  on file names, amount of file size reduction (% and Kb), and the number of
+#'  TinyPNG API calls made this month. If set to `TRUE`, tinify displays no
+#'  messages as it shrinks files.
+#'@param return_path String, optional. One of "`proj`", "`rel`", "`abs`", or
+#'  "`all`". If "`proj`", will return the file path of the newly tinified image
+#'  file relative to the Rstudio project directory (looking for an .Rproj file).
+#'  If no project can be identified, returns `NA`. If "`rel`", will return the
+#'  file path of the newly tinified image file, relative to the \strong{current}
+#'  working directory at the time `tinify()` is called. If "`abs`", will return
+#'  the absolute file path of the newly tinified image file. If "`all`", will
+#'  return a named list with all file paths.
+#'@param resize Named list, optional. A named list with the elements `method` as
+#'  a string, and `width` and/or `height` as numerics. Please note you can only
+#'  reduce an image's dimensions and make an image smaller with TinyPNG API, not
+#'  make an image larger. Method must be set to one of "scale", "fit", "cover",
+#'  or "thumb". If using "scale", you only need to provide `width` OR `height`,
+#'  not both. If using any other method, you must supply both a `width` AND
+#'  `height`. See <https://tinypng.com/developers/reference#resizing-images> and
+#'  the examples for more.
+#'@param key String, optional. A string containing your TinyPNG API key. Not
+#'  required if the API key is set using `tinify_api()`. If an API key is
+#'  provided with `tinify_api()`, any other key provided in the function call
+#'  will override the key set by `tinify_api()`.
 #'
-#' @return If `return_path = "rel"` or `return_path = "abs"`, a string with the absolute
-#'   or relative path to the newly tinified image file. If `return_path = "all"`, a named
-#'   list with both absolute and relative file paths included as `$absolute` and `$relative` respectively.
-#'   If `return_path = NULL`, no return value.
+#'@return If `return_path = "proj"`, `return_path = "rel"`, or `return_path =
+#'  "abs"`, a string with the project, relative, or absolute path to the newly
+#'  tinified image file. If no project can be identified for `return_path =
+#'  "proj"`, returns `NA`. If `return_path = "all"`, a named list with all file
+#'  paths included as `$project`, `$relative`, and `$absolute` respectively. If
+#'  `return_path = NULL`, no return value.
 #'
-#' @export
-#' @seealso [tinify_key()] to set an API key globally so it does not need to be provided with every call of `tinify()`
+#'@export
+#'@seealso [tinify_key()] to set an API key globally so it does not need to be
+#'  provided with every call of `tinify()`
 #' @examples
 #' \dontrun{
 #' # Shrink a PNG file
@@ -213,8 +228,8 @@ tinify <- function(file,
 
   # Check return_path argument correctly provided
   if(!is.null(return_path)) {
-    if(!(return_path %in% c("rel", "abs", "all"))){
-      stop('Please only provide return_path as "rel", "abs", or "all"')
+    if(!(return_path %in% c("proj", "rel", "abs", "all"))){
+      stop('Please only provide return_path as "proj", "rel", "abs", or "all"')
     }
   }
 
@@ -306,16 +321,39 @@ tinify <- function(file,
   # working dir or as absolute file path, or both as a named list
   if(identical(return_path, "abs")) {
 
+    # return the absolute file path to the tinified image file
+
     return(as.character(new_file))
 
   } else if(identical(return_path, "rel")) {
+
+    # return the relative path to the tinified image file, from wherever the working
+    # directory at the time of calling tinify() is
 
     loc_path <- fs::path_dir(file)
     loc_file <- fs::path_file(new_file)
 
     return(as.character(glue::glue("{loc_path}/{loc_file}")))
 
+  } else if(identical(return_path, "proj")) {
+
+    # return the path to the newly tinified file, from the root project folder
+
+    tryCatch({
+    proj_dir <- glue::glue(
+      "{rprojroot::find_root(path = new_file, criterion = rprojroot::is_rstudio_project)}/"
+    )
+    proj_file <- suppressWarnings(stringr::str_remove(new_file, stringr::coll(proj_dir)))
+    return(proj_file)
+    },
+    error = function (err) {
+      proj_file <- NA
+      return(proj_file)
+    })
+
   } else if(identical(return_path, "all")) {
+
+    # return all 3 of the return_path options in a named list
 
     abs_file <- as.character(new_file)
 
@@ -323,7 +361,17 @@ tinify <- function(file,
     loc_file <- fs::path_file(new_file)
     rel_file <- as.character(glue::glue("{loc_path}/{loc_file}"))
 
-    return(list(absolute = abs_file, relative = rel_file))
+    tryCatch({
+      proj_dir <- glue::glue(
+        "{rprojroot::find_root(path = new_file, criterion = rprojroot::is_rstudio_project)}/"
+      )
+      proj_file <- suppressWarnings(stringr::str_remove(new_file, stringr::coll(proj_dir)))
+      return(list(absolute = abs_file, relative = rel_file, project = proj_file))
+    },
+    error = function (err) {
+      proj_file <- NA
+      return(list(absolute = abs_file, relative = rel_file, project = proj_file))
+    })
 
   }
 

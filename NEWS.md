@@ -1,6 +1,7 @@
 ## tinieR 0.4.0
 
 * Added new `suffix` argument in `tinify()` to change the "_tiny" suffix applied to newly tinified files.
+* Added new `return_path = "proj"` option to `return_path` argument in `tinify()` to return the path to the newly tinified file relative to the project directory, no matter the current working directory.
 
 ## tinieR 0.3.0
 

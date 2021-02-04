@@ -23,7 +23,7 @@ must include the file extension (.png or .jpg/.jpeg only).}
 suffix '_tiny' and preserve the original file. Set \code{TRUE} to instead overwrite
 the original file, with the same file name.}
 
-\item{suffix}{String, defaults to \verb{_tiny}. By default, tinify will create a new file with the
+\item{suffix}{String, defaults to \code{"_tiny"}. By default, tinify will create a new file with the
 suffix '_tiny' and preserve the original file. Provide a new character string here to change the suffix
 from '_tiny' to your own choice. Empty strings (\code{""}) are not accepted. \code{suffix} is ignored when \code{overwrite}
 is set to \code{TRUE}.}
@@ -32,10 +32,11 @@ is set to \code{TRUE}.}
 file size reduction (\% and Kb), and the number of TinyPNG API calls made this month. If set to \code{TRUE},
 tinify displays no messages as it shrinks files.}
 
-\item{return_path}{String, optional. One of \code{rel}, \code{abs}, or \code{all}. If \code{rel}, will return the
-file path of the newly tinified image file, relative to the current working directory.
-If \code{abs}, will return the absolute file path of the newly tinified image file. If
-\code{all}, will return a named list with both the absolute and relative file paths.}
+\item{return_path}{String, optional. One of "\code{proj}", "\code{rel}", "\code{abs}", or "\code{all}".
+If "\code{proj}", will return the file path of the newly tinified image file relative to the Rstudio project directory (looking for an .Rproj file). If no project can be identified, returns \code{NA}.
+If "\code{rel}", will return the file path of the newly tinified image file, relative to the \strong{current} working directory at the time \code{tinify()} is called.
+If "\code{abs}", will return the absolute file path of the newly tinified image file.
+If "\code{all}", will return a named list with all file paths.}
 
 \item{resize}{Named list, optional. A named list with the elements \code{method} as a string, and \code{width} and/or \code{height} as numerics. Please note you can only reduce an image's dimensions and make an image smaller with TinyPNG API, not make an image larger.
 Method must be set to one of "scale", "fit", "cover", or "thumb". If using "scale", you
@@ -48,9 +49,9 @@ If an API key is provided with \code{tinify_api()}, any other key
 provided in the function call will override the key set by \code{tinify_api()}.}
 }
 \value{
-If \code{return_path = "rel"} or \code{return_path = "abs"}, a string with the absolute
-or relative path to the newly tinified image file. If \code{return_path = "all"}, a named
-list with both absolute and relative file paths included as \verb{$absolute} and \verb{$relative} respectively.
+If \code{return_path = "proj"}, \code{return_path = "rel"}, or \code{return_path = "abs"}, a string with the project, relative,
+or absolute path to the newly tinified image file. If no project can be identified for \code{return_path = "proj"}, returns \code{NA}. If \code{return_path = "all"}, a named
+list with all file paths included as \verb{$project}, \verb{$relative}, and \verb{$absolute} respectively.
 If \code{return_path = NULL}, no return value.
 }
 \description{
@@ -94,6 +95,10 @@ tinify(img, quiet = TRUE)
 # Overwrite original file in place:
 
 tinify(img, overwrite = TRUE)
+
+# Change suffix on new file:
+
+tinify(img, suffix = "_small")
 
 # Resize an image with the method "scale", only providing a width:
 

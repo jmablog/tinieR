@@ -105,12 +105,32 @@ shrunk_img <- tinify("imgs/example.png", return_path = "abs", quiet = TRUE)
 knitr::include_graphics(shrunk_img)
 ```
 
-Set to `return_path = "rel"` to return the file path relative to the working directory at the time the file was tinified. This may be useful if sharing a script with others across platforms, if you can be sure your project setups will be the same and you are being strict with working directories. Finally, set to `return_path = "all"` to return both types of file path as a named list:
+Set to `return_path = "proj"` to return the path to the newly tinified file relative to the **project** directory, no matter the current working directory. This looks for an [Rstudio project](https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects) file (.Rproj) in the current directory or above, and return the path from there. 
+
+``` r
+setwd("imgs")
+
+tinify("example.png", return_path = "proj", quiet = TRUE)
+#> "imgs/examples.png"
+```
+
+Or, set to `return_path = "rel"` to return the file path relative to the **current** working directory at the time the file was tinified.
+
+``` r
+setwd("imgs")
+
+tinify("example.png", return_path = "rel", quiet = TRUE)
+#> "./examples.png"
+```
+
+Either of these options may be useful if sharing a script with others across platforms, if you can be sure your project setups will be the same and you are being strict with working directories. Finally, set to `return_path = "all"` to return both types of file path as a named list:
 
 ```r
 shrunk_img_list <- tinify("imgs/example.png", return_path = "all", quiet = TRUE)
 
 knitr::include_graphics(shrunk_img_list$absolute)
+knitr::include_graphics(shrunk_img_list$project)
+knitr::include_graphics(shrunk_img_list$relative)
 ```
 
 ## Resizing image dimensions

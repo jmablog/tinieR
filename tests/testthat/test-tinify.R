@@ -161,6 +161,7 @@ test_that("Return_path argument returns correct paths", {
   expect_identical(tmp_png_2, path_2)
   expect_identical(tmp_png_3, path_list$absolute)
   expect_identical(tmp_png_3, path_list$relative)
+  expect_identical(NA, path_list$project)
 
   unlink(tmp_png_1)
   unlink(tmp_png_2)
