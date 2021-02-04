@@ -205,7 +205,8 @@
 <div id="changing-default-options-for-tinify" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changing-default-options-for-tinify" class="anchor"></a>Changing default options for tinify</h2>
-<p>You can change the defaults for <code><a href="reference/tinify.html">tinify()</a></code> using <code><a href="reference/tinify_defaults.html">tinify_defaults()</a></code>. <code><a href="reference/tinify_defaults.html">tinify_defaults()</a></code> takes all the same arguments as <code><a href="reference/tinify.html">tinify()</a></code> except <code>file</code> and <code>key</code>. Any arguments set in <code><a href="reference/tinify_defaults.html">tinify_defaults()</a></code> will apply to all subsequent calls of <code><a href="reference/tinify.html">tinify()</a></code>:</p>
+<p>You can change the defaults for <code><a href="reference/tinify.html">tinify()</a></code> using <code><a href="reference/tinify_defaults.html">tinify_defaults()</a></code>. <code><a href="reference/tinify_defaults.html">tinify_defaults()</a></code> takes all the same arguments as <code><a href="reference/tinify.html">tinify()</a></code> except <code>file</code> and <code>key</code>.</p>
+<p>Any arguments set in <code><a href="reference/tinify_defaults.html">tinify_defaults()</a></code> will apply to all subsequent calls of <code><a href="reference/tinify.html">tinify()</a></code>:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/tinify.html">tinify</a></span><span class="op">(</span><span class="st">"example.png"</span><span class="op">)</span>
 
@@ -220,13 +221,29 @@
 <span class="co">#&gt; Filesize reduced by 50%:</span>
 <span class="co">#&gt; example2.png (20K) =&gt; example2_small.png (10K)</span>
 <span class="co">#&gt; 14 Tinify API calls this month</span></code></pre></div>
-<p>To reset any argument back to the package default, use <code><a href="reference/tinify_defaults.html">tinify_defaults()</a></code> with the argument set to <code>NULL</code>:</p>
+<p>Any set defaults can be overruled on a case-by-case basis by supplying the argument again when calling <code><a href="reference/tinify.html">tinify()</a></code>:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
+<span class="fu"><a href="reference/tinify_defaults.html">tinify_defaults</a></span><span class="op">(</span>suffix <span class="op">=</span> <span class="st">"_small"</span><span class="op">)</span>
+
+<span class="fu"><a href="reference/tinify.html">tinify</a></span><span class="op">(</span><span class="st">"example2.png"</span>, suffix <span class="op">=</span> <span class="st">"_shrunk"</span><span class="op">)</span>
+
+<span class="co">#&gt; Filesize reduced by 50%:</span>
+<span class="co">#&gt; example2.png (20K) =&gt; example2_shrunk.png (10K)</span>
+<span class="co">#&gt; 15 Tinify API calls this month</span>
+
+<span class="fu"><a href="reference/tinify.html">tinify</a></span><span class="op">(</span><span class="st">"example3.png"</span><span class="op">)</span>
+
+<span class="co">#&gt; Filesize reduced by 50%:</span>
+<span class="co">#&gt; example2.png (20K) =&gt; example2_small.png (10K)</span>
+<span class="co">#&gt; 16 Tinify API calls this month</span></code></pre></div>
+<p>To reset any argument back to the package default, use <code><a href="reference/tinify_defaults.html">tinify_defaults()</a></code> with the argument set to <code>NULL</code>:</p>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/tinify.html">tinify</a></span><span class="op">(</span><span class="st">"example.png"</span><span class="op">)</span>
 
 <span class="co">#&gt; Filesize reduced by 50%:</span>
 <span class="co">#&gt; example.png (20K) =&gt; example_tiny.png (10K)</span>
-<span class="co">#&gt; 15 Tinify API calls this month</span>
+<span class="co">#&gt; 17 Tinify API calls this month</span>
 
 <span class="fu"><a href="reference/tinify_defaults.html">tinify_defaults</a></span><span class="op">(</span>quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 
@@ -238,26 +255,26 @@
 
 <span class="co">#&gt; Filesize reduced by 50%:</span>
 <span class="co">#&gt; example3.png (20K) =&gt; example3_tiny.png (10K)</span>
-<span class="co">#&gt; 17 Tinify API calls this month</span></code></pre></div>
+<span class="co">#&gt; 19 Tinify API calls this month</span></code></pre></div>
 </div>
 <div id="further-examples" class="section level2">
 <h2 class="hasAnchor">
 <a href="#further-examples" class="anchor"></a>Further examples</h2>
 <p>You can combine any number of the above arguments:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/tinify.html">tinify</a></span><span class="op">(</span><span class="st">"example.png"</span>, overwrite <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span>, return_path <span class="op">=</span> <span class="st">"abs"</span><span class="op">)</span></code></pre></div>
 <p>Tinify also works nicely with the pipe:</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">img</span> <span class="op">&lt;-</span> <span class="st">"example.png"</span>
 
 <span class="va">img</span> <span class="op">%&gt;%</span> <span class="fu"><a href="reference/tinify.html">tinify</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>And with purrr::map for multiple files:</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">imgs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"example.png"</span>, <span class="st">"example2.png"</span><span class="op">)</span>
 
 <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span><span class="va">imgs</span>, <span class="op">~</span><span class="fu"><a href="reference/tinify.html">tinify</a></span><span class="op">(</span><span class="va">.x</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>Below is an example method for shrinking an entire directory:</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">imgs_dir</span> <span class="op">&lt;-</span> <span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="http://fs.r-lib.org/reference/dir_ls.html">dir_ls</a></span><span class="op">(</span><span class="st">"imgs"</span>, glob <span class="op">=</span> <span class="st">"*.png"</span><span class="op">)</span>
 
 <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span><span class="va">imgs_dir</span>, <span class="op">~</span><span class="fu"><a href="reference/tinify.html">tinify</a></span><span class="op">(</span><span class="va">.x</span>, overwrite <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></code></pre></div>
@@ -266,7 +283,7 @@
 <h2 class="hasAnchor">
 <a href="#command-line-usage" class="anchor"></a>Command Line Usage</h2>
 <p>If you just want to quickly shrink an image in a directory, you can always just call <code><a href="reference/tinify.html">tinify()</a></code> from the command line. Just make sure <strong>tinieR</strong> is installed as a global package to your R install, then at the command line run:</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>R <span class="op">-</span>e <span class="st">"tinieR::tinify('example.png')"</span></span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a>R <span class="op">-</span>e <span class="st">"tinieR::tinify('example.png')"</span></span></code></pre></div>
 <p>For this to work, you will need to ensure your TinyPNG.com API key is in your global .Renviron file, as detailed above, or else provide it explicitly at runtime with <code><a href="reference/tinify.html">tinieR::tinify('example.png', key = 'YOUR_API_KEY')</a></code>.</p>
 </div>
 </div>
