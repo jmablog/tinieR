@@ -169,7 +169,9 @@
 <p>You can also use the <code>resize</code> argument to change the image dimensions along with it’s filesize (<strong>note:</strong> you can only <em>decrease</em> image dimensions and make it smaller with TinyPNG, not make an image bigger). I recommend reading the <a href="https://tinypng.com/developers/reference#resizing-images">TinyPNG API documentation on resizing methods</a> first, to familiarise yourself with the various options you can use to change image dimensions.</p>
 <p><code>resize</code> takes a named list, containing a <code>method</code> string and at least one of <code>width</code> or <code>height</code>, or both <code>width</code> AND <code>height</code> depending on your chosen resize method, to specify the dimensions in pixels you would like the image resized:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="reference/tinify.html">tinify</a></span><span class="op">(</span><span class="st">"imgs/example.png"</span>, resize <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"fit"</span>, width <span class="op">=</span> <span class="fl">300</span>, height <span class="op">=</span> <span class="fl">150</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="va">resize_opts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"fit"</span>, width <span class="op">=</span> <span class="fl">300</span>, height <span class="op">=</span> <span class="fl">150</span><span class="op">)</span>
+
+<span class="fu"><a href="reference/tinify.html">tinify</a></span><span class="op">(</span><span class="st">"imgs/example.png"</span>, resize <span class="op">=</span> <span class="va">resize_opts</span><span class="op">)</span></code></pre></div>
 <p>Be aware that resizing and shrinking the filesize of an image counts as 2 API calls - see below.</p>
 </div>
 <div id="tinypng-api-monthly-allowance-and-other-details" class="section level2">
@@ -206,16 +208,6 @@
 <p>If you just want to quickly shrink an image in a directory, you can always just call <code><a href="reference/tinify.html">tinify()</a></code> from the command line. Just make sure <strong>tinieR</strong> is installed as a global package to your R install, then at the command line run:</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>R <span class="op">-</span>e <span class="st">"tinieR::tinify('example.png')"</span></span></code></pre></div>
 <p>For this to work, you will need to ensure your TinyPNG.com API key is in your global .Renviron file, as detailed above, or else provide it explicitly at runtime with <code><a href="reference/tinify.html">tinieR::tinify('example.png', key = 'YOUR_API_KEY')</a></code>.</p>
-</div>
-<div id="future-plans" class="section level2">
-<h2 class="hasAnchor">
-<a href="#future-plans" class="anchor"></a>Future plans</h2>
-<ul>
-<li>Report image dimension reductions in messages alongside file size reductions.</li>
-<li>Include other <a href="https://tinypng.com">TinyPNG</a> API image editing functions, like retaining metadata.</li>
-<li>Add ability to provide a desired file path for the newly shrunk file, instead of defaulting to the same location as the input file.</li>
-<li>Add ability to use URL for a web resource instead of a local file.</li>
-</ul>
 </div>
 </div>
   </div>
