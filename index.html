@@ -125,37 +125,24 @@
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">tinier</span><span class="op">)</span>
 
 <span class="fu"><a href="reference/tinify_key.html">tinify_key</a></span><span class="op">(</span><span class="st">"YOUR-API-KEY-HERE"</span><span class="op">)</span></code></pre></div>
-<p>Or you can provide your API key as an argument to <code><a href="reference/tinify.html">tinify()</a></code> at every call:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">my_key</span> <span class="op">&lt;-</span> <span class="st">"YOUR-API-KEY-HERE"</span>
-
-<span class="fu"><a href="reference/tinify.html">tinify</a></span><span class="op">(</span><span class="st">"example.png"</span>, key <span class="op">=</span> <span class="va">my_key</span><span class="op">)</span></code></pre></div>
-<p>Providing an API key as an argument to <code><a href="reference/tinify.html">tinify()</a></code> will override any API key set with <code>tinify_api()</code>. This could be useful if utilising multiple API keys.</p>
-<p>Be careful including your API key in any scripts you write, especially if you’re going to be publicly or privately sharing those scripts with others! You might consider setting your API key instead in your .Renviron file (~/.Renviron). If you use the variable name <code>TINY_API</code> in .Renviron, <code><a href="reference/tinify.html">tinify()</a></code> should find it, and you can skip using <code>tinify_api()</code> or providing an API at each call of <code><a href="reference/tinify.html">tinify()</a></code>.</p>
-<p>To edit your .Renviron in Rstudio:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">usethis</span><span class="fu">::</span><span class="fu">edit_r_environ</span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<p>Then save into .Renviron:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">TINY_API</span> <span class="op">=</span> <span class="st">"YOUR-API-KEY-HERE"</span></code></pre></div>
-<p>Restart your R session, and your TinyPNG API key will be stored as an environment variable that <code><a href="reference/tinify.html">tinify()</a></code> will automatically find.</p>
+<p>Be careful including your API key in any scripts you write, especially if you’re going to be publicly or privately sharing those scripts with others! You might consider setting your API key instead in your <a href="https://support.rstudio.com/hc/en-us/articles/360047157094-Managing-R-with-Rprofile-Renviron-Rprofile-site-Renviron-site-rsession-conf-and-repos-conf">.Renviron file</a> (~/.Renviron). If you use the variable name <code>TINY_API</code> in .Renviron, <code><a href="reference/tinify.html">tinify()</a></code> should find it, and you can skip using <code>tinify_api()</code> or providing an API at each call of <code><a href="reference/tinify.html">tinify()</a></code>.</p>
 </div>
 <div id="basic-use" class="section level2">
 <h2 class="hasAnchor">
 <a href="#basic-use" class="anchor"></a>Basic use</h2>
-<p>To shrink an image file’s size, provide a path to the file relative to the current working directory.:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<p>To shrink an image file’s size, provide a path to the file relative to the current working directory to <code><a href="reference/tinify.html">tinify()</a></code>:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/tinify.html">tinify</a></span><span class="op">(</span><span class="st">"example.png"</span><span class="op">)</span>
 
 <span class="co">#&gt; Filesize reduced by 50%:</span>
 <span class="co">#&gt; example.png (20K) =&gt; example_tiny.png (10K)</span>
 <span class="co">#&gt; 10 Tinify API calls this month</span></code></pre></div>
-<p>By default, <code>tinify</code> will create a new file with the suffix ’_tiny’ in the same directory as the original file.</p>
+<p>By default, <code><a href="reference/tinify.html">tinify()</a></code> will create a new file with the suffix ’_tiny’ in the same directory as the original file.</p>
 </div>
 <div id="advanced-use" class="section level2">
 <h2 class="hasAnchor">
 <a href="#advanced-use" class="anchor"></a>Advanced use</h2>
-<p><a href="https://jmablog.github.io/tinieR/articles/full-walkthrough.html">For a full package walkthrough, see the vignette here</a>.</p>
+<p>For details on all the options <strong>tinieR</strong> provides, <a href="https://jmablog.github.io/tinieR/articles/full-walkthrough.html">see the “Full walkthrough” vignette here</a>.</p>
 </div>
 </div>
   </div>
