@@ -47,4 +47,4 @@ By default, `tinify()` will create a new file with the suffix '_tiny' in the sam
 
 ## Advanced use
 
-For details on all the options **tinieR** provides, [see the "Full walkthrough" vignette here](https://jmablog.github.io/tinieR/articles/full-walkthrough.html).
+For details on all the options **tinieR** provides, [see the "full walkthrough" vignette here](https://jmablog.github.io/tinieR/articles/tinieR.html).
