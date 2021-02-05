@@ -58,21 +58,24 @@ paths included as \verb{$project}, \verb{$relative}, and \verb{$absolute} respec
 }
 \description{
 Shrink an image's (PNG or JPG) filesize with the TinyPNG API.
-Designed to be quick and easy for basic use, but to provide all the extra
-options of the TinyPNG API if required.
 }
-\details{
-You can get a TinyPNG API key from \url{https://tinypng.com/developers}.
+\section{Note}{
+ If any argument is provided to \code{tinify()} when called, it will overwrite the
+default option set by \code{tinify_defaults()}.
+}
 
-TinyPNG is smart enough to know when you are uploading the same file again,
-and so will not count repeat calls of \code{tinify()} on the same image file
-against your monthly API usage limit. This can be useful if, for example,
-you are using \code{tinify()} in an RMarkdown document as it won't count against
-your API usage every time you knit your document. But, be aware that use of
-\code{resize} also counts as an additional API call, as the image is first
-reduced in filesize, then a second API call is made to resize the newly
-tinified file.
+\section{TinyPNG API}{
+ You can get a TinyPNG API key from
+\url{https://tinypng.com/developers}. TinyPNG is smart enough to know when you
+are uploading the same file again, and so will not count repeat calls of
+\code{tinify()} on the same image file against your monthly API usage limit. This
+can be useful if, for example, you are using \code{tinify()} in an RMarkdown
+document as it won't count against your API usage every time you knit your
+document. But, be aware that use of \code{resize} also counts as an additional
+API call, as the image is first reduced in filesize, then a second API call
+is made to resize the newly tinified file.
 }
+
 \examples{
 \dontrun{
 # Shrink a PNG file
@@ -143,6 +146,6 @@ purrr::map(imgs_dir, ~tinify(.x, overwrite = TRUE, quiet = TRUE))
 \code{\link[=tinify_key]{tinify_key()}} to set an API key globally so it does not need to be
 provided with every call of \code{tinify()}
 
-\code{\link[=tinify_defaults]{tinify_defaults()}} to set default arguments so they do not need to be
-provided with every call of \code{tinify()}
+\code{\link[=tinify_defaults]{tinify_defaults()}} to set default arguments so they do not need to
+be provided with every call of \code{tinify()}
 }

@@ -167,6 +167,7 @@ tinify("example.png")
 #> 13 Tinify API calls this month
 
 tinify_defaults(suffix = "_small")
+#> Tinify 'suffix' set to: "_small"
 
 tinify("example2.png")
 
@@ -180,6 +181,7 @@ Any arguments supplied directly to `tinify()` will **always** overrule any defau
 ``` r
 
 tinify_defaults(suffix = "_small")
+#> Tinify 'suffix' set to: "_small"
 
 tinify("example2.png", suffix = "_shrunk")
 
@@ -204,16 +206,29 @@ tinify("example.png")
 #> 17 Tinify API calls this month
 
 tinify_defaults(quiet = TRUE)
+#> Tinify 'quiet' set to: TRUE
 
 tinify("example2.png")
 
 tinify_defaults(quiet = NULL)
+#> Tinify 'quiet' set to: FALSE
 
 tinify("example3.png")
 
 #> Filesize reduced by 50%:
 #> example3.png (20K) => example3_tiny.png (10K)
 #> 19 Tinify API calls this month
+```
+
+To see **all** the current defaults set, called `tinify_defaults()` without any arguments:
+
+```r
+tinify_defaults()
+#> Tinify 'overwrite' set to: FALSE
+#> Tinify 'suffix' set to: "_tiny"
+#> Tinify 'quiet' set to: FALSE
+#> Tinify 'return_path' set to: No return
+#> Tinify 'resize' set to: No resize
 ```
 
 ## Further examples

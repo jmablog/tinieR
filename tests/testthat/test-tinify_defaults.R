@@ -1,8 +1,15 @@
 context("Check tinify defaults are correctly set")
 
-test_that("Throws error if no arguments provided at all", {
+test_that("Prints options set when no arguments provided", {
 
-  expect_error(tinify_defaults())
+  expect_message(tinify_defaults())
+
+  prev <- getOption("tinify_resize")
+
+  tinify_defaults(resize = list(method = "scale", width = 300))
+  expect_message(tinify_defaults())
+
+  on.exit(options(tinify_resize= prev), add = TRUE, after = FALSE)
 
 })
 

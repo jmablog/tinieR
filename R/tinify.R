@@ -1,19 +1,19 @@
 #'@title Shrink Image Files with TinyPNG
 #'
 #'@description Shrink an image's (PNG or JPG) filesize with the TinyPNG API.
-#'  Designed to be quick and easy for basic use, but to provide all the extra
-#'  options of the TinyPNG API if required.
 #'
-#'@details You can get a TinyPNG API key from <https://tinypng.com/developers>.
+#'@section Note: If any argument is provided to `tinify()` when called, it will overwrite the
+#'  default option set by `tinify_defaults()`.
 #'
-#'  TinyPNG is smart enough to know when you are uploading the same file again,
-#'  and so will not count repeat calls of `tinify()` on the same image file
-#'  against your monthly API usage limit. This can be useful if, for example,
-#'  you are using `tinify()` in an RMarkdown document as it won't count against
-#'  your API usage every time you knit your document. But, be aware that use of
-#'  `resize` also counts as an additional API call, as the image is first
-#'  reduced in filesize, then a second API call is made to resize the newly
-#'  tinified file.
+#'@section TinyPNG API: You can get a TinyPNG API key from
+#'  <https://tinypng.com/developers>. TinyPNG is smart enough to know when you
+#'  are uploading the same file again, and so will not count repeat calls of
+#'  `tinify()` on the same image file against your monthly API usage limit. This
+#'  can be useful if, for example, you are using `tinify()` in an RMarkdown
+#'  document as it won't count against your API usage every time you knit your
+#'  document. But, be aware that use of `resize` also counts as an additional
+#'  API call, as the image is first reduced in filesize, then a second API call
+#'  is made to resize the newly tinified file.
 #'
 #'@param file String, required. A string detailing the path to the file you wish
 #'  to shrink, relative to the current working directory or as an absolute file
@@ -62,8 +62,8 @@
 #'@export
 #'@seealso [tinify_key()] to set an API key globally so it does not need to be
 #'  provided with every call of `tinify()`
-#' @seealso [tinify_defaults()] to set default arguments so they do not need to be
-#'  provided with every call of `tinify()`
+#'@seealso [tinify_defaults()] to set default arguments so they do not need to
+#'  be provided with every call of `tinify()`
 #' @examples
 #' \dontrun{
 #' # Shrink a PNG file

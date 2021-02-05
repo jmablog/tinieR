@@ -1,3 +1,7 @@
+## tinieR 0.4.1
+
+* Modified behaviour of `tinify_defaults()`: now prints changes made to the console, and if called without any arguments, prints all current default settings.
+
 ## tinieR 0.4.0
 
 * Added ability to set global defaults for `tinify()` arguments with `tinify_defaults()`.

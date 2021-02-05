@@ -41,19 +41,33 @@ not both. If using any other method, you must supply both a \code{width} AND
 the examples for more.}
 }
 \description{
-Set some default options for \code{tinify()} in the global environment, so it is
-no longer necessary to explicitly provide each argument with every
-call of \code{tinify()}.
-}
-\details{
+Set some default options for \code{tinify()} in the global environment, so it is no
+longer necessary to explicitly provide each argument with every call of
+\code{tinify()}.
+
+If called without any arguments, \code{tinify_defaults()} will print
+the current default options set to the console.
+
 To set any option back to the package default, set it to \code{NULL}.
 }
 \examples{
 \dontrun{
+
 tinify_defaults(quiet = TRUE, suffix = "_small")
 
 # set an option back to the package default
+
 tinify_defaults(quiet = NULL)
+
+# show current defaults set
+
+tinify_defaults()
+#> Tinify 'overwrite' set to: FALSE
+#> Tinify 'suffix' set to: "_tiny"
+#> Tinify 'quiet' set to: FALSE
+#> Tinify 'return_path' set to: No return
+#> Tinify 'resize' set to: No resize
+
 }
 }
 \seealso{
