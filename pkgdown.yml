@@ -2,8 +2,8 @@ pandoc: 2.7.3
 pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
-  full-walkthrough: full-walkthrough.html
-last_built: 2021-02-05T15:09Z
+  tinieR: tinieR.html
+last_built: 2021-02-05T15:29Z
 urls:
   reference: http://jmablog.github.io/tinieR/reference
   article: http://jmablog.github.io/tinieR/articles
