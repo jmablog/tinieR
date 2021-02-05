@@ -1,6 +1,7 @@
 ## tinieR 0.4.1
 
 * Modified behaviour of `tinify_defaults()`: now prints changes made to the console, and if called without any arguments, prints all current default settings.
+* Moved bulk of Readme into vignette (["Full walkthrough"](https://jmablog.github.io/tinieR/articles/full-walkthrough.html)).
 
 ## tinieR 0.4.0
 
