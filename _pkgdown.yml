@@ -1,3 +1,7 @@
 url: http://jmablog.github.io/tinieR
+navbar:
+  structure:
+    left:  [home, intro]
+    right: [reference, articles, tutorials, news, github]
 template:
   package: preferably
