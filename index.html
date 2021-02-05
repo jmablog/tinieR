@@ -165,7 +165,7 @@
 <code class="sourceCode R"><span class="va">shrunk_img</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/tinify.html">tinify</a></span><span class="op">(</span><span class="st">"imgs/example.png"</span>, return_path <span class="op">=</span> <span class="st">"abs"</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 
 <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/include_graphics.html">include_graphics</a></span><span class="op">(</span><span class="va">shrunk_img</span><span class="op">)</span></code></pre></div>
-<p>Set to <code>return_path = "proj"</code> to return the path to the newly tinified file relative to the <strong>project</strong> directory, no matter the current working directory. This looks for an <a href="https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects">Rstudio project</a> file (.Rproj) in the current directory or above, and return the path from there.</p>
+<p>Set to <code>return_path = "proj"</code> to return the path to the newly tinified file relative to the <strong>project</strong> directory, no matter the current working directory. This looks for an <a href="https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects">Rstudio project</a> file (.Rproj) in the current directory or above, and returns the path from there.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span><span class="op">(</span><span class="st">"imgs"</span><span class="op">)</span>
 
@@ -177,7 +177,7 @@
 
 <span class="fu"><a href="reference/tinify.html">tinify</a></span><span class="op">(</span><span class="st">"example.png"</span>, return_path <span class="op">=</span> <span class="st">"rel"</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="co">#&gt; "./examples.png"</span></code></pre></div>
-<p>Either of these options may be useful if sharing a script with others across platforms, if you can be sure your project setups will be the same and you are being strict with working directories. Finally, set to <code>return_path = "all"</code> to return both types of file path as a named list:</p>
+<p>Either of these options may be useful if sharing a script with others across platforms, if you can be sure your project setups will be the same and you are being strict with working directories. Finally, set to <code>return_path = "all"</code> to return all 3 types of file path as a named list:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">shrunk_img_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/tinify.html">tinify</a></span><span class="op">(</span><span class="st">"imgs/example.png"</span>, return_path <span class="op">=</span> <span class="st">"all"</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 
@@ -221,7 +221,7 @@
 <span class="co">#&gt; Filesize reduced by 50%:</span>
 <span class="co">#&gt; example2.png (20K) =&gt; example2_small.png (10K)</span>
 <span class="co">#&gt; 14 Tinify API calls this month</span></code></pre></div>
-<p>Any set defaults can be overruled on a case-by-case basis by supplying the argument again when calling <code><a href="reference/tinify.html">tinify()</a></code>:</p>
+<p>Any arguments supplied directly to <code><a href="reference/tinify.html">tinify()</a></code> will <strong>always</strong> overrule any default options:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
 <span class="fu"><a href="reference/tinify_defaults.html">tinify_defaults</a></span><span class="op">(</span>suffix <span class="op">=</span> <span class="st">"_small"</span><span class="op">)</span>
