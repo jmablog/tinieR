@@ -24,4 +24,7 @@ Imports:
     rprojroot,
     stringr
 Suggests: 
-    testthat
+    testthat,
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
