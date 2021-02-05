@@ -5,3 +5,13 @@ navbar:
     right: [reference, articles, tutorials, news, github]
 template:
   package: preferably
+reference:
+- title: Tinify
+  desc:  Shrink image filesizes and/or dimensions.
+- contents:
+  - tinify
+- title: Options
+  desc:  Set default options for tinify.
+- contents:
+  - tinify_key
+  - tinify_defaults
