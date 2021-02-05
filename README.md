@@ -29,35 +29,11 @@ library(tinier)
 tinify_key("YOUR-API-KEY-HERE")
 ```
 
-Or you can provide your API key as an argument to `tinify()` at every call:
-
-``` r
-my_key <- "YOUR-API-KEY-HERE"
-
-tinify("example.png", key = my_key)
-```
-
-Providing an API key as an argument to `tinify()` will override any API key set with `tinify_api()`. This could be useful if utilising multiple API keys.
-
-Be careful including your API key in any scripts you write, especially if you're going to be publicly or privately sharing those scripts with others! You might consider setting your API key instead in your .Renviron file (~/.Renviron). If you use the variable name `TINY_API` in .Renviron, `tinify()` should find it, and you can skip using `tinify_api()` or providing an API at each call of `tinify()`.
-
-To edit your .Renviron in Rstudio:
-
-``` r
-usethis::edit_r_environ()
-```
-
-Then save into .Renviron:
-
-``` r
-TINY_API = "YOUR-API-KEY-HERE"
-```
-
-Restart your R session, and your TinyPNG API key will be stored as an environment variable that `tinify()` will automatically find.
+Be careful including your API key in any scripts you write, especially if you're going to be publicly or privately sharing those scripts with others! You might consider setting your API key instead in your [.Renviron file](https://support.rstudio.com/hc/en-us/articles/360047157094-Managing-R-with-Rprofile-Renviron-Rprofile-site-Renviron-site-rsession-conf-and-repos-conf) (~/.Renviron). If you use the variable name `TINY_API` in .Renviron, `tinify()` should find it, and you can skip using `tinify_api()` or providing an API at each call of `tinify()`.
 
 ## Basic use
 
-To shrink an image file's size, provide a path to the file relative to the current working directory.:
+To shrink an image file's size, provide a path to the file relative to the current working directory to `tinify()`:
 
 ``` r
 tinify("example.png")
@@ -67,8 +43,8 @@ tinify("example.png")
 #> 10 Tinify API calls this month
 ```
 
-By default, `tinify` will create a new file with the suffix '_tiny' in the same directory as the original file.
+By default, `tinify()` will create a new file with the suffix '_tiny' in the same directory as the original file.
 
 ## Advanced use
 
-[For a full package walkthrough, see the vignette here](https://jmablog.github.io/tinieR/articles/full-walkthrough.html).
+For details on all the options **tinieR** provides, [see the "Full walkthrough" vignette here](https://jmablog.github.io/tinieR/articles/full-walkthrough.html).
