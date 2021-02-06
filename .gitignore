@@ -1,7 +1,9 @@
 .Rproj.user
 .Rhistory
 .RData
+.Rprofile
 docs
 
 codecov.yml
 inst/doc
+inst/extData/*localtest*.*
