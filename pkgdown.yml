@@ -3,7 +3,7 @@ pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
   tinieR: tinieR.html
-last_built: 2021-02-06T17:24Z
+last_built: 2021-02-06T17:46Z
 urls:
   reference: http://jmablog.github.io/tinieR/reference
   article: http://jmablog.github.io/tinieR/articles
