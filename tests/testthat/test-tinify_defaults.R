@@ -4,12 +4,12 @@ test_that("Prints options set when no arguments provided", {
 
   expect_message(tinify_defaults())
 
-  prev <- getOption("tinify_resize")
+  prev <- getOption("tinify.resize")
 
   tinify_defaults(resize = list(method = "scale", width = 300))
   expect_message(tinify_defaults())
 
-  on.exit(options(tinify_resize= prev), add = TRUE, after = FALSE)
+  on.exit(options(tinify.resize = prev), add = TRUE, after = FALSE)
 
 })
 
@@ -23,14 +23,14 @@ test_that("Overwrite is a boolean", {
   expect_error(tinify_defaults(overwrite = list(one = "one", two = "two")))
   expect_error(tinify_defaults(overwrite = data.frame(one = "one", two = "two")))
 
-  prev <- getOption("tinify_overwrite")
+  prev <- getOption("tinify.overwrite")
 
   tinify_defaults(overwrite = TRUE)
-  expect_equal(TRUE, getOption("tinify_overwrite"))
+  expect_equal(TRUE, getOption("tinify.overwrite"))
   tinify_defaults(overwrite = FALSE)
-  expect_equal(FALSE, getOption("tinify_overwrite"))
+  expect_equal(FALSE, getOption("tinify.overwrite"))
   tinify_defaults(overwrite = NULL)
-  expect_equal(NULL, getOption("tinify_overwrite"))
+  expect_equal(NULL, getOption("tinify.overwrite"))
 
   on.exit(options(tinify_overwrite = prev), add = TRUE, after = FALSE)
 
@@ -46,12 +46,12 @@ test_that("Suffix is a string of length 1", {
   expect_error(tinify_defaults(suffix = list(one = "one", two = "two")))
   expect_error(tinify_defaults(suffix = data.frame(one = "one", two = "two")))
 
-  prev <- getOption("tinify_suffix")
+  prev <- getOption("tinify.suffix")
 
   tinify_defaults(suffix = "_small")
-  expect_equal("_small", getOption("tinify_suffix"))
+  expect_equal("_small", getOption("tinify.suffix"))
   tinify_defaults(suffix = NULL)
-  expect_equal(NULL, getOption("tinify_suffix"))
+  expect_equal(NULL, getOption("tinify.suffix"))
 
   on.exit(options(tinify_suffix = prev), add = TRUE, after = FALSE)
 
@@ -67,14 +67,14 @@ test_that("Quiet is a boolean", {
   expect_error(tinify_defaults(quiet = list(one = "one", two = "two")))
   expect_error(tinify_defaults(quiet = data.frame(one = "one", two = "two")))
 
-  prev <- getOption("tinify_quiet")
+  prev <- getOption("tinify.quiet")
 
   tinify_defaults(quiet = TRUE)
-  expect_equal(TRUE, getOption("tinify_quiet"))
+  expect_equal(TRUE, getOption("tinify.quiet"))
   tinify_defaults(quiet = FALSE)
-  expect_equal(FALSE, getOption("tinify_quiet"))
+  expect_equal(FALSE, getOption("tinify.quiet"))
   tinify_defaults(quiet = NULL)
-  expect_equal(NULL, getOption("tinify_quiet"))
+  expect_equal(NULL, getOption("tinify.quiet"))
 
   on.exit(options(tinify_quiet= prev), add = TRUE, after = FALSE)
 
@@ -90,18 +90,18 @@ test_that("Return path is a string of length 1", {
   expect_error(tinify_defaults(return_path = list(one = "one", two = "two")))
   expect_error(tinify_defaults(return_path = data.frame(one = "one", two = "two")))
 
-  prev <- getOption("tinify_return_path")
+  prev <- getOption("tinify.return_path")
 
   tinify_defaults(return_path = "rel")
-  expect_equal("rel", getOption("tinify_return_path"))
+  expect_equal("rel", getOption("tinify.return_path"))
   tinify_defaults(return_path = "abs")
-  expect_equal("abs", getOption("tinify_return_path"))
+  expect_equal("abs", getOption("tinify.return_path"))
   tinify_defaults(return_path = "proj")
-  expect_equal("proj", getOption("tinify_return_path"))
+  expect_equal("proj", getOption("tinify.return_path"))
   tinify_defaults(return_path = "all")
-  expect_equal("all", getOption("tinify_return_path"))
+  expect_equal("all", getOption("tinify.return_path"))
   tinify_defaults(return_path = NULL)
-  expect_equal(NULL, getOption("tinify_return_path"))
+  expect_equal(NULL, getOption("tinify.return_path"))
 
   on.exit(options(tinify_return_path = prev), add = TRUE, after = FALSE)
 
@@ -130,14 +130,14 @@ test_that("Resize is a list of correct arguments", {
   expect_error(tinify_defaults(resize = list(method = "cover", width = 300)))
   expect_error(tinify_defaults(resize = list(method = "thumb", height = 300)))
 
-  prev <- getOption("tinify_resize")
+  prev <- getOption("tinify.resize")
 
   tinify_defaults(resize = list(method = "scale", width = 300))
-  expect_equal(list(method = "scale", width = 300), getOption("tinify_resize"))
+  expect_equal(list(method = "scale", width = 300), getOption("tinify.resize"))
   tinify_defaults(resize = list(method = "cover", width = 300, height = 150))
-  expect_equal(list(method = "cover", width = 300, height = 150), getOption("tinify_resize"))
+  expect_equal(list(method = "cover", width = 300, height = 150), getOption("tinify.resize"))
   tinify_defaults(resize = NULL)
-  expect_equal(NULL, getOption("tinify_resize"))
+  expect_equal(NULL, getOption("tinify.resize"))
 
   on.exit(options(tinify_resize= prev), add = TRUE, after = FALSE)
 

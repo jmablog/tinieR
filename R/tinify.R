@@ -140,23 +140,23 @@ tinify <- function(file,
   # Check arguments against defaults from tinify_defaults ======================
 
   if(missing(overwrite)) {
-    overwrite <- getOption("tinify_overwrite", default = FALSE)
+    overwrite <- getOption("tinify.overwrite", default = FALSE)
   }
 
   if(missing(suffix)) {
-    suffix <- getOption("tinify_suffix", default = "_tiny")
+    suffix <- getOption("tinify.suffix", default = "_tiny")
   }
 
   if(missing(quiet)) {
-    quiet <- getOption("tinify_quiet", default = FALSE)
+    quiet <- getOption("tinify.quiet", default = FALSE)
   }
 
   if(missing(return_path)) {
-    return_path <- getOption("tinify_return_path", default = NULL)
+    return_path <- getOption("tinify.return_path", default = NULL)
   }
 
   if(missing(resize)) {
-    resize <- getOption("tinify_resize", default = NULL)
+    resize <- getOption("tinify.resize", default = NULL)
   }
 
   # Error checking =============================================================

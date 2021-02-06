@@ -53,7 +53,7 @@
 #'
 #' tinify_defaults()
 #' #> Tinify 'overwrite' set to: FALSE
-#' #> Tinify 'suffix' set to: "_tiny"
+#' #> Tinify 'suffix' set to: "_small"
 #' #> Tinify 'quiet' set to: FALSE
 #' #> Tinify 'return_path' set to: No return
 #' #> Tinify 'resize' set to: No resize
@@ -65,52 +65,57 @@ tinify_defaults <- function(overwrite,
                        return_path,
                        resize) {
 
+  # overwrite ==================================================================
   if(!missing(overwrite)){
     if(!identical(overwrite, TRUE) & !identical(overwrite, FALSE) & !identical(overwrite, NULL)) {
-      stop("Please provide 'overwrite' as TRUE or FALSE, or NULL")
+      stop("Please provide 'overwrite' as TRUE or FALSE, or NULL to reset to package default")
     } else {
-      options(tinify_overwrite = overwrite)
+      options(tinify.overwrite = overwrite)
     }
-    message(glue::glue("Tinify 'overwrite' set to: {getOption('tinify_overwrite', default = FALSE)}"))
+    message(glue::glue("Tinify 'overwrite' set to: {getOption('tinify.overwrite', default = FALSE)}"))
   }
 
+  # suffix =====================================================================
   if(!missing(suffix)){
     if (is.null(suffix)) {
-      options(tinify_suffix = suffix)
+      options(tinify.suffix = suffix)
     } else if(!is.character(suffix) | length(suffix) > 1 | suffix == "") {
-      stop("Please provide 'suffix' as a non-empty character string, or NULL")
+      stop("Please provide 'suffix' as a non-empty character string, or NULL to reset to package default")
     } else {
-      options(tinify_suffix = suffix)
+      options(tinify.suffix = suffix)
     }
-    suf_set <- if (!is.null(getOption('tinify_suffix'))) glue::glue("\"{getOption('tinify_suffix')}\"") else '\"_tiny\"'
+    suf_set <- if (!is.null(getOption('tinify.suffix'))) glue::glue("\"{getOption('tinify.suffix')}\"") else '\"_tiny\"'
     message(glue::glue("Tinify 'suffix' set to: {suf_set}"))
   }
 
+  # quiet ======================================================================
   if(!missing(quiet)){
     if(!identical(quiet, TRUE) & !identical(quiet, FALSE) & !identical(quiet, NULL)) {
-      stop("Please provide 'quiet' as TRUE or FALSE, or NULL")
+      stop("Please provide 'quiet' as TRUE or FALSE, or NULL to reset to package default")
     } else {
-      options(tinify_quiet = quiet)
+      options(tinify.quiet = quiet)
     }
-    message(glue::glue("Tinify 'quiet' set to: {getOption('tinify_quiet', default = FALSE)}"))
+    message(glue::glue("Tinify 'quiet' set to: {getOption('tinify.quiet', default = FALSE)}"))
   }
 
+  # return_path ================================================================
   if(!missing(return_path)){
     if (is.null(return_path)) {
-      options(tinify_return_path = return_path)
+      options(tinify.return_path = return_path)
     } else if(!(return_path %in% c("proj", "rel", "abs", "all"))) {
-      stop("Please provide 'return_path' as one of  'proj', 'rel', 'abs', or 'all', or NULL")
+      stop("Please provide 'return_path' as one of  'proj', 'rel', 'abs', or 'all', or NULL to reset to package default")
     } else {
-      options(tinify_return_path = return_path)
+      options(tinify.return_path = return_path)
     }
-    ret_set <- if (!is.null(getOption('tinify_return_path'))) glue::glue("\"{getOption('tinify_return_path')}\"") else 'No return'
+    ret_set <- if (!is.null(getOption('tinify.return_path'))) glue::glue("\"{getOption('tinify.return_path')}\"") else 'No return'
     message(glue::glue("Tinify 'return_path' set to: {ret_set}"))
   }
 
+  # resize =====================================================================
   if(!missing(resize)){
 
     if (is.null(resize)) {
-      options(tinify_resize = resize)
+      options(tinify.resize = resize)
     } else if(!is.list(resize) | length(resize) < 2 | length(resize) > 3){
       # Check resize is a list of min length 2 and max length 3
       stop("Resize must be a list that includes a 'method' and one or both of 'width' or 'height'")
@@ -130,7 +135,7 @@ tinify_defaults <- function(overwrite,
       # Check both width and height provided for other methods besides 'scale'
       stop(paste0("You must provide a width AND height for method '", resize$method, "'"))
     } else {
-      options(tinify_resize = resize)
+      options(tinify.resize = resize)
     }
     if(!is.null(resize)) {
       for (i in 1:length(resize)) {
@@ -145,15 +150,21 @@ tinify_defaults <- function(overwrite,
     }
   }
 
+  # print defaults =============================================================
   if (missing(overwrite) & missing(suffix) & missing(quiet) & missing(return_path) & missing(resize)) {
-    message(glue::glue("Tinify 'overwrite' set to: {getOption('tinify_overwrite', default = FALSE)}"))
-    suf_set <- if (!is.null(getOption('tinify_suffix'))) glue::glue("\"{getOption('tinify_suffix')}\"") else '\"_tiny\"'
+    # overwrite
+    message(glue::glue("Tinify 'overwrite' set to: {getOption('tinify.overwrite', default = FALSE)}"))
+    # suffix
+    suf_set <- if (!is.null(getOption('tinify.suffix'))) glue::glue("\"{getOption('tinify.suffix')}\"") else '\"_tiny\"'
     message(glue::glue("Tinify 'suffix' set to: {suf_set}"))
-    message(glue::glue("Tinify 'quiet' set to: {getOption('tinify_quiet', default = FALSE)}"))
-    ret_set <- if (!is.null(getOption('tinify_return_path'))) glue::glue("\"{getOption('tinify_return_path')}\"") else 'No return'
+    # quiet
+    message(glue::glue("Tinify 'quiet' set to: {getOption('tinify.quiet', default = FALSE)}"))
+    # return_path
+    ret_set <- if (!is.null(getOption('tinify.return_path'))) glue::glue("\"{getOption('tinify.return_path')}\"") else 'No return'
     message(glue::glue("Tinify 'return_path' set to: {ret_set}"))
-    if(!is.null(getOption("tinify_resize"))) {
-      resize <- getOption("tinify_resize")
+    # resize
+    if(!is.null(getOption("tinify.resize"))) {
+      resize <- getOption("tinify.resize")
       for (i in 1:length(resize)) {
           if (is.character(resize[[i]])) {
             message(glue::glue('Tinify \'resize\' {(names(resize)[i])} set to: \"{resize[[i]]}\"'))
