@@ -2,6 +2,7 @@
 
 * Updated names of options set by `tinify_defaults()` to match convention (e.g. `tinify_overwrite` -> `tinify.overwrite`).
 * Now removes all options set by `tinify_defaults()` on unloading of package.
+* Fixed some file path errors in `return_path` that should work better across all platforms.
 
 ## tinieR 0.4.1
 

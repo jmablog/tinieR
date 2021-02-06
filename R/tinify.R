@@ -357,7 +357,7 @@ tinify <- function(file,
     loc_path <- fs::path_dir(file)
     loc_file <- fs::path_file(new_file)
 
-    return(as.character(glue::glue("{loc_path}/{loc_file}")))
+    return(as.character(fs::path_join(c(loc_path, loc_file))))
 
   } else if(identical(return_path, "proj")) {
 
@@ -365,10 +365,10 @@ tinify <- function(file,
 
     tryCatch({
     proj_dir <- glue::glue(
-      "{rprojroot::find_root(path = new_file, criterion = rprojroot::is_rstudio_project)}/"
+      "{rprojroot::find_root(path = new_file, criterion = rprojroot::is_rstudio_project)}"
     )
-    proj_file <- suppressWarnings(stringr::str_remove(new_file, stringr::coll(proj_dir)))
-    return(proj_file)
+    proj_file <- fs::path_rel(start = proj_dir, path = new_file)
+    return(as.character(proj_file))
     },
     error = function (err) {
       proj_file <- NA
@@ -383,18 +383,17 @@ tinify <- function(file,
 
     loc_path <- fs::path_dir(file)
     loc_file <- fs::path_file(new_file)
-    rel_file <- as.character(glue::glue("{loc_path}/{loc_file}"))
+    rel_file <- as.character(fs::path_join(c(loc_path, loc_file)))
 
     tryCatch({
       proj_dir <- glue::glue(
-        "{rprojroot::find_root(path = new_file, criterion = rprojroot::is_rstudio_project)}/"
+        "{rprojroot::find_root(path = new_file, criterion = rprojroot::is_rstudio_project)}"
       )
-      proj_file <- suppressWarnings(stringr::str_remove(new_file, stringr::coll(proj_dir)))
+      proj_file <- as.character(fs::path_rel(start = proj_dir, path = new_file))
       return(list(absolute = abs_file, relative = rel_file, project = proj_file))
     },
     error = function (err) {
-      proj_file <- NA
-      return(list(absolute = abs_file, relative = rel_file, project = proj_file))
+      return(list(absolute = abs_file, relative = rel_file, project = NA))
     })
 
   }
