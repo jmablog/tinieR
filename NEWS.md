@@ -1,3 +1,8 @@
+## tinieR 0.4.2
+
+* Updated names of options set by `tinify_defaults()` to match convention (e.g. `tinify_overwrite` -> `tinify.overwrite`).
+* Now removes all options set by `tinify_defaults()` on unloading of package.
+
 ## tinieR 0.4.1
 
 * Modified behaviour of `tinify_defaults()`: now prints changes made to the console, and if called without any arguments, prints all current default settings.
