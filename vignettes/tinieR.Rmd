@@ -189,7 +189,7 @@ tinify("example.png")
 
 tinify_defaults(suffix = "_small")
 
-#> Tinify 'suffix' set to: "_small"
+#> Tinify 'suffix' changed to: "_small"
 
 tinify("example2.png")
 
@@ -204,7 +204,7 @@ Any arguments supplied directly to `tinify()` will **always** overrule any defau
 
 tinify_defaults(suffix = "_small")
 
-#> Tinify 'suffix' set to: "_small"
+#> Tinify 'suffix' changed to: "_small"
 
 tinify("example2.png", suffix = "_shrunk")
 
@@ -230,13 +230,13 @@ tinify("example.png")
 
 tinify_defaults(quiet = TRUE)
 
-#> Tinify 'quiet' set to: TRUE
+#> Tinify 'quiet' changed to: TRUE
 
 tinify("example2.png")
 
 tinify_defaults(quiet = NULL)
 
-#> Tinify 'quiet' set to: FALSE
+#> Tinify 'quiet' changed to: FALSE
 
 tinify("example3.png")
 
@@ -266,11 +266,11 @@ tinify_defaults(suffix = "_resized",
                 resize = list(method = "scale",
                              width = 100))
 
-#> Tinify 'suffix' set to: "_resized"
-#> Tinify 'quiet' set to: TRUE
-#> Tinify 'return_path' set to: "proj"
-#> Tinify 'resize' method set to: "scale"
-#> Tinify 'resize' width set to: 100
+#> Tinify 'suffix' changed to: "_resized"
+#> Tinify 'quiet' changed to: TRUE
+#> Tinify 'return_path' changed to: "proj"
+#> Tinify 'resize' method changed to: "scale"
+#> Tinify 'resize' width changed to: 100
 
 knitr::include_graphics(tinify("imgs/example1.png"))
 

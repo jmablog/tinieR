@@ -72,7 +72,7 @@ tinify_defaults <- function(overwrite,
     } else {
       options(tinify.overwrite = overwrite)
     }
-    message(glue::glue("Tinify 'overwrite' set to: {getOption('tinify.overwrite', default = FALSE)}"))
+    message(glue::glue("Tinify 'overwrite' changed to: {getOption('tinify.overwrite', default = FALSE)}"))
   }
 
   # suffix =====================================================================
@@ -85,7 +85,7 @@ tinify_defaults <- function(overwrite,
       options(tinify.suffix = suffix)
     }
     suf_set <- if (!is.null(getOption('tinify.suffix'))) glue::glue("\"{getOption('tinify.suffix')}\"") else '\"_tiny\"'
-    message(glue::glue("Tinify 'suffix' set to: {suf_set}"))
+    message(glue::glue("Tinify 'suffix' changed to: {suf_set}"))
   }
 
   # quiet ======================================================================
@@ -95,7 +95,7 @@ tinify_defaults <- function(overwrite,
     } else {
       options(tinify.quiet = quiet)
     }
-    message(glue::glue("Tinify 'quiet' set to: {getOption('tinify.quiet', default = FALSE)}"))
+    message(glue::glue("Tinify 'quiet' changed to: {getOption('tinify.quiet', default = FALSE)}"))
   }
 
   # return_path ================================================================
@@ -108,7 +108,7 @@ tinify_defaults <- function(overwrite,
       options(tinify.return_path = return_path)
     }
     ret_set <- if (!is.null(getOption('tinify.return_path'))) glue::glue("\"{getOption('tinify.return_path')}\"") else 'No return'
-    message(glue::glue("Tinify 'return_path' set to: {ret_set}"))
+    message(glue::glue("Tinify 'return_path' changed to: {ret_set}"))
   }
 
   # resize =====================================================================
@@ -140,13 +140,13 @@ tinify_defaults <- function(overwrite,
     if(!is.null(resize)) {
       for (i in 1:length(resize)) {
           if (is.character(resize[[i]])) {
-            message(glue::glue('Tinify \'resize\' {(names(resize)[i])} set to: \"{resize[[i]]}\"'))
+            message(glue::glue('Tinify \'resize\' {(names(resize)[i])} changed to: \"{resize[[i]]}\"'))
           } else {
-            message(glue::glue('Tinify \'resize\' {(names(resize)[i])} set to: {resize[[i]]}'))
+            message(glue::glue('Tinify \'resize\' {(names(resize)[i])} changed to: {resize[[i]]}'))
           }
         }
     } else {
-      message(glue::glue("Tinify 'resize' set to: No resize"))
+      message(glue::glue("Tinify 'resize' changed to: No resize"))
     }
   }
 
