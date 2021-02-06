@@ -63,7 +63,7 @@ tinify_defaults(quiet = NULL)
 
 tinify_defaults()
 #> Tinify 'overwrite' set to: FALSE
-#> Tinify 'suffix' set to: "_tiny"
+#> Tinify 'suffix' set to: "_small"
 #> Tinify 'quiet' set to: FALSE
 #> Tinify 'return_path' set to: No return
 #> Tinify 'resize' set to: No resize
