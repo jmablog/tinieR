@@ -1,12 +1,12 @@
 Package: tinieR
-Title: Shrink Image Filesizes with TinyPNG.com
+Title: Shrink Image Filesizes with TinyPNG.com API
 Version: 0.4.2
 Authors@R: 
     person(given = "James",
            family = "Adams",
            role = c("aut", "cre"),
            email = "james@jmablog.com")
-Description: Shrink image filesizes with the TinyPNG API <https://tinypng.com>. Works with .png and .jpg/.jpeg files, and can return the new image filepath to enable embedding in other image workflows/functions.
+Description: Shrink image filesizes with the TinyPNG API <https://tinypng.com>. From the TinyPNG website: "TinyPNG uses smart lossy compression techniques to reduce the file size of your files. By selectively decreasing the number of colors in the image, fewer bytes are required to store the data. The effect is nearly invisible but it makes a very large difference in file size!" TinieR works with .png and .jpg/.jpeg files, and can return the new image filepath to enable embedding in other image workflows/functions.
 License: MIT + file LICENSE
 URL: https://github.com/jmablog/tinieR
 BugReports: https://github.com/jmablog/tinieR/issues

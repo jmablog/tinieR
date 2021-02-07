@@ -4,9 +4,9 @@
 \name{tinieR-package}
 \alias{tinieR}
 \alias{tinieR-package}
-\title{tinieR: Shrink Image Filesizes with TinyPNG.com}
+\title{tinieR: Shrink Image Filesizes with TinyPNG.com API}
 \description{
-Shrink image filesizes with the TinyPNG API <https://tinypng.com>. Works with .png and .jpg/.jpeg files, and can return the new image filepath to enable embedding in other image workflows/functions.
+Shrink image filesizes with the TinyPNG API <https://tinypng.com>. From the TinyPNG website: "TinyPNG uses smart lossy compression techniques to reduce the file size of your files. By selectively decreasing the number of colors in the image, fewer bytes are required to store the data. The effect is nearly invisible but it makes a very large difference in file size!" TinieR works with .png and .jpg/.jpeg files, and can return the new image filepath to enable embedding in other image workflows/functions.
 }
 \details{
 Shrink image filesizes with the TinyPNG.com API.

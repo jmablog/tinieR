@@ -1,0 +1,115 @@
+---
+title: "Setting default options"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{setting-defaults}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+You can change the defaults for `tinify()` using `tinify_defaults()`. `tinify_defaults()` takes all the same arguments as `tinify()` except `file` and `key`.
+
+Any arguments set in `tinify_defaults()` will apply to all subsequent calls of `tinify()`:
+
+``` r
+tinify("example.png")
+
+#> Filesize reduced by 50%:
+#> example.png (20K) => example_tiny.png (10K)
+#> 13 Tinify API calls this month
+
+tinify_defaults(suffix = "_small")
+
+#> Tinify 'suffix' changed to: "_small"
+
+tinify("example2.png")
+
+#> Filesize reduced by 50%:
+#> example2.png (20K) => example2_small.png (10K)
+#> 14 Tinify API calls this month
+```
+
+Setting the defaults, and in particular `return_path`, lets you use easily use `tinify()` in other image functions that take a string as the image file path to automatically shrink, resize, and insert images throughout your document:
+
+```r
+tinify_defaults(suffix = "_resized",
+                quiet = TRUE,
+                return_path = "proj", 
+                resize = list(method = "scale",
+                             width = 100))
+
+#> Tinify 'suffix' changed to: "_resized"
+#> Tinify 'quiet' changed to: TRUE
+#> Tinify 'return_path' changed to: "proj"
+#> Tinify 'resize' method changed to: "scale"
+#> Tinify 'resize' width changed to: 100
+
+knitr::include_graphics(tinify("imgs/example1.png"))
+
+knitr::include_graphics(tinify("imgs/example2.png"))
+```
+
+## Viewing current defaults
+
+To see **all** the current defaults set, call `tinify_defaults()` without any arguments:
+
+```r
+tinify_defaults()
+
+#> Tinify 'overwrite' set to: FALSE
+#> Tinify 'suffix' set to: "_tiny"
+#> Tinify 'quiet' set to: FALSE
+#> Tinify 'return_path' set to: No return
+#> Tinify 'resize' set to: No resize
+```
+
+## Overrule defaults
+
+Any arguments supplied directly to `tinify()` will **always** overrule any default options:
+
+``` r
+
+tinify_defaults(suffix = "_small")
+
+#> Tinify 'suffix' changed to: "_small"
+
+tinify("example2.png", suffix = "_shrunk")
+
+#> Filesize reduced by 50%:
+#> example2.png (20K) => example2_shrunk.png (10K)
+#> 15 Tinify API calls this month
+
+tinify("example3.png")
+
+#> Filesize reduced by 50%:
+#> example2.png (20K) => example2_small.png (10K)
+#> 16 Tinify API calls this month
+```
+
+## Reset to package defaults
+
+To reset any argument back to the package default, use `tinify_defaults()` with the argument set to `NULL`:
+
+``` r
+tinify("example.png")
+
+#> Filesize reduced by 50%:
+#> example.png (20K) => example_tiny.png (10K)
+#> 17 Tinify API calls this month
+
+tinify_defaults(quiet = TRUE)
+
+#> Tinify 'quiet' changed to: TRUE
+
+tinify("example2.png")
+
+tinify_defaults(quiet = NULL)
+
+#> Tinify 'quiet' changed to: FALSE
+
+tinify("example3.png")
+
+#> Filesize reduced by 50%:
+#> example3.png (20K) => example3_tiny.png (10K)
+#> 19 Tinify API calls this month
+```

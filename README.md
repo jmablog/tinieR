@@ -6,7 +6,16 @@
 [![codecov](https://codecov.io/gh/jmablog/tinieR/branch/master/graph/badge.svg)](https://codecov.io/gh/jmablog/tinieR)
   <!-- badges: end -->
 
-Shrink image filesizes with the [TinyPNG](https://tinypng.com) API. Works with .png and .jpg/.jpeg files, and can return the new image filepath to enable embedding in other image workflows/functions.
+Shrink image filesizes with the [TinyPNG](https://tinypng.com) API.
+
+From the TinyPNG website: "TinyPNG uses smart lossy compression techniques to reduce the file size of your files. By selectively decreasing the number of colors in the image, fewer bytes are required to store the data. The effect is nearly invisible but it makes a very large difference in file size!"
+
+example.png | example_tiny.png
+- | -
+![](man/figures/example.png) | ![](man/figures/example_tiny.png)
+39 Kb | 12 Kb
+
+TinieR works with .png and .jpg/.jpeg files, and can return the new image filepath to enable embedding in other image workflows/functions.
 
 ## Installation
 
@@ -48,3 +57,5 @@ By default, `tinify()` will create a new file with the suffix '_tiny' in the sam
 ## Advanced use
 
 For details on all the options **tinieR** provides, [see the "full walkthrough" vignette here](https://jmablog.github.io/tinieR/articles/tinieR.html).
+
+To set default options for use with `tinify()`, see the ["setting default options"](https://jmablog.github.io/tinieR/articles/setting-defaults.html) vignette.
