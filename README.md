@@ -10,10 +10,10 @@ Shrink image filesizes with the [TinyPNG](https://tinypng.com) API.
 
 From the TinyPNG website: "TinyPNG uses smart lossy compression techniques to reduce the file size of your files. By selectively decreasing the number of colors in the image, fewer bytes are required to store the data. The effect is nearly invisible but it makes a very large difference in file size!"
 
-example.png | example_tiny.png
+Original: | Tinified:
 --- | ---
 ![](man/figures/example.png) | ![](man/figures/example_tiny.png)
-**17 Kb** | **6 Kb**
+example.png: **17 Kb** | example_tiny.png: **6 Kb**
 
 TinieR works with .png and .jpg/.jpeg files, and can return the new image filepath to enable embedding in other image workflows/functions.
 
