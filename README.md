@@ -13,7 +13,7 @@ From the TinyPNG website: "TinyPNG uses smart lossy compression techniques to re
 example.png | example_tiny.png
 --- | ---
 ![](man/figures/example.png) | ![](man/figures/example_tiny.png)
-39 Kb | 12 Kb
+**17 Kb** | **6 Kb**
 
 TinieR works with .png and .jpg/.jpeg files, and can return the new image filepath to enable embedding in other image workflows/functions.
 
