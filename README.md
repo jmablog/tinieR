@@ -11,7 +11,7 @@ Shrink image filesizes with the [TinyPNG](https://tinypng.com) API.
 From the TinyPNG website: "TinyPNG uses smart lossy compression techniques to reduce the file size of your files. By selectively decreasing the number of colors in the image, fewer bytes are required to store the data. The effect is nearly invisible but it makes a very large difference in file size!"
 
 example.png | example_tiny.png
-- | -
+--- | ---
 ![](man/figures/example.png) | ![](man/figures/example_tiny.png)
 39 Kb | 12 Kb
 
