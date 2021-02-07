@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   setting-defaults: setting-defaults.html
   tinieR: tinieR.html
-last_built: 2021-02-07T14:35Z
+last_built: 2021-02-07T15:00Z
 urls:
   reference: http://jmablog.github.io/tinieR/reference
   article: http://jmablog.github.io/tinieR/articles
