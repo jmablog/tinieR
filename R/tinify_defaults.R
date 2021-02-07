@@ -79,7 +79,7 @@ tinify_defaults <- function(overwrite,
   if(!missing(suffix)){
     if (is.null(suffix)) {
       options(tinify.suffix = suffix)
-    } else if(!is.character(suffix) | length(suffix) > 1 | suffix == "") {
+    } else if(!is.character(suffix) || length(suffix) > 1 || suffix == "") {
       stop("Please provide 'suffix' as a non-empty character string, or NULL to reset to package default")
     } else {
       options(tinify.suffix = suffix)
@@ -102,7 +102,7 @@ tinify_defaults <- function(overwrite,
   if(!missing(return_path)){
     if (is.null(return_path)) {
       options(tinify.return_path = return_path)
-    } else if(!(return_path %in% c("proj", "rel", "abs", "all"))) {
+    } else if(length(return_path) > 1 || !(return_path %in% c("proj", "rel", "abs", "all"))) {
       stop("Please provide 'return_path' as one of  'proj', 'rel', 'abs', or 'all', or NULL to reset to package default")
     } else {
       options(tinify.return_path = return_path)

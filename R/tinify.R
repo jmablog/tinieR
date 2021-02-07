@@ -191,8 +191,8 @@ tinify <- function(file,
     if(suffix != "_tiny") {
       warning("'suffix' is ignored when 'overwrite' is TRUE")
     }
-  } else if(identical(overwrite, FALSE)){
-    if(is.character(suffix) & suffix != "") {
+  } else if(identical(overwrite, FALSE) & length(suffix) == 1){
+    if(is.character(suffix) && suffix != "") {
       new_file <- glue::glue("{fs::path_ext_remove(filepath)}{suffix}.{ext}")
     } else {
     stop("Please provide 'suffix' as a non-empty character string when 'overwrite' is FALSE")
@@ -252,7 +252,7 @@ tinify <- function(file,
 
   # Check return_path argument correctly provided
   if(!is.null(return_path)) {
-    if(!(return_path %in% c("proj", "rel", "abs", "all"))){
+    if(length(return_path) > 1 || !(return_path %in% c("proj", "rel", "abs", "all"))){
       stop('Please only provide return_path as "proj", "rel", "abs", or "all"')
     }
   }
