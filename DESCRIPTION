@@ -21,8 +21,7 @@ Imports:
     jsonlite (>= 1.7.0),
     png,
     jpeg,
-    rprojroot,
-    stringr
+    rprojroot
 Suggests: 
     testthat,
     knitr,
