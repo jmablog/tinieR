@@ -259,8 +259,18 @@ tinify <- function(file,
 
   # Main function body =========================================================
 
-  # Store initial filesize before tinifying
+  # Store initial filesize and dimensions before tinifying
+  # (up here incase overwrite = TRUE)
   init_size <- fs::file_size(filepath)
+  if(!is.null(resize)) {
+    if(identical(ext, "png")) {
+      init_dims <- dim(png::readPNG(filepath))[1:2]
+      names(init_dims) <- c("height", "width")
+    } else if(identical(ext, "jpg") | identical(ext, "jpeg")) {
+      init_dims <- dim(jpeg::readJPEG(filepath))[1:2]
+      names(init_dims) <- c("height", "width")
+    }
+  }
 
   # Send POST request to TinyPNG API, uploading original file
   post <- httr::POST("https://api.tinify.com/shrink",
@@ -331,14 +341,38 @@ tinify <- function(file,
     old_file_name <- fs::path_file(filepath)
     new_file_name <- fs::path_file(new_file)
     new_size <- fs::file_size(new_file)
+
     pct_reduced <- round(((init_size - new_size)/init_size)*100, 1)
     comp_count <- httr::headers(post)$`compression-count`
 
-    msg <- glue::glue("Filesize reduced by {pct_reduced}%:
-                      {old_file_name} ({init_size}) => {new_file_name} ({new_size})
-                      {comp_count} Tinify API calls this month")
+    if(!is.null(resize)) {
 
-    message(msg)
+      # Calculate new image dimensions if using resize
+      if(identical(ext, "png")) {
+        new_dims <- dim(png::readPNG(new_file))[1:2]
+        names(new_dims) <- c("height", "width")
+      } else if(identical(ext, "jpg") | identical(ext, "jpeg")) {
+        new_dims <- dim(jpeg::readJPEG(new_file))[1:2]
+        names(new_dims) <- c("height", "width")
+      }
+
+      # Construct message
+      msg <- glue::glue("Image tinified by {pct_reduced}% and resized:
+                        {old_file_name} ({init_size}, w: {init_dims['width']}, h: {init_dims['height']}) => {new_file_name} ({new_size}, w: {new_dims['width']}, h: {new_dims['height']})
+                        {comp_count} Tinify API calls this month")
+
+      message(msg)
+
+    } else {
+
+      # Just construct message if no resize
+      msg <- glue::glue("Image tinified by {pct_reduced}%:
+                        {old_file_name} ({init_size}) => {new_file_name} ({new_size})
+                        {comp_count} Tinify API calls this month")
+
+      message(msg)
+
+    }
   }
 
   # Return the file path of the new tinified file, either relative to current

@@ -1,3 +1,8 @@
+## tinieR 0.4.3
+
+* Added ability to set project defaults with a `tinify.yml` file in the project root directory.
+* Image dimensions are now reported in success message when `resize` argument is used.
+
 ## tinieR 0.4.2
 
 * Updated names of options set by `tinify_defaults()` to match convention (e.g. `tinify_overwrite` -> `tinify.overwrite`).

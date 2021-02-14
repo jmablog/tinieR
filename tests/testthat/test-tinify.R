@@ -80,7 +80,7 @@ test_that("Messages returns information correctly and can be suppressed with qui
   tmp <- tempfile(fileext = ".png")
   fs::file_copy(img, tmp)
 
-  expect_message(tinify(tmp), "Filesize reduced by")
+  expect_message(tinify(tmp), "Image tinified by")
   expect_message(tinify(tmp, quiet = TRUE), NA)
 
   unlink(tmp)

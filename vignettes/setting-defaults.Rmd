@@ -86,6 +86,22 @@ tinify("example3.png")
 #> 16 Tinify API calls this month
 ```
 
+## Setting defaults from YAML file
+
+If you use Rstudio projects and would like to set the defaults for an entire project, you could also include a `tinify.yml` file in your project directory with your desired default options:
+
+```yaml
+suffix: "_resized"
+quiet: true
+resize:
+  method: "scale"
+  width: 300
+```
+
+If `tinify.yml` is present in your project directory, these options will be detected and set as the defaults when you load tinieR with `library(tinieR)` or using `tinieR::`. *Note: these will not change any options previously set manually using `options()` prior to loading tinieR.*
+
+Once loaded, these options can still be changed with `tinify_defaults()` or overruled by providing arguments in `tinify()` as normal, if required.
+
 ## Reset to package defaults
 
 To reset any argument back to the package default, use `tinify_defaults()` with the argument set to `NULL`:
@@ -113,3 +129,5 @@ tinify("example3.png")
 #> example3.png (20K) => example3_tiny.png (10K)
 #> 19 Tinify API calls this month
 ```
+
+If you unload the tinieR package, you will also clear any default options currently set. If you then reload the package, tinieR will try and load any defaults from `tinify.yml` if present, then default to the package default settings.
