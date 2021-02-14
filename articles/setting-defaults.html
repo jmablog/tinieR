@@ -48,7 +48,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tinieR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.3</span>
       </span>
     </div>
 
@@ -186,11 +186,23 @@
 <span class="co">#&gt; example2.png (20K) =&gt; example2_small.png (10K)</span>
 <span class="co">#&gt; 16 Tinify API calls this month</span></code></pre></div>
 </div>
+<div id="setting-defaults-from-yaml-file" class="section level2">
+<h2 class="hasAnchor">
+<a href="#setting-defaults-from-yaml-file" class="anchor"></a>Setting defaults from YAML file</h2>
+<p>If you use Rstudio projects and would like to set the defaults for an entire project, you could also include a <code>tinify.yml</code> file in your project directory with your desired default options:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">suffix</span><span class="kw">:</span><span class="at"> </span><span class="st">"_resized"</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="fu">quiet</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="fu">resize</span><span class="kw">:</span></span>
+<span id="cb5-4"><a href="#cb5-4"></a><span class="at">  </span><span class="fu">method</span><span class="kw">:</span><span class="at"> </span><span class="st">"scale"</span></span>
+<span id="cb5-5"><a href="#cb5-5"></a><span class="at">  </span><span class="fu">width</span><span class="kw">:</span><span class="at"> </span><span class="dv">300</span></span></code></pre></div>
+<p>If <code>tinify.yml</code> is present in your project directory, these options will be detected and set as the defaults when you load tinieR with <code><a href="https://github.com/jmablog/tinieR">library(tinieR)</a></code> or using <code>tinieR::</code>. <em>Note: these will not change any options previously set manually using <code><a href="https://rdrr.io/r/base/options.html">options()</a></code> prior to loading tinieR.</em></p>
+<p>Once loaded, these options can still be changed with <code><a href="../reference/tinify_defaults.html">tinify_defaults()</a></code> or overruled by providing arguments in <code><a href="../reference/tinify.html">tinify()</a></code> as normal, if required.</p>
+</div>
 <div id="reset-to-package-defaults" class="section level2">
 <h2 class="hasAnchor">
 <a href="#reset-to-package-defaults" class="anchor"></a>Reset to package defaults</h2>
 <p>To reset any argument back to the package default, use <code><a href="../reference/tinify_defaults.html">tinify_defaults()</a></code> with the argument set to <code>NULL</code>:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/tinify.html">tinify</a></span><span class="op">(</span><span class="st">"example.png"</span><span class="op">)</span>
 
 <span class="co">#&gt; Filesize reduced by 50%:</span>
@@ -212,6 +224,7 @@
 <span class="co">#&gt; Filesize reduced by 50%:</span>
 <span class="co">#&gt; example3.png (20K) =&gt; example3_tiny.png (10K)</span>
 <span class="co">#&gt; 19 Tinify API calls this month</span></code></pre></div>
+<p>If you unload the tinieR package, you will also clear any default options currently set. If you then reload the package, tinieR will try and load any defaults from <code>tinify.yml</code> if present, then default to the package default settings.</p>
 </div>
   </div>
 
