@@ -33,7 +33,7 @@ You will need an API key from [TinyPNG](https://tinypng.com). You can signup to 
 Once you have your API key, you can set it for your current R session with:
 
 ``` r
-library(tinier)
+library(tinieR)
 
 tinify_key("YOUR-API-KEY-HERE")
 ```
