@@ -145,7 +145,7 @@
 <p>You will need an API key from <a href="https://tinypng.com">TinyPNG</a>. You can signup to get one <a href="https://tinypng.com/developers">here</a>.</p>
 <p>Once you have your API key, you can set it for your current R session with:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">tinier</span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jmablog/tinieR">tinieR</a></span><span class="op">)</span>
 
 <span class="fu"><a href="reference/tinify_key.html">tinify_key</a></span><span class="op">(</span><span class="st">"YOUR-API-KEY-HERE"</span><span class="op">)</span></code></pre></div>
 <p>Be careful including your API key in any scripts you write, especially if you’re going to be publicly or privately sharing those scripts with others! You might consider setting your API key instead in your <a href="https://support.rstudio.com/hc/en-us/articles/360047157094-Managing-R-with-Rprofile-Renviron-Rprofile-site-Renviron-site-rsession-conf-and-repos-conf">.Renviron file</a> (~/.Renviron). If you use the variable name <code>TINY_API</code> in .Renviron, <code><a href="reference/tinify.html">tinify()</a></code> should find it, and you can skip using <code>tinify_api()</code> or providing an API at each call of <code><a href="reference/tinify.html">tinify()</a></code>.</p>
