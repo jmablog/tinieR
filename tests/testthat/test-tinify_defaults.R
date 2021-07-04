@@ -31,7 +31,7 @@ test_that("Overwrite is a boolean", {
   tinify_defaults(overwrite = FALSE)
   expect_equal(FALSE, getOption("tinify.overwrite"))
 
-  on.exit(options(tinify_overwrite = prev), add = TRUE, after = FALSE)
+  on.exit(options(tinify.overwrite = prev), add = TRUE, after = FALSE)
 
 })
 
@@ -51,7 +51,7 @@ test_that("Suffix is a string of length 1", {
   tinify_defaults(suffix = "_small")
   expect_equal("_small", getOption("tinify.suffix"))
 
-  on.exit(options(tinify_suffix = prev), add = TRUE, after = FALSE)
+  on.exit(options(tinify.suffix = prev), add = TRUE, after = FALSE)
 
 })
 
@@ -73,7 +73,7 @@ test_that("Quiet is a boolean", {
   tinify_defaults(quiet = FALSE)
   expect_equal(FALSE, getOption("tinify.quiet"))
 
-  on.exit(options(tinify_quiet= prev), add = TRUE, after = FALSE)
+  on.exit(options(tinify.quiet= prev), add = TRUE, after = FALSE)
 
 })
 
@@ -100,7 +100,7 @@ test_that("Return path is a string of length 1", {
   tinify_defaults(return_path = NULL)
   expect_equal(NULL, getOption("tinify.return_path"))
 
-  on.exit(options(tinify_return_path = prev), add = TRUE, after = FALSE)
+  on.exit(options(tinify.return_path = prev), add = TRUE, after = FALSE)
 
 })
 
@@ -136,6 +136,6 @@ test_that("Resize is a list of correct arguments", {
   tinify_defaults(resize = NULL)
   expect_equal(NULL, getOption("tinify.resize"))
 
-  on.exit(options(tinify_resize= prev), add = TRUE, after = FALSE)
+  on.exit(options(tinify.resize= prev), add = TRUE, after = FALSE)
 
 })
