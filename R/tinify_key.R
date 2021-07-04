@@ -18,9 +18,9 @@
 tinify_key <- function(key) {
 
   if(!is.character(key) | length(key) > 1){
-    stop("API key must be a string")
+    cli::cli_abort("API key must be a string")
   }
 
   Sys.setenv(TINY_API = key)
-  message("TinyPNG.com API key set")
+  cli::cli_alert_success("TinyPNG API key set")
 }
