@@ -48,7 +48,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tinieR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.4</span>
       </span>
     </div>
 
@@ -216,7 +216,7 @@
 <div id="resizing-image-dimensions" class="section level2">
 <h2 class="hasAnchor">
 <a href="#resizing-image-dimensions" class="anchor"></a>Resizing image dimensions</h2>
-<p>You can also use the <code>resize</code> argument to change the image dimensions along with it’s filesize (<strong>note:</strong> you can only <em>decrease</em> image dimensions and make it smaller with TinyPNG, not make an image bigger). I recommend reading the <a href="https://tinypng.com/developers/reference#resizing-images">TinyPNG API documentation on resizing methods</a> first, to familiarise yourself with the various options you can use to change image dimensions.</p>
+<p>You can also use the <code>resize</code> argument to change the image dimensions along with the filesize (<strong>note:</strong> you can only <em>decrease</em> an images dimensions to make it smaller with TinyPNG, not make an image bigger). I recommend reading the <a href="https://tinypng.com/developers/reference#resizing-images">TinyPNG API documentation on resizing methods</a> first, to familiarise yourself with the various options you can use to change image dimensions.</p>
 <p><code>resize</code> takes a named list, containing a <code>method</code> string and at least one of <code>width</code> or <code>height</code>, or both <code>width</code> AND <code>height</code> depending on your chosen resize method, to specify the dimensions in pixels you would like the image resized:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">resize_opts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"fit"</span>, width <span class="op">=</span> <span class="fl">300</span>, height <span class="op">=</span> <span class="fl">150</span><span class="op">)</span>

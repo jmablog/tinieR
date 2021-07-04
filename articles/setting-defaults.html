@@ -48,7 +48,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tinieR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.4</span>
       </span>
     </div>
 
@@ -198,33 +198,25 @@
 <p>If <code>tinify.yml</code> is present in your project directory, these options will be detected and set as the defaults when you load tinieR with <code><a href="https://github.com/jmablog/tinieR">library(tinieR)</a></code> or using <code>tinieR::</code>. <em>Note: these will not change any options previously set manually using <code><a href="https://rdrr.io/r/base/options.html">options()</a></code> prior to loading tinieR.</em></p>
 <p>Once loaded, these options can still be changed with <code><a href="../reference/tinify_defaults.html">tinify_defaults()</a></code> or overruled by providing arguments in <code><a href="../reference/tinify.html">tinify()</a></code> as normal, if required.</p>
 </div>
-<div id="reset-to-package-defaults" class="section level2">
+<div id="returning-to-default-options" class="section level2">
 <h2 class="hasAnchor">
-<a href="#reset-to-package-defaults" class="anchor"></a>Reset to package defaults</h2>
-<p>To reset any argument back to the package default, use <code><a href="../reference/tinify_defaults.html">tinify_defaults()</a></code> with the argument set to <code>NULL</code>:</p>
+<a href="#returning-to-default-options" class="anchor"></a>Returning to default options</h2>
+<p>The options <code>quiet</code> and <code>overwrite</code> only accept <code>TRUE</code> or <code>FALSE</code> as their settings. If you change one of these and wish to change it back, just set it again with the opposite option:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/tinify.html">tinify</a></span><span class="op">(</span><span class="st">"example.png"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="../reference/tinify_defaults.html">tinify_defaults</a></span><span class="op">(</span>quiet <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 
-<span class="co">#&gt; Filesize reduced by 50%:</span>
-<span class="co">#&gt; example.png (20K) =&gt; example_tiny.png (10K)</span>
-<span class="co">#&gt; 17 Tinify API calls this month</span>
+<span class="co">#&gt; Tinify 'quiet' changed to: FALSE</span></code></pre></div>
+<p>For <code>suffix</code>, you must enter a character string as an option. If you change <code>suffix</code> and wish to set it back to the default, just set it again as <code>"_tiny"</code>:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/tinify_defaults.html">tinify_defaults</a></span><span class="op">(</span>suffix <span class="op">=</span> <span class="st">"_tiny"</span><span class="op">)</span>
 
-<span class="fu"><a href="../reference/tinify_defaults.html">tinify_defaults</a></span><span class="op">(</span>quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="co">#&gt; Tinify 'suffix' changed to: "_tiny"</span></code></pre></div>
+<p>If you set defaults for either <code>return_path</code> or <code>resize</code> and wish to switch these options back off again, just set them to <code>NULL</code>:</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/tinify_defaults.html">tinify_defaults</a></span><span class="op">(</span>return_path <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>
 
-<span class="co">#&gt; Tinify 'quiet' changed to: TRUE</span>
-
-<span class="fu"><a href="../reference/tinify.html">tinify</a></span><span class="op">(</span><span class="st">"example2.png"</span><span class="op">)</span>
-
-<span class="fu"><a href="../reference/tinify_defaults.html">tinify_defaults</a></span><span class="op">(</span>quiet <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>
-
-<span class="co">#&gt; Tinify 'quiet' changed to: FALSE</span>
-
-<span class="fu"><a href="../reference/tinify.html">tinify</a></span><span class="op">(</span><span class="st">"example3.png"</span><span class="op">)</span>
-
-<span class="co">#&gt; Filesize reduced by 50%:</span>
-<span class="co">#&gt; example3.png (20K) =&gt; example3_tiny.png (10K)</span>
-<span class="co">#&gt; 19 Tinify API calls this month</span></code></pre></div>
-<p>If you unload the tinieR package, you will also clear any default options currently set. If you then reload the package, tinieR will try and load any defaults from <code>tinify.yml</code> if present, then default to the package default settings.</p>
+<span class="co">#&gt; Tinify 'return_path' changed to: No return</span></code></pre></div>
+<p>Finally, if you unload the tinieR package, you will also clear any default options currently set. If you then reload the package, tinieR will try and load any defaults from <code>tinify.yml</code> if present, then default to the package default settings.</p>
 </div>
   </div>
 
