@@ -27,23 +27,24 @@ on file names, amount of file size reduction (\% and Kb), and the number of
 TinyPNG API calls made this month. If set to \code{TRUE}, tinify displays no
 messages as it shrinks files.}
 
-\item{return_path}{String, optional. One of "\code{proj}", "\code{rel}", "\code{abs}", or
+\item{return_path}{String or \code{NULL}, optional. One of "\code{proj}", "\code{rel}", "\code{abs}", or
 "\code{all}". If "\code{proj}", will return the file path of the newly tinified image
 file relative to the Rstudio project directory (looking for an .Rproj file).
 If no project can be identified, returns \code{NA}. If "\code{rel}", will return the
 file path of the newly tinified image file, relative to the \strong{current}
 working directory at the time \code{tinify()} is called. If "\code{abs}", will return
 the absolute file path of the newly tinified image file. If "\code{all}", will
-return a named list with all file paths.}
+return a named list with all file paths. If \code{NULL} (the default), no file
+path is returned.}
 
-\item{resize}{Named list, optional. A named list with the elements \code{method} as
+\item{resize}{Named list or \code{NULL}, optional. A named list with the elements \code{method} as
 a string, and \code{width} and/or \code{height} as numerics. Please note you can only
 reduce an image's dimensions and make an image smaller with TinyPNG API, not
 make an image larger. Method must be set to one of "scale", "fit", "cover",
 or "thumb". If using "scale", you only need to provide \code{width} OR \code{height},
 not both. If using any other method, you must supply both a \code{width} AND
 \code{height}. See \url{https://tinypng.com/developers/reference#resizing-images} and
-the examples for more.}
+the examples for more. If \code{NULL} (the default), no resizing takes place.}
 
 \item{key}{String, optional. A string containing your TinyPNG API key. Not
 required if the API key is set using \code{tinify_api()}. If an API key is

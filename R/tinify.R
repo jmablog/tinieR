@@ -31,22 +31,23 @@
 #'  on file names, amount of file size reduction (% and Kb), and the number of
 #'  TinyPNG API calls made this month. If set to `TRUE`, tinify displays no
 #'  messages as it shrinks files.
-#'@param return_path String, optional. One of "`proj`", "`rel`", "`abs`", or
+#'@param return_path String or `NULL`, optional. One of "`proj`", "`rel`", "`abs`", or
 #'  "`all`". If "`proj`", will return the file path of the newly tinified image
 #'  file relative to the Rstudio project directory (looking for an .Rproj file).
 #'  If no project can be identified, returns `NA`. If "`rel`", will return the
 #'  file path of the newly tinified image file, relative to the \strong{current}
 #'  working directory at the time `tinify()` is called. If "`abs`", will return
 #'  the absolute file path of the newly tinified image file. If "`all`", will
-#'  return a named list with all file paths.
-#'@param resize Named list, optional. A named list with the elements `method` as
+#'  return a named list with all file paths. If `NULL` (the default), no file
+#'  path is returned.
+#'@param resize Named list or `NULL`, optional. A named list with the elements `method` as
 #'  a string, and `width` and/or `height` as numerics. Please note you can only
 #'  reduce an image's dimensions and make an image smaller with TinyPNG API, not
 #'  make an image larger. Method must be set to one of "scale", "fit", "cover",
 #'  or "thumb". If using "scale", you only need to provide `width` OR `height`,
 #'  not both. If using any other method, you must supply both a `width` AND
 #'  `height`. See <https://tinypng.com/developers/reference#resizing-images> and
-#'  the examples for more.
+#'  the examples for more. If `NULL` (the default), no resizing takes place.
 #'@param key String, optional. A string containing your TinyPNG API key. Not
 #'  required if the API key is set using `tinify_api()`. If an API key is
 #'  provided with `tinify_api()`, any other key provided in the function call
@@ -137,29 +138,26 @@ tinify <- function(file,
                    resize,
                    key = NULL) {
 
-  # Check arguments against defaults from tinify_defaults ======================
-
-  if(missing(overwrite)) {
-    overwrite <- getOption("tinify.overwrite", default = FALSE)
-  }
-
-  if(missing(suffix)) {
-    suffix <- getOption("tinify.suffix", default = "_tiny")
-  }
-
-  if(missing(quiet)) {
-    quiet <- getOption("tinify.quiet", default = FALSE)
-  }
-
-  if(missing(return_path)) {
-    return_path <- getOption("tinify.return_path", default = NULL)
-  }
-
-  if(missing(resize)) {
-    resize <- getOption("tinify.resize", default = NULL)
-  }
 
   # Error checking =============================================================
+
+  ## Check for arguments and set to defaults if missing ------------------------
+
+  tinify_opts <- .tinify_getset_opts(overwrite,
+                                     suffix,
+                                     quiet,
+                                     return_path,
+                                     resize)
+
+  ## Generic argument error checking -------------------------------------------
+
+  .tinify_error_check(overwrite = tinify_opts$overwrite,
+                      suffix = tinify_opts$suffix,
+                      quiet = tinify_opts$quiet,
+                      return_path = tinify_opts$return_path,
+                      resize = tinify_opts$resize)
+
+  ## tinify specific error checking --------------------------------------------
 
   # API key
   if(!is.null(key) & is.character(key) & length(key) == 1) {
@@ -169,12 +167,12 @@ tinify <- function(file,
   } else if(is.null(key) & Sys.getenv("TINY_API") != "") {
     tiny_api <- Sys.getenv("TINY_API")
   } else {
-    cli_abort("Please provide an API key with the {.field key} argument or using {.code tinify_key()}")
+    cli::cli_abort("Please provide an API key with the {.field key} argument or using {.code tinify_key()}")
   }
 
   # Check file exists
   if(fs::file_exists(file)[[1]] == FALSE){
-    cli_abort("File {.file {file}} does not exist")
+    cli::cli_abort("File {.file {file}} does not exist")
   }
 
   # Set absolute path to original file
@@ -183,25 +181,7 @@ tinify <- function(file,
   # Extract extension of original file
   ext <- fs::path_ext(filepath)
 
-  # Check overwrite argument and set new file path as requested
-  # Either overwriting original file completely or appending suffix to
-  # new filename
-  if(identical(overwrite, TRUE)) {
-    new_file <- filepath
-    if(suffix != "_tiny") {
-      cli::cli_warn("{.field suffix} is ignored when {.field overwrite} is {.code TRUE}")
-    }
-  } else if(identical(overwrite, FALSE) & length(suffix) == 1){
-    if(is.character(suffix) && suffix != "") {
-      new_file <- glue::glue("{fs::path_ext_remove(filepath)}{suffix}.{ext}")
-    } else {
-      cli::cli_abort("Please provide {.field suffix} as a non-empty character string when {.field overwrite} is {.code FALSE}")
-    }
-  } else {
-    cli::cli_abort("Please only provide {.field overwrite} as {.code TRUE} or {.code FALSE}")
-  }
-
-  # Check file type and reject anything not png or jpg
+  # Check file extension and reject anything not png or jpg
   if(identical(ext, "png")) {
     img_type <- "image/png"
   } else if(identical(ext, "jpg") | identical(ext, "jpeg")) {
@@ -210,64 +190,17 @@ tinify <- function(file,
     cli::cli_abort("TinyPNG can only handle {.file png} or {.file jpg/jpeg} files")
   }
 
-  # Check resize list is provided with appropriate arguments
-  if(!is.null(resize)) {
-
-    # Check resize is a list of min length 2 and max length 3
-    if(!is.list(resize) | length(resize) < 2 | length(resize) > 3){
-      cli::cli_abort("Resize must be a list that includes a {.field method} and one or both of {.field width} or {.field height}")
-    }
-
-    # Check 'method' and at least one of 'width' or 'height' are named in resize
-    if(!("method" %in% names(resize) & ("width" %in% names(resize) | "height" %in% names(resize)))) {
-      cli::cli_abort("Resize must be a list that includes a {.field method} and one or both of {.field width} or {.field height}")
-    }
-
-    # Check resize method is a string specifying one of the available options
-    if(!(resize$method %in% c("fit", "scale", "cover", "thumb"))) {
-      cli::cli_abort('Method must be one of {.field fit}, {.field scale}, {.field cover} or {.field thumb}')
-    }
-
-    # Check width and/or height are numbers
-    if("width" %in% names(resize) & !is.numeric(resize$width) | "height" %in% names(resize) & !is.numeric(resize$height)) {
-      cli::cli_abort("{.field Width} and/or {.field height} must be a number")
-    }
-
-    # Check only one of width or height provided for method 'scale'
-    if(identical(resize$method, "scale") & "width" %in% names(resize) & "height" %in% names(resize)) {
-      cli::cli_abort("You must provide a {.field width} OR {.field height} for method {.field scale}, not both")
-    }
-
-    # Check both width and height provided for other methods besides 'scale'
-    if(!identical(resize$method, "scale") & (!("width" %in% names(resize)) | !("height" %in% names(resize)))) {
-      cli::cli_abort("You must provide a {.field width} AND {.field height} for method {.field {resize$method}}")
-    }
-
-  }
-
-  # Check details argument correctly provided
-  if(!identical(quiet, TRUE) & !identical(quiet, FALSE)) {
-    cli::cli_abort("Please only provide {.field quiet} as {.code TRUE} or {.code FALSE}")
-  }
-
-  # Check return_path argument correctly provided
-  if(!is.null(return_path)) {
-    if(length(return_path) > 1 || !(return_path %in% c("proj", "rel", "abs", "all"))){
-      cli::cli_abort('Please only provide return_path as {.field "proj"}, {.field "rel"}, {.field "abs"}, or {.field "all"}')
-    }
-  }
-
   # Main function body =========================================================
 
-  if(identical(quiet, FALSE)) {
-  sb <- cli::cli_status("{symbol$arrow_up} Uploading image to TinyPNG...")
+  if(identical(tinify_opts$quiet, FALSE)) {
+  sb <- cli::cli_status("{cli::symbol$arrow_up} Uploading image to TinyPNG...")
   Sys.sleep(0.25)
   }
 
   # Store initial filesize and dimensions before tinifying
   # (up here incase overwrite = TRUE)
   init_size <- fs::file_size(filepath)
-  if(!is.null(resize)) {
+  if(!is.null(tinify_opts$resize)) {
     if(identical(ext, "png")) {
       init_dims <- dim(png::readPNG(filepath))[1:2]
       names(init_dims) <- c("height", "width")
@@ -295,13 +228,22 @@ tinify <- function(file,
   # Set URL of tinified file on TinyPNG servers
   response <- httr::headers(post)$location
 
-  if(identical(quiet, FALSE)) {
-  cli::cli_status_update(id = sb, "{symbol$arrow_down} Saving tinified image...")
+  if(identical(tinify_opts$quiet, FALSE)) {
+  cli::cli_status_update(id = sb, "{cli::symbol$arrow_down} Saving tinified image...")
   Sys.sleep(0.25)
   }
 
+  # Check overwrite argument and set new file path as requested
+  # Either overwriting original file completely or appending suffix to
+  # new filename
+  if(identical(tinify_opts$overwrite, TRUE)) {
+    new_file <- filepath
+  } else if(identical(tinify_opts$overwrite, FALSE)) {
+    new_file <- glue::glue("{fs::path_ext_remove(filepath)}{tinify_opts$suffix}.{ext}")
+  }
+
   # Download tinified file as-is if not resizing
-  if(is.null(resize)){
+  if(is.null(tinify_opts$resize)){
 
     utils::download.file(response,
                          new_file,
@@ -311,10 +253,10 @@ tinify <- function(file,
   }
 
   # Resizing ===================================================================
-  if(!is.null(resize)) {
+  if(!is.null(tinify_opts$resize)) {
 
-    if(identical(quiet, FALSE)) {
-      cli::cli_status_update(id = sb, "{symbol$circle_dotted} Resizing...")
+    if(identical(tinify_opts$quiet, FALSE)) {
+      cli::cli_status_update(id = sb, "{cli::symbol$circle_dotted} Resizing...")
       Sys.sleep(0.5)
     }
 
@@ -323,7 +265,7 @@ tinify <- function(file,
     img <- fs::path_file(response)
 
     # Convert resize options list into JSON
-    resize_json <- jsonlite::toJSON(list(resize = resize), auto_unbox = TRUE)
+    resize_json <- jsonlite::toJSON(list(resize = tinify_opts$resize), auto_unbox = TRUE)
 
     # Resend tinified file from new URL to also be resized with TinyPNG API
     # With resize options sent as JSON
@@ -354,7 +296,7 @@ tinify <- function(file,
   # Calculate and display details of file size =================================
   # changes and API calls unless quiet = T
 
-  if(identical(quiet, FALSE)) {
+  if(identical(tinify_opts$quiet, FALSE)) {
     old_file_name <- fs::path_file(filepath)
     new_file_name <- fs::path_file(new_file)
     new_size <- fs::file_size(new_file)
@@ -362,7 +304,7 @@ tinify <- function(file,
     pct_reduced <- round(((init_size - new_size)/init_size)*100, 1)
     comp_count <- httr::headers(post)$`compression-count`
 
-    if(!is.null(resize)) {
+    if(!is.null(tinify_opts$resize)) {
 
       # Calculate new image dimensions if using resize
       if(identical(ext, "png")) {
@@ -373,34 +315,20 @@ tinify <- function(file,
         names(new_dims) <- c("height", "width")
       }
 
-      # Construct message
-      # msg <- glue::glue("Image tinified by {pct_reduced}% and resized:
-      #                   {old_file_name} ({init_size}, w: {init_dims['width']}, h: {init_dims['height']}) => {new_file_name} ({new_size}, w: {new_dims['width']}, h: {new_dims['height']})
-      #                   {comp_count} Tinify API calls this month")
-      #
-      # message(msg)
-
       cli::cli_status_clear(id = sb)
       cli::cli_div(theme = list (.alert = list(color = "green")))
       cli::cli_alert_success("Image tinified by {pct_reduced}% and resized")
       cli::cli_end()
-      cli::cli_alert_info("{old_file_name} ({init_size}, w: {init_dims['width']}px, h: {init_dims['height']}px) {symbol$arrow_right} {new_file_name} ({new_size}, w: {new_dims['width']}px, h: {new_dims['height']}px)")
+      cli::cli_alert_info("{old_file_name} ({init_size}, w: {init_dims['width']}px, h: {init_dims['height']}px) {cli::symbol$arrow_right} {new_file_name} ({new_size}, w: {new_dims['width']}px, h: {new_dims['height']}px)")
       cli::cli_alert_info("{comp_count} Tinify API calls this month")
 
     } else {
-
-      # Just construct message if no resize
-      # msg <- glue::glue("Image tinified by {pct_reduced}%:
-      #                   {old_file_name} ({init_size}) => {new_file_name} ({new_size})
-      #                   {comp_count} Tinify API calls this month")
-      #
-      # message(msg)
 
       cli::cli_status_clear(id = sb)
       cli::cli_div(theme = list (.alert = list(color = "green")))
       cli::cli_alert_success("Image tinified by {pct_reduced}%")
       cli::cli_end()
-      cli::cli_alert_info("{old_file_name} ({init_size}) {symbol$arrow_right} {new_file_name} ({new_size})")
+      cli::cli_alert_info("{old_file_name} ({init_size}) {cli::symbol$arrow_right} {new_file_name} ({new_size})")
       cli::cli_alert_info("{comp_count} Tinify API calls this month")
 
     }
@@ -410,13 +338,13 @@ tinify <- function(file,
   # Return the file path of the new tinified file, either relative to current
   # working dir or as absolute file path, or both as a named list
 
-  if(identical(return_path, "abs")) {
+  if(identical(tinify_opts$return_path, "abs")) {
 
     # return the absolute file path to the tinified image file
 
     return(as.character(new_file))
 
-  } else if(identical(return_path, "rel")) {
+  } else if(identical(tinify_opts$return_path, "rel")) {
 
     # return the relative path to the tinified image file, from wherever the working
     # directory at the time of calling tinify() is
@@ -426,7 +354,7 @@ tinify <- function(file,
 
     return(as.character(fs::path_join(c(loc_path, loc_file))))
 
-  } else if(identical(return_path, "proj")) {
+  } else if(identical(tinify_opts$return_path, "proj")) {
 
     # return the path to the newly tinified file, from the root project folder
 
@@ -442,7 +370,7 @@ tinify <- function(file,
       return(proj_file)
     })
 
-  } else if(identical(return_path, "all")) {
+  } else if(identical(tinify_opts$return_path, "all")) {
 
     # return all 3 of the return_path options in a named list
 

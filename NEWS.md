@@ -1,3 +1,9 @@
+## tinieR 0.4.4
+
+* Now uses the [cli](https://cli.r-lib.org/) package to provide nicer console messages.
+* Updated internals.
+* Can no longer just set any option in `tinify_defaults()` to `NULL` to reset to package defaults as this could be unclear. See the vignette ["Setting default options"](https://jmablog.github.io/tinieR/articles/setting-defaults.html) for full details on changing and resetting default options with `tinify_defaults()`.
+
 ## tinieR 0.4.3
 
 * Added ability to set project defaults with a `tinify.yml` file in the project root directory.

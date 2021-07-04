@@ -20,6 +20,7 @@ test_that("Overwrite is a boolean", {
   expect_error(tinify_defaults(overwrite = factor("one")))
   expect_error(tinify_defaults(overwrite = c("one", "two")))
   expect_error(tinify_defaults(overwrite = NA))
+  expect_error(tinify_defaults(overwrite = NULL))
   expect_error(tinify_defaults(overwrite = list(one = "one", two = "two")))
   expect_error(tinify_defaults(overwrite = data.frame(one = "one", two = "two")))
 
@@ -29,8 +30,6 @@ test_that("Overwrite is a boolean", {
   expect_equal(TRUE, getOption("tinify.overwrite"))
   tinify_defaults(overwrite = FALSE)
   expect_equal(FALSE, getOption("tinify.overwrite"))
-  tinify_defaults(overwrite = NULL)
-  expect_equal(NULL, getOption("tinify.overwrite"))
 
   on.exit(options(tinify_overwrite = prev), add = TRUE, after = FALSE)
 
@@ -43,6 +42,7 @@ test_that("Suffix is a string of length 1", {
   expect_error(tinify_defaults(suffix = factor("one")))
   expect_error(tinify_defaults(suffix = c("one", "two")))
   expect_error(tinify_defaults(suffix = NA))
+  expect_error(tinify_defaults(suffix = NULL))
   expect_error(tinify_defaults(suffix = list(one = "one", two = "two")))
   expect_error(tinify_defaults(suffix = data.frame(one = "one", two = "two")))
 
@@ -50,8 +50,6 @@ test_that("Suffix is a string of length 1", {
 
   tinify_defaults(suffix = "_small")
   expect_equal("_small", getOption("tinify.suffix"))
-  tinify_defaults(suffix = NULL)
-  expect_equal(NULL, getOption("tinify.suffix"))
 
   on.exit(options(tinify_suffix = prev), add = TRUE, after = FALSE)
 
@@ -64,6 +62,7 @@ test_that("Quiet is a boolean", {
   expect_error(tinify_defaults(quiet = factor("one")))
   expect_error(tinify_defaults(quiet = c("one", "two")))
   expect_error(tinify_defaults(quiet = NA))
+  expect_error(tinify_defaults(quiet = NULL))
   expect_error(tinify_defaults(quiet = list(one = "one", two = "two")))
   expect_error(tinify_defaults(quiet = data.frame(one = "one", two = "two")))
 
@@ -73,8 +72,6 @@ test_that("Quiet is a boolean", {
   expect_equal(TRUE, getOption("tinify.quiet"))
   tinify_defaults(quiet = FALSE)
   expect_equal(FALSE, getOption("tinify.quiet"))
-  tinify_defaults(quiet = NULL)
-  expect_equal(NULL, getOption("tinify.quiet"))
 
   on.exit(options(tinify_quiet= prev), add = TRUE, after = FALSE)
 

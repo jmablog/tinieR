@@ -32,7 +32,7 @@ test_that("Error if input file doesn't exist", {
 test_that("Give error message if non-png or -jpg file used as input", {
 
   img <- system.file("extdata", "example.gif", package = "tinieR")
-  expect_error(tinify(img), "TinyPNG can only handle .png or .jpg/.jpeg files")
+  expect_error(tinify(img), "TinyPNG can only handle")
 
 })
 

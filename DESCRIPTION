@@ -1,6 +1,6 @@
 Package: tinieR
 Title: Shrink Image Filesizes with TinyPNG.com API
-Version: 0.4.3
+Version: 0.4.4
 Authors@R: 
     person(given = "James",
            family = "Adams",
@@ -22,7 +22,8 @@ Imports:
     png,
     jpeg,
     rprojroot,
-    yaml
+    yaml,
+    cli
 Suggests: 
     testthat,
     knitr,

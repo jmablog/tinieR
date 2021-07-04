@@ -156,7 +156,7 @@ knitr::include_graphics(shrunk_img_list$relative)
 
 ## Resizing image dimensions
 
-You can also use the `resize` argument to change the image dimensions along with it's filesize (**note:** you can only *decrease* image dimensions and make it smaller with TinyPNG, not make an image bigger). I recommend reading the [TinyPNG API documentation on resizing methods](https://tinypng.com/developers/reference#resizing-images) first, to familiarise yourself with the various options you can use to change image dimensions.
+You can also use the `resize` argument to change the image dimensions along with the filesize (**note:** you can only *decrease* an images dimensions to make it smaller with TinyPNG, not make an image bigger). I recommend reading the [TinyPNG API documentation on resizing methods](https://tinypng.com/developers/reference#resizing-images) first, to familiarise yourself with the various options you can use to change image dimensions.
 
 `resize` takes a named list, containing a `method` string and at least one of `width` or `height`, or both `width` AND `height` depending on your chosen resize method, to specify the dimensions in pixels you would like the image resized:
 

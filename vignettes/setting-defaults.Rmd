@@ -102,32 +102,30 @@ If `tinify.yml` is present in your project directory, these options will be dete
 
 Once loaded, these options can still be changed with `tinify_defaults()` or overruled by providing arguments in `tinify()` as normal, if required.
 
-## Reset to package defaults
+## Returning to default options
 
-To reset any argument back to the package default, use `tinify_defaults()` with the argument set to `NULL`:
+The options `quiet` and `overwrite` only accept `TRUE` or `FALSE` as their settings. If you change one of these and wish to change it back, just set it again with the opposite option:
 
 ``` r
-tinify("example.png")
-
-#> Filesize reduced by 50%:
-#> example.png (20K) => example_tiny.png (10K)
-#> 17 Tinify API calls this month
-
-tinify_defaults(quiet = TRUE)
-
-#> Tinify 'quiet' changed to: TRUE
-
-tinify("example2.png")
-
-tinify_defaults(quiet = NULL)
+tinify_defaults(quiet = FALSE)
 
 #> Tinify 'quiet' changed to: FALSE
-
-tinify("example3.png")
-
-#> Filesize reduced by 50%:
-#> example3.png (20K) => example3_tiny.png (10K)
-#> 19 Tinify API calls this month
 ```
 
-If you unload the tinieR package, you will also clear any default options currently set. If you then reload the package, tinieR will try and load any defaults from `tinify.yml` if present, then default to the package default settings.
+For `suffix`, you must enter a character string as an option. If you change `suffix` and wish to set it back to the default, just set it again as `"_tiny"`:
+
+``` r
+tinify_defaults(suffix = "_tiny")
+
+#> Tinify 'suffix' changed to: "_tiny"
+```
+
+If you set defaults for either `return_path` or `resize` and wish to switch these options back off again, just set them to `NULL`:
+
+``` r
+tinify_defaults(return_path = NULL)
+
+#> Tinify 'return_path' changed to: No return
+```
+
+Finally, if you unload the tinieR package, you will also clear any default options currently set. If you then reload the package, tinieR will try and load any defaults from `tinify.yml` if present, then default to the package default settings.

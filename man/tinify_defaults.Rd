@@ -22,23 +22,24 @@ on file names, amount of file size reduction (\% and Kb), and the number of
 TinyPNG API calls made this month. If set to \code{TRUE}, tinify displays no
 messages as it shrinks files.}
 
-\item{return_path}{String, optional. One of "\code{proj}", "\code{rel}", "\code{abs}", or
+\item{return_path}{String or \code{NULL}, optional. One of "\code{proj}", "\code{rel}", "\code{abs}", or
 "\code{all}". If "\code{proj}", will return the file path of the newly tinified image
 file relative to the Rstudio project directory (looking for an .Rproj file).
 If no project can be identified, returns \code{NA}. If "\code{rel}", will return the
 file path of the newly tinified image file, relative to the \strong{current}
 working directory at the time \code{tinify()} is called. If "\code{abs}", will return
 the absolute file path of the newly tinified image file. If "\code{all}", will
-return a named list with all file paths.}
+return a named list with all file paths. Set to \code{NULL} to stop returning a
+file path.}
 
-\item{resize}{Named list, optional. A named list with the elements \code{method} as
+\item{resize}{Named list or \code{NULL}, optional. A named list with the elements \code{method} as
 a string, and \code{width} and/or \code{height} as numerics. Please note you can only
 reduce an image's dimensions and make an image smaller with TinyPNG API, not
 make an image larger. Method must be set to one of "scale", "fit", "cover",
 or "thumb". If using "scale", you only need to provide \code{width} OR \code{height},
 not both. If using any other method, you must supply both a \code{width} AND
 \code{height}. See \url{https://tinypng.com/developers/reference#resizing-images} and
-the examples for more.}
+the examples for more. Set to \code{NULL} to stop resizing.}
 }
 \description{
 Set some default options for \code{tinify()} in the global environment, so it is no
@@ -47,17 +48,11 @@ longer necessary to explicitly provide each argument with every call of
 
 If called without any arguments, \code{tinify_defaults()} will print
 the current default options set to the console.
-
-To set any option back to the package default, set it to \code{NULL}.
 }
 \examples{
 \dontrun{
 
 tinify_defaults(quiet = TRUE, suffix = "_small")
-
-# set an option back to the package default
-
-tinify_defaults(quiet = NULL)
 
 # show current defaults set
 
