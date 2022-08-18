@@ -1,7 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://jmablog.github.io/tinieR/404.html</loc>
+  </url>
+  <url>
+    <loc>http://jmablog.github.io/tinieR/LICENSE-text.html</loc>
+  </url>
+  <url>
+    <loc>http://jmablog.github.io/tinieR/LICENSE.html</loc>
+  </url>
+  <url>
+    <loc>http://jmablog.github.io/tinieR/articles/index.html</loc>
+  </url>
+  <url>
+    <loc>http://jmablog.github.io/tinieR/articles/saving-plots.html</loc>
+  </url>
+  <url>
+    <loc>http://jmablog.github.io/tinieR/articles/setting-defaults.html</loc>
+  </url>
+  <url>
+    <loc>http://jmablog.github.io/tinieR/articles/tinieR.html</loc>
+  </url>
+  <url>
+    <loc>http://jmablog.github.io/tinieR/authors.html</loc>
+  </url>
+  <url>
     <loc>http://jmablog.github.io/tinieR/index.html</loc>
+  </url>
+  <url>
+    <loc>http://jmablog.github.io/tinieR/news/index.html</loc>
+  </url>
+  <url>
+    <loc>http://jmablog.github.io/tinieR/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>http://jmablog.github.io/tinieR/reference/petit_plot.html</loc>
   </url>
   <url>
     <loc>http://jmablog.github.io/tinieR/reference/tinieR-package.html</loc>
@@ -14,11 +47,5 @@
   </url>
   <url>
     <loc>http://jmablog.github.io/tinieR/reference/tinify_key.html</loc>
-  </url>
-  <url>
-    <loc>http://jmablog.github.io/tinieR/articles/setting-defaults.html</loc>
-  </url>
-  <url>
-    <loc>http://jmablog.github.io/tinieR/articles/tinieR.html</loc>
   </url>
 </urlset>
