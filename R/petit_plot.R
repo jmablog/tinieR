@@ -107,10 +107,13 @@ petit_plot <- function(filename = "plot",
                        key = NULL,
                        ...) {
   # Error checks ==============================================================
-  # check for ragg library if option chosen
-  if((identical(ragg, TRUE) & !requireNamespace("ragg", quietly = TRUE))) {
-    ragg = FALSE
-    cli::cli_warn("{.pkg ragg} library not found, falling back to base devices...")
+
+  # check file name and path arguments are characters
+  if(!is.character(filename)) {
+    cli::cli_abort("Make sure {.field filename} is a string")
+  }
+  if(!is.null(path) & !is.character(path)) {
+    cli::cli_abort("Make sure {.field path} is a string or {.code NULL}")
   }
 
   # Check file extension and reject anything not png or jpg
@@ -124,6 +127,12 @@ petit_plot <- function(filename = "plot",
   }
   if(!(identical(ragg, TRUE) | identical(ragg, FALSE))) {
     cli::cli_abort("{.field ragg} should only be {.code TRUE} or {.code FALSE}")
+  }
+
+  # check for ragg library if option chosen
+  if((identical(ragg, TRUE) & !requireNamespace("ragg", quietly = TRUE))) {
+    ragg = FALSE
+    cli::cli_warn("{.pkg ragg} library not found, falling back to base devices...")
   }
 
   # check API key
@@ -207,6 +216,13 @@ petit_ggplot <- function(filename = "plot",
   # check ggplot2 present before anything else
   if(!requireNamespace("ggplot2", quietly = TRUE)) {
     cli::cli_abort("{.pkg ggplot2} library not found")
+  }
+
+  if(!is.character(filename)) {
+    cli::cli_abort("Make sure {.field filename} is a string")
+  }
+  if(!is.null(path) & !is.character(path)) {
+    cli::cli_abort("Make sure {.field path} is a string or {.code NULL}")
   }
 
   # check API key

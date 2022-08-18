@@ -1,5 +1,30 @@
 context("Check petit_ggplot function")
 
+test_that("Error checking and messages are working in petit_ggplot", {
+  p <- ggplot2::ggplot(data = datasets::mtcars,
+                       ggplot2::aes(x = mpg,
+                                    y = drat)) +
+    ggplot2::geom_point()
+
+  p
+
+  expect_error(petit_ggplot(device = "bmp", plot = p))
+  expect_error(petit_ggplot(filename = 1, plot = p))
+  expect_error(petit_ggplot(path = 1, plot = p))
+  expect_error(petit_ggplot(keep_large = 1, plot = p))
+})
+
+test_that("Error checking and messages are working in petit_plot", {
+
+  plot(mtcars$mpg, mtcars$drat)
+
+  expect_error(petit_plot(device = "bmp"))
+  expect_error(petit_plot(filename = 1))
+  expect_error(petit_plot(ragg = "bmp"))
+  expect_error(petit_plot(path = 1))
+  expect_error(petit_plot(keep_large = 1))
+})
+
 test_that("Saving a ggplot object and shrinking it works", {
 
   skip_if_not_installed("ggplot2")
