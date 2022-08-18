@@ -25,11 +25,11 @@ Imports:
     yaml,
     cli,
     grDevices,
-    ggplot2,
-    withr
+    ggplot2
 Suggests: 
     testthat,
     knitr,
     rmarkdown,
-    ragg
+    ragg,
+    withr
 VignetteBuilder: knitr
