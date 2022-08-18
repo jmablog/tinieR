@@ -10,6 +10,11 @@ reference:
   desc:  Shrink image filesizes and/or dimensions.
 - contents:
   - tinify
+- title: Petit plot
+  desc:  Save a plot to a file and automatically shrink it with `tinify()`.
+- contents:
+  - petit_plot
+  - petit_ggplot
 - title: Options
   desc:  Set default options for tinify.
 - contents:

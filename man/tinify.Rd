@@ -2,7 +2,7 @@
 % Please edit documentation in R/tinify.R
 \name{tinify}
 \alias{tinify}
-\title{Shrink Image Files with TinyPNG}
+\title{Shrink image files with TinyPNG}
 \usage{
 tinify(file, overwrite, suffix, quiet, return_path, resize, key = NULL)
 }

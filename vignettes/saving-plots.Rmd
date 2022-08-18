@@ -1,0 +1,88 @@
+---
+title: "Saving plots with tinieR"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{saving-plots}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+**tinieR** provides two convenience functions to save plots and automatically shrink their image file sizes: `petit_plot()` and `petit_ggplot()`.
+
+## Base R plots
+
+To save and shrink a base R plot, print the plot and call `petit_plot()` immediately after. Under the hood, this uses `recordPlot()` to capture and replay the last plot created within the chosen device with the applied options:
+
+```
+plot(mtcars$mpg, mtcars$drat)
+
+petit_plot(filename = "mtcars")
+```
+
+## ggplots
+
+To save and shrink a [ggplot](https://ggplot2.tidyverse.org), either create, modify, or show
+the plot and call `petit_plot()` immediately after, in a similar process to base R above:
+
+```
+ggplot(data = palmerpenguins::penguins,
+       aes(flipper_length_mm, body_mass_g)) +
+geom_point(aes(color = species)
+
+petit_plot(filename = "penguins")
+```
+
+Or use `petit_ggplot()` to capture specifically the last *ggplot* created or modified:
+
+```
+ggplot(data = palmerpenguins::penguins,
+       aes(flipper_length_mm, body_mass_g)) +
+geom_point(aes(color = species)
+
+petit_ggplot(filename = "penguins")
+```
+
+Or provide the plot object explicitly to `petit_ggplot()` with `plot`:
+
+```
+p <- ggplot(data = palmerpenguins::penguins,
+            aes(flipper_length_mm, body_mass_g)) +
+     geom_point(aes(color = species)
+     
+petit_ggplot(filename = "penguins", plot = p)
+```
+
+## Options
+
+### File types
+
+You can use `device` to set the output file to either `png` or `jpg`. If you have the [ragg](https://ragg.r-lib.org) package installed, you can also set `ragg = TRUE` (within `petit_plot()` only) to use that as the backend for saving a plot, with all the benefits [ragg](https://ragg.r-lib.org) provides.
+
+### Output paths
+
+Use `path` to save your plot into a sub-directory. By default, plots are saved into the current working directory, but you can provide a path to save them into instead. Just don't include the final trailing path separator (e.g., `path = "images/plots"` to save an image in the 'plots' folder).
+
+### Keep the unshrunk image file
+
+Set `keep_large = TRUE` to keep the original image file alongside the tinified image. The tinified image will have a suffix attached, by default `_tiny`, that you can change with `suffix` (suffix is ignored if `keep_large = FALSE`).
+
+### Other plot options
+
+Any other arguments are passed directly to the underlying device used to save the plot. This allows you to set all the other usual plot options you might expect, such as width or height. These underlying functions and their subsequent options depend on the function and device used:
+
+**petit_plot:**
+
+- `png()`
+- `jpeg()`
+- `ragg::agg_png()`
+- `ragg::agg_jpeg()`
+
+**petit_ggplot:**
+
+- `ggplot2::ggsave()`
+
+### Other `tinify()` options
+
+You can also pass in the `quiet`, `return_path`, and `key` options that are passed along to `tinify()`. See the `tinify()` documentation or the [Get Started](https://jmablog.github.io/tinieR/articles/tinieR.html) vignette for details.
+
+Both `petit_plot()` and `petit_ggplot()` should respect any defaults set by `tinify_defaults()`, with the exception of `overwrite` (which is superseded by the `keep_large` argument) and `resize` (as you can just set your desired width/height when creating the plot).

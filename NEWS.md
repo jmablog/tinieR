@@ -1,3 +1,7 @@
+## tinieR 0.5.0
+
+* Added `petit_plot()` and `petit_ggplot()` functions to save plots to image files and automatically shrink with `tinify()`.
+
 ## tinieR 0.4.4
 
 * Now uses the [cli](https://cli.r-lib.org/) package to provide nicer console messages.

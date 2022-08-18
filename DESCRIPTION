@@ -1,6 +1,6 @@
 Package: tinieR
 Title: Shrink Image Filesizes with TinyPNG.com API
-Version: 0.4.4
+Version: 0.5.0
 Authors@R: 
     person(given = "James",
            family = "Adams",
@@ -13,7 +13,7 @@ BugReports: https://github.com/jmablog/tinieR/issues
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Imports: 
     fs (>= 1.4.2),
     glue (>= 1.4.1),
@@ -23,9 +23,13 @@ Imports:
     jpeg,
     rprojroot,
     yaml,
-    cli
+    cli,
+    grDevices,
+    ggplot2,
+    withr
 Suggests: 
     testthat,
     knitr,
-    rmarkdown
+    rmarkdown,
+    ragg
 VignetteBuilder: knitr

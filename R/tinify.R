@@ -1,4 +1,4 @@
-#'@title Shrink Image Files with TinyPNG
+#'@title Shrink image files with TinyPNG
 #'
 #'@description Shrink an image's (PNG or JPG) filesize with the TinyPNG API.
 #'
@@ -160,19 +160,22 @@ tinify <- function(file,
   ## tinify specific error checking --------------------------------------------
 
   # API key
-  if(!is.null(key) & is.character(key) & length(key) == 1) {
-    tiny_api <- key
-  } else if (!is.null(key) & !is.character(key) | !is.null(key) & length(key) > 1) {
-    cli::cli_abort("Please provide your API key as a string")
-  } else if(is.null(key) & Sys.getenv("TINY_API") != "") {
-    tiny_api <- Sys.getenv("TINY_API")
-  } else {
-    cli::cli_abort("Please provide an API key with the {.field key} argument or using {.code tinify_key()}")
-  }
+  # if(!is.null(key) & is.character(key) & length(key) == 1) {
+  #   tiny_api <- key
+  # } else if (!is.null(key) & !is.character(key) | !is.null(key) & length(key) > 1) {
+  #   cli::cli_abort("Please provide your API key as a string")
+  # } else if(is.null(key) & Sys.getenv("TINY_API") != "") {
+  #   tiny_api <- Sys.getenv("TINY_API")
+  # } else {
+  #   cli::cli_abort("Please provide an API key with the {.field key} argument or using {.code tinify_key()}")
+  # }
+
+  tiny_api <- .tinify_key_check(key)
 
   # Check file exists
-  if(fs::file_exists(file)[[1]] == FALSE){
-    cli::cli_abort("File {.file {file}} does not exist")
+  if(fs::file_exists(file)[[1]] == FALSE) {
+    msg = as.character(glue::glue("File {.file <file>} does not exist", .open = "<", .close = ">"))
+    cli::cli_abort(msg)
   }
 
   # Set absolute path to original file

@@ -13,7 +13,9 @@ From the TinyPNG website: "TinyPNG uses smart lossy compression techniques to re
 Original: | Tinified:
 --- | ---
 ![](man/figures/example.png) | ![](man/figures/example_tiny.png)
-example.png: **17 Kb** | example_tiny.png: **6 Kb**
+example.png: **35.6 Kb** | example_tiny.png: **10.8 Kb**
+
+*Panda emoji by Sofie Ascherl, from [OpenMoji](https://openmoji.org/)*
 
 TinieR works with .png and .jpg/.jpeg files, and can return the new image filepath to enable embedding in other image workflows/functions.
 
@@ -42,6 +44,8 @@ Be careful including your API key in any scripts you write, especially if you're
 
 ## Basic use
 
+### With existing images
+
 To shrink an image file's size, provide a path to the file relative to the current working directory to `tinify()`:
 
 ``` r
@@ -53,6 +57,26 @@ tinify("example.png")
 ```
 
 By default, `tinify()` will create a new file with the suffix '_tiny' in the same directory as the original file.
+
+### With plots
+
+To save a plot to a file an automatically shrink that file's size, just call `petit_plot()` after the plot:
+
+```r
+plot(mtcars$mpg, mtcars$drat)
+
+petit_plot(filename = "mtcars")
+```
+
+Or, provide a [ggplot](https://ggplot2.tidyverse.org) plot object to `petit_ggplot()`:
+
+```r
+p <- ggplot(data = palmerpenguins::penguins,
+            aes(flipper_length_mm, body_mass_g)) +
+     geom_point(aes(color = species)
+     
+petit_ggplot(filename = "penguins", plot = p)
+```
 
 ## Advanced use
 

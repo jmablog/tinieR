@@ -152,3 +152,19 @@
   }
 
 }
+
+#' Error checking function for TinyPNG API key
+#' @noRd
+#' @keywords internal
+.tinify_key_check <- function(key) {
+  if(!is.null(key) & is.character(key) & length(key) == 1) {
+    return(key)
+  } else if (!is.null(key) & !is.character(key) | !is.null(key) & length(key) > 1) {
+    cli::cli_abort("Please provide your API key as a string")
+  } else if(is.null(key) & Sys.getenv("TINY_API") != "") {
+    key <- Sys.getenv("TINY_API")
+    return(key)
+  } else {
+    cli::cli_abort("Please provide an API key with the {.field key} argument or using {.code tinify_key()}")
+  }
+}

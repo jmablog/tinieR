@@ -7,3 +7,5 @@ docs
 codecov.yml
 inst/doc
 inst/extData/*localtest*.*
+scratch.R
+*.afdesign

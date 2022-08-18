@@ -6,3 +6,5 @@
 ^docs$
 ^pkgdown$
 ^codecov\.yml$
+^hex-sticker.afdesign$
+^scratch.R$

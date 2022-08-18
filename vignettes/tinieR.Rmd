@@ -17,9 +17,11 @@ knitr::opts_chunk$set(
 )
 ```
 
-This vignette is a full walkthrough of all the basic features of **tinieR**.
+This vignette is a full walkthrough of all the basic features of **tinieR** to shrink existing images.
 
-To set default options for use with `tinify()`, see the ["setting default options"](https://jmablog.github.io/tinieR/articles/setting-defaults.html) vignette.
+For use with plots, see the ["using tinieR to save plots"](saving-plots.html) vignette.
+
+To set default options for use with `tinify()`, see the ["setting default options"](setting-defaults.html) vignette.
 
 ## Installation
 
